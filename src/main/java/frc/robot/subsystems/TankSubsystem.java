@@ -300,8 +300,7 @@ public class TankSubsystem extends SubsystemBase
 	{
 		DriveGears newGear = DriveGears
 				.getFromId(currentGear.getId() + shiftBy);
-		System.out.println("shiftby: " + shiftBy);
-		System.out.println("found gear id: " + newGear.getId());
+
 		setGear(newGear);
 		currentGear = newGear;
 		return true;

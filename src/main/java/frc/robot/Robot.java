@@ -31,6 +31,7 @@ public class Robot extends TimedRobot
     // bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+    System.out.println("Kilroy 2024 Has Started");
   }
 
   /**
@@ -79,6 +80,7 @@ public class Robot extends TimedRobot
     if (autonomousCommand != null)
       {
       autonomousCommand.schedule();
+      System.out.println("Kilroy 2024 Autonomous Has Started");
       }
   }
 
@@ -99,7 +101,9 @@ public class Robot extends TimedRobot
     if (autonomousCommand != null)
       {
       autonomousCommand.endAutonomous();
+      System.out.println("Kilroy 2024 Autonomous Complete");
       }
+    System.out.println("Kilroy 2024 Teleop Has Started");
   }
 
   /** This function is called periodically during operator control. */

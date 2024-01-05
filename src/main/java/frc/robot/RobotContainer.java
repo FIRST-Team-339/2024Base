@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
-// import frc.robot.commands.*;
+import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.enums.*;
 import frc.robot.hardwareInterfaces.*;
