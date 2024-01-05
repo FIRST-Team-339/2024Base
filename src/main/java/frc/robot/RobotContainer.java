@@ -4,15 +4,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
-import frc.robot.commands.*;
+// import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.enums.*;
 import frc.robot.hardwareInterfaces.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.DashboardSubsystem.AutonomousMode;
 
-public class RobotContainer
-  {
+public class RobotContainer {
   /* Joysticks */
   private CommandJoystick leftDriverJoystick = new CommandJoystick(
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
@@ -41,53 +40,41 @@ public class RobotContainer
   /* Camera */
   private CameraSubsystem cameraSubsystem = new CameraSubsystem();
 
-  public RobotContainer()
-    {
-      /* Autonomous Mode on Dashboard */
-      for (AutonomousModes autonomousMode : AutonomousModes.values())
-        {
-        int autonomousModeId = autonomousMode.getId();
+  public RobotContainer() {
+    /* Autonomous Mode on Dashboard */
+    for (AutonomousModes autonomousMode : AutonomousModes.values()) {
+      int autonomousModeId = autonomousMode.getId();
 
-        if (autonomousModeId == 0)
-          {
-          autonomousChooser.setDefaultOption(autonomousMode.toString(),
-              autonomousModeId);
-          }
-        else
-          {
-          autonomousChooser.addOption(autonomousMode.toString(),
-              autonomousModeId);
-          }
-        }
-      SmartDashboard.putData("Auto Selector", autonomousChooser);
-
-      /* Configure Button Bindings */
-      configureButtonBindings();
+      if (autonomousModeId == 0) {
+        autonomousChooser.setDefaultOption(autonomousMode.toString(),
+            autonomousModeId);
+      } else {
+        autonomousChooser.addOption(autonomousMode.toString(),
+            autonomousModeId);
+      }
     }
+    SmartDashboard.putData("Auto Selector", autonomousChooser);
 
-  private void configureButtonBindings()
-  {
+    /* Configure Button Bindings */
+    configureButtonBindings();
+  }
+
+  private void configureButtonBindings() {
 
   }
 
-  public AutonomousCommandBase getAutonomousCommand()
-  {
+  public AutonomousCommandBase getAutonomousCommand() {
     AutonomousCommandBase autonomousCommand = null;
 
-    if (useAutoSwitch.isOn())
-      {
+    if (useAutoSwitch.isOn()) {
       int autonomousMode = AutonomousConstants.DEFAULT_AUTONOMOUS_MODE;
-      if (AutonomousConstants.CHECK_MODE_FROM_DASHBOARD)
-        {
+      if (AutonomousConstants.CHECK_MODE_FROM_DASHBOARD) {
         autonomousMode = autonomousChooser.getSelected();
-        }
-      else
-        {
+      } else {
         autonomousMode = sixPositionAutoSwitch.getPosition();
-        }
+      }
 
-      switch (autonomousMode)
-        {
+      switch (autonomousMode) {
         /*
          * Position 1
          * 
@@ -104,14 +91,13 @@ public class RobotContainer
         default:
           System.out.println("No or Invalid Autonomous Selected");
           break;
-        }
       }
+    }
 
-    if (autonomousCommand != null)
-      {
+    if (autonomousCommand != null) {
       autonomousCommand.addRequirements(tankSubsystem);
       tankSubsystem.setDefaultCommand(autonomousCommand);
-      }
+    }
     return autonomousCommand;
   }
-  }
+}
