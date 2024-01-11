@@ -22,13 +22,9 @@ public class RobotContainer {
   private CommandJoystick rightOperatorJoystick = new CommandJoystick(
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID);
 
-  /* Autonomous Hardware */
-  private SingleThrowSwitch useAutoSwitch = new SingleThrowSwitch(
-      AutonomousConstants.USE_AUTO_SWITCH_ID);
-  private SixPositionSwitch sixPositionAutoSwitch = new SixPositionSwitch(
-      AutonomousConstants.AUTO_SIX_POSITION_SWITCH_IDS);
-
-  /* Autonomous Chooser */
+  /* Autonomous Software */
+  // TODO: Have some way in dashboard to check
+  private boolean autonomousEnabled = true;
   private SendableChooser<Integer> autonomousChooser = new SendableChooser<Integer>();
 
   /* Dashboard Subsystem */
@@ -36,9 +32,6 @@ public class RobotContainer {
 
   /* Teleop Drive & Tank Subsystem w/ gears */
   private TankSubsystem tankSubsystem = new TankSubsystem();
-
-  /* Camera */
-  private CameraSubsystem cameraSubsystem = new CameraSubsystem();
 
   public RobotContainer() {
     /* Autonomous Mode on Dashboard */
@@ -66,13 +59,8 @@ public class RobotContainer {
   public AutonomousCommandBase getAutonomousCommand() {
     AutonomousCommandBase autonomousCommand = null;
 
-    if (useAutoSwitch.isOn()) {
-      int autonomousMode = AutonomousConstants.DEFAULT_AUTONOMOUS_MODE;
-      if (AutonomousConstants.CHECK_MODE_FROM_DASHBOARD) {
-        autonomousMode = autonomousChooser.getSelected();
-      } else {
-        autonomousMode = sixPositionAutoSwitch.getPosition();
-      }
+    if (autonomousEnabled) {
+      int autonomousMode = autonomousChooser.getSelected();
 
       switch (autonomousMode) {
         /*

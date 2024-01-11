@@ -12,20 +12,19 @@ import frc.robot.Constants.*;
 import frc.robot.enums.DriveGears;
 import frc.robot.hardwareInterfaces.KilroyEncoder;
 
-public class TankSubsystem extends SubsystemBase
-	{
+public class TankSubsystem extends SubsystemBase {
 	/* Motors on the Left Side */
 	private MotorController motorForLeftEncoder = new WPI_TalonFX(
 			DriveConstants.BOTTOM_LEFT_MOTOR_ID);
 	private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(
-			new WPI_TalonFX(DriveConstants.TOP_LEFT_MOTOR_ID),
+			(MotorController) new WPI_TalonFX(DriveConstants.TOP_LEFT_MOTOR_ID),
 			motorForLeftEncoder);
 
 	/* Motors on the Right Side */
 	private MotorController motorForRightEncoder = new WPI_TalonFX(
 			DriveConstants.BOTTOM_RIGHT_MOTOR_ID);
 	private MotorControllerGroup rightMotorControllerGroup = new MotorControllerGroup(
-			new WPI_TalonFX(DriveConstants.TOP_RIGHT_MOTOR_ID),
+			(MotorController) new WPI_TalonFX(DriveConstants.TOP_RIGHT_MOTOR_ID),
 			motorForRightEncoder);
 
 	/* The Robot's Drive */
@@ -54,38 +53,36 @@ public class TankSubsystem extends SubsystemBase
 			DriveConstants.BRAKE_RATE_LIMIT);
 	public boolean brakeLimiterReset = true;
 
-	public TankSubsystem()
-		{
-			/* Set the currentGear value to the passed startingGear value */
-			currentGear = DriveConstants.DEFAULT_GEAR;
-			setGear(currentGear);
+	public TankSubsystem() {
+		/* Set the currentGear value to the passed startingGear value */
+		currentGear = DriveConstants.DEFAULT_GEAR;
+		setGear(currentGear);
 
-			/* Set the Joystick Deadband */
-			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
+		/* Set the Joystick Deadband */
+		differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
-			/* Set the inversion value for the motor controller groups */
-			leftMotorControllerGroup.setInverted(
-					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
-			rightMotorControllerGroup.setInverted(
-					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
+		/* Set the inversion value for the motor controller groups */
+		leftMotorControllerGroup.setInverted(
+				DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
+		rightMotorControllerGroup.setInverted(
+				DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
 
-			/* Reset Encoders */
-			leftEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
-			rightEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
-			leftEncoder.reset();
-			rightEncoder.reset();
+		/* Reset Encoders */
+		leftEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
+		rightEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
+		leftEncoder.reset();
+		rightEncoder.reset();
 
-			/* Initialize Gyro */
-			gyro.calibrate();
-		}
+		/* Initialize Gyro */
+		gyro.calibrate();
+	}
 
 	/**
 	 * Get the Left Encoder
 	 * 
 	 * @return The Left Encoder
 	 */
-	public KilroyEncoder getLeftEncoder()
-	{
+	public KilroyEncoder getLeftEncoder() {
 		return leftEncoder;
 	}
 
@@ -94,8 +91,7 @@ public class TankSubsystem extends SubsystemBase
 	 * 
 	 * @return The Right Encoder
 	 */
-	public KilroyEncoder getRightEncoder()
-	{
+	public KilroyEncoder getRightEncoder() {
 		return rightEncoder;
 	}
 
@@ -103,13 +99,12 @@ public class TankSubsystem extends SubsystemBase
 	 * Checks if the {@code encoder} has passed the {@code distance} provided
 	 * 
 	 * @param distance
-	 *            The distance to check
+	 *                 The distance to check
 	 * @return If any of the {@code encoder} has passed the {@code distance}
 	 *         provided
 	 */
 	public boolean encoderHasPassedDistance(KilroyEncoder encoder,
-			double distance)
-	{
+			double distance) {
 		return encoder.getDistance() >= distance;
 	}
 
@@ -118,32 +113,27 @@ public class TankSubsystem extends SubsystemBase
 	 * {@code distance} provided
 	 * 
 	 * @param distance
-	 *            The distance to check
+	 *                 The distance to check
 	 * @return If any of the encoders (left or right) have passed the
 	 *         {@code distance} provided
 	 */
-	public boolean anyEncoderHasPassedDistance(double distance)
-	{
+	public boolean anyEncoderHasPassedDistance(double distance) {
 		return encoderHasPassedDistance(leftEncoder, distance)
 				|| encoderHasPassedDistance(rightEncoder, distance);
 	}
 
-	public boolean accelerate(double desiredSpeed)
-	{
+	public boolean accelerate(double desiredSpeed) {
 		double accelerationSpeed = accelerationLimiter
 				.calculate((accelerationLimiterReset) ? 0.0 : desiredSpeed);
 		accelerationLimiterReset = false;
 		System.out.println("acceleration speed = " + accelerationSpeed);
-		if (accelerationSpeed == desiredSpeed)
-			{
+		if (accelerationSpeed == desiredSpeed) {
 			accelerationLimiterReset = true;
 			return true;
-			}
-		else
-			{
+		} else {
 			drive(accelerationSpeed, accelerationSpeed);
 			return false;
-			}
+		}
 	}
 
 	/**
@@ -151,14 +141,13 @@ public class TankSubsystem extends SubsystemBase
 	 * method
 	 * 
 	 * @param leftSpeed
-	 *            The robot's left side speed along the X axis [-1.0..1.0].
-	 *            Forward is positive.
+	 *                   The robot's left side speed along the X axis [-1.0..1.0].
+	 *                   Forward is positive.
 	 * @param rightSpeed
-	 *            The robot's right side speed along the X axis [-1.0..1.0].
-	 *            Forward is positive.
+	 *                   The robot's right side speed along the X axis [-1.0..1.0].
+	 *                   Forward is positive.
 	 */
-	public void drive(double leftSpeed, double rightSpeed)
-	{
+	public void drive(double leftSpeed, double rightSpeed) {
 		differentialDrive.tankDrive(leftSpeed, rightSpeed);
 	}
 
@@ -167,41 +156,34 @@ public class TankSubsystem extends SubsystemBase
 	 * method
 	 * 
 	 * @param speed
-	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
-	 *            positive.
+	 *              The robot's speed along the X axis [-1.0..1.0]. Forward is
+	 *              positive.
 	 */
-	public void driveStraight(double speed, boolean usingGyro)
-	{
+	public void driveStraight(double speed, boolean usingGyro) {
 		int delta = leftEncoder.get() - rightEncoder.get();
 
 		double straightLeftSpeed = 0.0;
 		double straightRightSpeed = 0.0;
 
 		System.out.println("GYRO Angle: " + gyro.getAngle());
-		if (usingGyro == true)
-			{
+		if (usingGyro == true) {
 			straightLeftSpeed = speed - (Math.signum(gyro.getAngle())
 					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
 			straightRightSpeed = speed + (Math.signum(gyro.getAngle())
 					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
-			}
-		else
-			{
+		} else {
 			straightLeftSpeed = speed + ((Math.signum(delta)
 					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
 			straightRightSpeed = speed - ((Math.signum(delta)
 					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
-			}
+		}
 
 		/* Only send the new power to the side lagging behind */
-		if (straightLeftSpeed > straightRightSpeed)
-			{
+		if (straightLeftSpeed > straightRightSpeed) {
 			straightRightSpeed = speed;
-			}
-		else
-			{
+		} else {
 			straightLeftSpeed = speed;
-			}
+		}
 
 		drive(straightLeftSpeed, straightRightSpeed);
 	}
@@ -210,51 +192,44 @@ public class TankSubsystem extends SubsystemBase
 	 * Drives the robot straight a certain number of inches
 	 * 
 	 * @param distance
-	 *            The distance you want the robot to travel
+	 *                      The distance you want the robot to travel
 	 * @param speed
-	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
-	 *            positive.
+	 *                      The robot's speed along the X axis [-1.0..1.0]. Forward
+	 *                      is
+	 *                      positive.
 	 * @param resetEncoders
-	 *            If you want to reset the encoders (usually this would be done
-	 *            once per Command)
+	 *                      If you want to reset the encoders (usually this would be
+	 *                      done
+	 *                      once per Command)
 	 * @return If any of the encoders (left or right) have passed the
 	 *         {@code distance} provided
 	 */
 	public boolean driveStraightInches(double distance, double speed,
-			boolean resetEncoders)
-	{
-		if (resetEncoders == true)
-			{
+			boolean resetEncoders) {
+		if (resetEncoders == true) {
 			leftEncoder.reset();
 			rightEncoder.reset();
-			}
+		}
 
-		if (anyEncoderHasPassedDistance(distance) == true)
-			{
+		if (anyEncoderHasPassedDistance(distance) == true) {
 			return true;
-			}
-		else
-			{
+		} else {
 			driveStraight(speed, true);
 			return false;
-			}
+		}
 	}
 
-	public boolean brake()
-	{
+	public boolean brake() {
 		double brakeSpeed = brakingLimiter
 				.calculate((brakeLimiterReset) ? 1.0 : 0.0);
 		brakeLimiterReset = false;
-		if (brakeSpeed == 0.0)
-			{
+		if (brakeSpeed == 0.0) {
 			brakeLimiterReset = true;
 			return true;
-			}
-		else
-			{
+		} else {
 			driveStraight(brakeSpeed, true);
 			return false;
-			}
+		}
 	}
 
 	/**
@@ -262,8 +237,7 @@ public class TankSubsystem extends SubsystemBase
 	 * 
 	 * @return A {@link DriveGears} enum
 	 */
-	public DriveGears getCurrentGear()
-	{
+	public DriveGears getCurrentGear() {
 		return currentGear;
 	}
 
@@ -272,8 +246,7 @@ public class TankSubsystem extends SubsystemBase
 	 * 
 	 * @return The current gear ratio
 	 */
-	public double getCurrentGearRatio()
-	{
+	public double getCurrentGearRatio() {
 		return currentGear.getRatio();
 	}
 
@@ -281,10 +254,9 @@ public class TankSubsystem extends SubsystemBase
 	 * Set the gear (the {@link DifferentialDrive}'s max output)
 	 * 
 	 * @param gear
-	 *            The desired gear to set the max output as
+	 *             The desired gear to set the max output as
 	 */
-	public void setGear(DriveGears gear)
-	{
+	public void setGear(DriveGears gear) {
 		differentialDrive.setMaxOutput(gear.getRatio());
 	}
 
@@ -292,12 +264,11 @@ public class TankSubsystem extends SubsystemBase
 	 * Shift the gear up or down
 	 * 
 	 * @param shiftBy
-	 *            How much you want to shift by (example: +1)
+	 *                How much you want to shift by (example: +1)
 	 * @return If the gear successfully shifted (will return false if you
 	 *         shifted to a gear that doesn't exist)
 	 */
-	public boolean shiftGearBy(int shiftBy)
-	{
+	public boolean shiftGearBy(int shiftBy) {
 		DriveGears newGear = DriveGears
 				.getFromId(currentGear.getId() + shiftBy);
 
@@ -312,8 +283,7 @@ public class TankSubsystem extends SubsystemBase
 	 * @return If the gear successfully shifted (will return false if you
 	 *         shifted to a gear that doesn't exist)
 	 */
-	public boolean shiftGearUp()
-	{
+	public boolean shiftGearUp() {
 		return shiftGearBy(1);
 	}
 
@@ -323,20 +293,17 @@ public class TankSubsystem extends SubsystemBase
 	 * @return If the gear successfully shifted (will return false if you
 	 *         shifted to a gear that doesn't exist)
 	 */
-	public boolean shiftGearDown()
-	{
-		if (getCurrentGear().getId() == 0)
-			{
+	public boolean shiftGearDown() {
+		if (getCurrentGear().getId() == 0) {
 			return false;
-			}
+		}
 		return shiftGearBy(-1);
 	}
 
 	/**
 	 * Shift to the lowest (first) gear
 	 */
-	public void shiftLowestGear()
-	{
+	public void shiftLowestGear() {
 		DriveGears lowestGear = DriveGears.getFromId(0);
 		setGear(lowestGear);
 	}
@@ -344,10 +311,9 @@ public class TankSubsystem extends SubsystemBase
 	/**
 	 * Shift to the highest gear
 	 */
-	public void shiftHighestGear()
-	{
+	public void shiftHighestGear() {
 		DriveGears highestGear = DriveGears.getFromId(-1);
 		setGear(highestGear);
 	}
 
-	}
+}
