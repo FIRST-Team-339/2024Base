@@ -1,10 +1,7 @@
 package frc.robot.commands.autonomous;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.hardwareInterfaces.Potentiometer;
 import frc.robot.subsystems.TankSubsystem;
-import frc.robot.Constants.*;
 
 /**
  * The {@code AutonomousBase} Class is used as the base class for Autonomous
@@ -16,10 +13,6 @@ import frc.robot.Constants.*;
  */
 public abstract class AutonomousCommandBase extends CommandBase
     {
-    private static Potentiometer autoDelayPotentiometer = new Potentiometer(
-            AutonomousConstants.AUTO_DELAY_POT_ID);
-    private static Timer autoDelayTimer = new Timer();
-    private static boolean autoDelayTimerStarted = false;
 
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
@@ -39,30 +32,6 @@ public abstract class AutonomousCommandBase extends CommandBase
     @Override
     public final void execute()
     {
-        /* Handle Delay Potentiometer */
-        if (autoDelayTimerStarted == false)
-            {
-            System.out.println("Start auto delay timer");
-            autoDelayTimer.start();
-            autoDelayTimerStarted = true;
-            this.tankSubsystem.drive(0, 0);
-            }
-        else
-            {
-            if (autoDelayTimer.hasElapsed(autoDelayPotentiometer.get(
-                    AutonomousConstants.AUTO_MIN_DELAY_SECONDS,
-                    AutonomousConstants.AUTO_MAX_DELAY_SECONDS)))
-                {
-                // System.out.println(
-                // "Auto delay has elappsed, calling executeAutonomous()");
-                executeAutonomous();
-                }
-            else
-                {
-                // This is for motor safety purposes
-                this.tankSubsystem.drive(0, 0);
-                }
-            }
     }
 
     public void endAutonomous()

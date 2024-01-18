@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -44,22 +42,11 @@ public class TankSubsystem extends SubsystemBase
 	private DriveGears currentGear;
 
 	/* Gyro */
-	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
 	/* Limiters */
-	SlewRateLimiter accelerationLimiter = new SlewRateLimiter(
-			DriveConstants.ACCELERATION_RATE_LIMIT);
-	public boolean accelerationLimiterReset = true;
-	SlewRateLimiter brakingLimiter = new SlewRateLimiter(
-			DriveConstants.BRAKE_RATE_LIMIT);
-	public boolean brakeLimiterReset = true;
 
 	public TankSubsystem()
 		{
-			/* Set the currentGear value to the passed startingGear value */
-			currentGear = DriveConstants.DEFAULT_GEAR;
-			setGear(currentGear);
-
 			/* Set the Joystick Deadband */
 			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
@@ -75,8 +62,6 @@ public class TankSubsystem extends SubsystemBase
 			leftEncoder.reset();
 			rightEncoder.reset();
 
-			/* Initialize Gyro */
-			gyro.calibrate();
 		}
 
 	/**
@@ -128,24 +113,6 @@ public class TankSubsystem extends SubsystemBase
 				|| encoderHasPassedDistance(rightEncoder, distance);
 	}
 
-	public boolean accelerate(double desiredSpeed)
-	{
-		double accelerationSpeed = accelerationLimiter
-				.calculate((accelerationLimiterReset) ? 0.0 : desiredSpeed);
-		accelerationLimiterReset = false;
-		System.out.println("acceleration speed = " + accelerationSpeed);
-		if (accelerationSpeed == desiredSpeed)
-			{
-			accelerationLimiterReset = true;
-			return true;
-			}
-		else
-			{
-			drive(accelerationSpeed, accelerationSpeed);
-			return false;
-			}
-	}
-
 	/**
 	 * Drives the robot straight with the {@link DifferentialDrive#tankDrive}
 	 * method
@@ -170,92 +137,6 @@ public class TankSubsystem extends SubsystemBase
 	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
 	 *            positive.
 	 */
-	public void driveStraight(double speed, boolean usingGyro)
-	{
-		int delta = leftEncoder.get() - rightEncoder.get();
-
-		double straightLeftSpeed = 0.0;
-		double straightRightSpeed = 0.0;
-
-		System.out.println("GYRO Angle: " + gyro.getAngle());
-		if (usingGyro == true)
-			{
-			straightLeftSpeed = speed - (Math.signum(gyro.getAngle())
-					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
-			straightRightSpeed = speed + (Math.signum(gyro.getAngle())
-					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
-			}
-		else
-			{
-			straightLeftSpeed = speed + ((Math.signum(delta)
-					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
-			straightRightSpeed = speed - ((Math.signum(delta)
-					* DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
-			}
-
-		/* Only send the new power to the side lagging behind */
-		if (straightLeftSpeed > straightRightSpeed)
-			{
-			straightRightSpeed = speed;
-			}
-		else
-			{
-			straightLeftSpeed = speed;
-			}
-
-		drive(straightLeftSpeed, straightRightSpeed);
-	}
-
-	/**
-	 * Drives the robot straight a certain number of inches
-	 * 
-	 * @param distance
-	 *            The distance you want the robot to travel
-	 * @param speed
-	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
-	 *            positive.
-	 * @param resetEncoders
-	 *            If you want to reset the encoders (usually this would be done
-	 *            once per Command)
-	 * @return If any of the encoders (left or right) have passed the
-	 *         {@code distance} provided
-	 */
-	public boolean driveStraightInches(double distance, double speed,
-			boolean resetEncoders)
-	{
-		if (resetEncoders == true)
-			{
-			leftEncoder.reset();
-			rightEncoder.reset();
-			}
-
-		if (anyEncoderHasPassedDistance(distance) == true)
-			{
-			return true;
-			}
-		else
-			{
-			driveStraight(speed, true);
-			return false;
-			}
-	}
-
-	public boolean brake()
-	{
-		double brakeSpeed = brakingLimiter
-				.calculate((brakeLimiterReset) ? 1.0 : 0.0);
-		brakeLimiterReset = false;
-		if (brakeSpeed == 0.0)
-			{
-			brakeLimiterReset = true;
-			return true;
-			}
-		else
-			{
-			driveStraight(brakeSpeed, true);
-			return false;
-			}
-	}
 
 	/**
 	 * Get the current gear of the {@link TankSubsystem}

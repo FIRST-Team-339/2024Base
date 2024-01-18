@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.autonomous.AutonomousCommandBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,7 +16,6 @@ import frc.robot.commands.autonomous.AutonomousCommandBase;
  */
 public class Robot extends TimedRobot
   {
-  private AutonomousCommandBase autonomousCommand;
   private RobotContainer robotContainer;
 
   /**
@@ -74,14 +72,10 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit()
   {
-    autonomousCommand = robotContainer.getAutonomousCommand();
-
-    /* Schedule the autonomous command */
-    if (autonomousCommand != null)
-      {
-      autonomousCommand.schedule();
-      System.out.println("Kilroy 2024 Autonomous Has Started");
-      }
+    // ==============================
+    // All user code goes above here
+    // ==============================
+    System.out.println("Kilroy 2024 Autonomous Has Started");
   }
 
   /** This function is called periodically during autonomous. */
@@ -93,16 +87,9 @@ public class Robot extends TimedRobot
   @Override
   public void teleopInit()
   {
-    /*
-     * This makes sure that the autonomous stops running when teleop starts
-     * running. If you want the autonomous to continue until interrupted by
-     * another command, remove this line or comment it out.
-     */
-    if (autonomousCommand != null)
-      {
-      autonomousCommand.endAutonomous();
-      System.out.println("Kilroy 2024 Autonomous Complete");
-      }
+    // ==============================
+    // All user code goes above here
+    // ==============================
     System.out.println("Kilroy 2024 Teleop Has Started");
   }
 
