@@ -16,14 +16,15 @@ public class TankSubsystem extends SubsystemBase
 	private MotorController motorForLeftEncoder = new WPI_TalonFX(
 			DriveConstants.BOTTOM_LEFT_MOTOR_ID);
 	private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(
-			new WPI_TalonFX(DriveConstants.TOP_LEFT_MOTOR_ID),
+			(MotorController) new WPI_TalonFX(DriveConstants.TOP_LEFT_MOTOR_ID),
 			motorForLeftEncoder);
 
 	/* Motors on the Right Side */
 	private MotorController motorForRightEncoder = new WPI_TalonFX(
 			DriveConstants.BOTTOM_RIGHT_MOTOR_ID);
 	private MotorControllerGroup rightMotorControllerGroup = new MotorControllerGroup(
-			new WPI_TalonFX(DriveConstants.TOP_RIGHT_MOTOR_ID),
+			(MotorController) new WPI_TalonFX(
+					DriveConstants.TOP_RIGHT_MOTOR_ID),
 			motorForRightEncoder);
 
 	/* The Robot's Drive */
