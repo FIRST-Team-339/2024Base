@@ -73,6 +73,7 @@ public final class CurrentConstants
     public static final class CameraConstants
         {
         /* SOFTWARE PROPERTIES */
+        public static final boolean CAMERA_ENABLED = false;
         public static final boolean USING_TWO_CAMERAS = false;
 
         /* BUTTON IDS */
@@ -83,6 +84,7 @@ public final class CurrentConstants
             { 340, 240 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
+        public static final int BRIGHTNESS = 100;
         }
 
     public static final class DashboardConstants

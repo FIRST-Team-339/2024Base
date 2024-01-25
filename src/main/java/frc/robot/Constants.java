@@ -1,7 +1,8 @@
 package frc.robot;
 
 import frc.robot.constants.*;
-import frc.robot.enums.*;
+import frc.robot.enums.DriveGears;
+import frc.robot.enums.Season;
 
 /**
  * The {@code Constants} class is to store all constants to be used with the
@@ -33,8 +34,25 @@ public final class Constants
     public static double JOYSTICK_DEADBAND;
 
     /* Gears */
+    public static DriveGears DEFAULT_GEAR;
+    public static int GEAR_DOWN_BUTTON_ID;
+    public static int GEAR_UP_BUTTON_ID;
+    }
 
-    /* Rate Limits */
+  public static final class CameraConstants
+    {
+    /* SOFTWARE PROPERTIES */
+    public static boolean CAMERA_ENABLED;
+    public static boolean USING_TWO_CAMERAS;
+
+    /* BUTTON IDS */
+    public static int SWITCH_CAMERA_BUTTON_ID;
+
+    /* CAMERA PROPERTIES */
+    public static int[] RESOLUTION;
+    public static int FRAMES_PER_SECOND;
+    public static int COMPRESSION;
+    public static int BRIGHTNESS;
     }
 
   public static final class AutonomousConstants
@@ -72,12 +90,21 @@ public final class Constants
       DriveConstants.DISTANCE_PER_PULSE = CurrentConstants.DriveConstants.DISTANCE_PER_PULSE;
       DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED = CurrentConstants.DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED;
       DriveConstants.JOYSTICK_DEADBAND = CurrentConstants.DriveConstants.JOYSTICK_DEADBAND;
+      DriveConstants.DEFAULT_GEAR = CurrentConstants.DriveConstants.DEFAULT_GEAR;
+      DriveConstants.GEAR_UP_BUTTON_ID = CurrentConstants.DriveConstants.GEAR_UP_BUTTON_ID;
+      DriveConstants.GEAR_DOWN_BUTTON_ID = CurrentConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
 
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;
       JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID = CurrentConstants.JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID;
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
+      CameraConstants.CAMERA_ENABLED = CurrentConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.USING_TWO_CAMERAS = CurrentConstants.CameraConstants.USING_TWO_CAMERAS;
+      CameraConstants.RESOLUTION = CurrentConstants.CameraConstants.RESOLUTION;
+      CameraConstants.FRAMES_PER_SECOND = CurrentConstants.CameraConstants.FRAMES_PER_SECOND;
+      CameraConstants.COMPRESSION = CurrentConstants.CameraConstants.COMPRESSION;
+      CameraConstants.BRIGHTNESS = CurrentConstants.CameraConstants.BRIGHTNESS;
       }
     else
       {
@@ -88,11 +115,21 @@ public final class Constants
       DriveConstants.DISTANCE_PER_PULSE = PreviousConstants.DriveConstants.DISTANCE_PER_PULSE;
       DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED = PreviousConstants.DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED;
       DriveConstants.JOYSTICK_DEADBAND = PreviousConstants.DriveConstants.JOYSTICK_DEADBAND;
+      DriveConstants.DEFAULT_GEAR = PreviousConstants.DriveConstants.DEFAULT_GEAR;
+      DriveConstants.GEAR_UP_BUTTON_ID = PreviousConstants.DriveConstants.GEAR_UP_BUTTON_ID;
+      DriveConstants.GEAR_DOWN_BUTTON_ID = PreviousConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
+
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;
       JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID = PreviousConstants.JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID;
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
+      CameraConstants.CAMERA_ENABLED = PreviousConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.USING_TWO_CAMERAS = PreviousConstants.CameraConstants.USING_TWO_CAMERAS;
+      CameraConstants.RESOLUTION = PreviousConstants.CameraConstants.RESOLUTION;
+      CameraConstants.FRAMES_PER_SECOND = PreviousConstants.CameraConstants.FRAMES_PER_SECOND;
+      CameraConstants.COMPRESSION = PreviousConstants.CameraConstants.COMPRESSION;
+      CameraConstants.BRIGHTNESS = PreviousConstants.CameraConstants.BRIGHTNESS;
       }
   }
   }
