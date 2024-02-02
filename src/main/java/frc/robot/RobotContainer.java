@@ -65,7 +65,7 @@ public class RobotContainer
         {
                 // TODO: Check if autonomous is enabled
                 // TODO: Get autonomous command from dashboard
-                var test = new PassStartLine(tankSubsystem);
+                var test = new ScoreAmp(tankSubsystem);
                 test.addRequirements(tankSubsystem);
 
                 return test;
