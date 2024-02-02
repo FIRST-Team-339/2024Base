@@ -26,12 +26,13 @@ public abstract class AutonomousCommandBase extends CommandBase
     public final void initialize()
     {
         // Do something at the start of every autonomous, such as resetting
-        // pistons
+        tankSubsystem.setMaxOutput(1.0);
     }
 
     @Override
     public final void execute()
     {
+        executeAutonomous();
     }
 
     public void endAutonomous()
