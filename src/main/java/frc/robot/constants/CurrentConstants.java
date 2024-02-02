@@ -42,6 +42,7 @@ public final class CurrentConstants
 
         /* Turning */
         public static final double TURN_DEGREES_FUDGE_FACTOR = 6.0;
+        public static final double TURN_RADIUS = 16.75;
         }
 
     public static final class AutonomousConstants
