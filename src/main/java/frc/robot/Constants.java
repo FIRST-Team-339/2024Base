@@ -42,6 +42,9 @@ public final class Constants
     /* Rate Limits */
     public static double ACCELERATION_RATE_LIMIT;
     public static double BRAKE_RATE_LIMIT;
+
+    /* Turning */
+    public static double TURN_DEGREES_FUDGE_FACTOR;
     }
 
   public static final class CameraConstants
@@ -101,6 +104,7 @@ public final class Constants
       DriveConstants.GEAR_DOWN_BUTTON_ID = CurrentConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
       DriveConstants.ACCELERATION_RATE_LIMIT = CurrentConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
       DriveConstants.BRAKE_RATE_LIMIT = CurrentConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
+      DriveConstants.TURN_DEGREES_FUDGE_FACTOR = CurrentConstants.DriveConstants.TURN_DEGREES_FUDGE_FACTOR;
 
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;
@@ -130,6 +134,7 @@ public final class Constants
       DriveConstants.GEAR_DOWN_BUTTON_ID = PreviousConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
       DriveConstants.ACCELERATION_RATE_LIMIT = PreviousConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
       DriveConstants.BRAKE_RATE_LIMIT = PreviousConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
+      DriveConstants.TURN_DEGREES_FUDGE_FACTOR = PreviousConstants.DriveConstants.TURN_DEGREES_FUDGE_FACTOR;
 
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;

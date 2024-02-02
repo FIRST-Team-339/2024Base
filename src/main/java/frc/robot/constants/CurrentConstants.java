@@ -39,6 +39,9 @@ public final class CurrentConstants
         /* Rate Limits */
         public static final double ACCELERATION_RATE_LIMIT = 1.0;
         public static final double BRAKE_RATE_LIMIT = 0.8;
+
+        /* Turning */
+        public static final double TURN_DEGREES_FUDGE_FACTOR = 6.0;
         }
 
     public static final class AutonomousConstants
