@@ -40,20 +40,20 @@ public class PassStartLine extends AutonomousCommandBase
                 autoCommandState = AutoCommandState.ACCELERATE;
                 break;
             case ACCELERATE:
-                if (tankSubsystem.accelerate(0.5) == true)
+                if (tankSubsystem.accelerate(this.autonomousSpeed) == true)
                     {
                     autoCommandState = AutoCommandState.DRIVE;
                     }
                 break;
             case DRIVE:
-                if (tankSubsystem.driveStraightInches(driveDistance, 0.5,
-                        false) == true)
+                if (tankSubsystem.driveStraightInches(driveDistance,
+                        this.autonomousSpeed, false) == true)
                     {
                     autoCommandState = AutoCommandState.BRAKE;
                     }
                 break;
             case BRAKE:
-                if (tankSubsystem.brake(0.5) == true)
+                if (tankSubsystem.brake(this.autonomousSpeed) == true)
                     {
                     autoCommandState = AutoCommandState.END;
                     }

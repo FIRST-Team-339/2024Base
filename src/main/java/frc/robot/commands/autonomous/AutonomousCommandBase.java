@@ -17,6 +17,11 @@ public abstract class AutonomousCommandBase extends CommandBase
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
 
+    /**
+     * Autonomous Speed (can be changed) but comes with a default value of `0.5`
+     */
+    protected double autonomousSpeed = 0.5;
+
     protected AutonomousCommandBase(TankSubsystem tankSubsystem)
         {
             this.tankSubsystem = tankSubsystem;
