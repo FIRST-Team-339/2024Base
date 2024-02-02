@@ -26,6 +26,7 @@ public final class Constants
 
     /* Encoder */
     public static double DISTANCE_PER_PULSE;
+    public static double DRIVE_STRAIGHT_CORRECTION_DELTA;
 
     /* MOTOR CONTROLLER GROUPS */
     public static boolean[] MOTOR_CONTROLLER_GROUPS_INVERTED;
@@ -37,6 +38,10 @@ public final class Constants
     public static DriveGears DEFAULT_GEAR;
     public static int GEAR_DOWN_BUTTON_ID;
     public static int GEAR_UP_BUTTON_ID;
+
+    /* Rate Limits */
+    public static double ACCELERATION_RATE_LIMIT;
+    public static double BRAKE_RATE_LIMIT;
     }
 
   public static final class CameraConstants
@@ -88,11 +93,14 @@ public final class Constants
       DriveConstants.REAR_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
       DriveConstants.REAR_RIGHT_MOTOR_ID = CurrentConstants.DriveConstants.REAR_RIGHT_MOTOR_ID;
       DriveConstants.DISTANCE_PER_PULSE = CurrentConstants.DriveConstants.DISTANCE_PER_PULSE;
+      DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA = CurrentConstants.DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA;
       DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED = CurrentConstants.DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED;
       DriveConstants.JOYSTICK_DEADBAND = CurrentConstants.DriveConstants.JOYSTICK_DEADBAND;
       DriveConstants.DEFAULT_GEAR = CurrentConstants.DriveConstants.DEFAULT_GEAR;
       DriveConstants.GEAR_UP_BUTTON_ID = CurrentConstants.DriveConstants.GEAR_UP_BUTTON_ID;
       DriveConstants.GEAR_DOWN_BUTTON_ID = CurrentConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
+      DriveConstants.ACCELERATION_RATE_LIMIT = CurrentConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
+      DriveConstants.BRAKE_RATE_LIMIT = CurrentConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
 
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;
@@ -100,6 +108,7 @@ public final class Constants
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
       CameraConstants.CAMERA_ENABLED = CurrentConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.SWITCH_CAMERA_BUTTON_ID = CurrentConstants.CameraConstants.SWITCH_CAMERA_BUTTON_ID;
       CameraConstants.USING_TWO_CAMERAS = CurrentConstants.CameraConstants.USING_TWO_CAMERAS;
       CameraConstants.RESOLUTION = CurrentConstants.CameraConstants.RESOLUTION;
       CameraConstants.FRAMES_PER_SECOND = CurrentConstants.CameraConstants.FRAMES_PER_SECOND;
@@ -113,11 +122,14 @@ public final class Constants
       DriveConstants.REAR_LEFT_MOTOR_ID = PreviousConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
       DriveConstants.REAR_RIGHT_MOTOR_ID = PreviousConstants.DriveConstants.REAR_RIGHT_MOTOR_ID;
       DriveConstants.DISTANCE_PER_PULSE = PreviousConstants.DriveConstants.DISTANCE_PER_PULSE;
+      DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA = PreviousConstants.DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA;
       DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED = PreviousConstants.DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED;
       DriveConstants.JOYSTICK_DEADBAND = PreviousConstants.DriveConstants.JOYSTICK_DEADBAND;
       DriveConstants.DEFAULT_GEAR = PreviousConstants.DriveConstants.DEFAULT_GEAR;
       DriveConstants.GEAR_UP_BUTTON_ID = PreviousConstants.DriveConstants.GEAR_UP_BUTTON_ID;
       DriveConstants.GEAR_DOWN_BUTTON_ID = PreviousConstants.DriveConstants.GEAR_DOWN_BUTTON_ID;
+      DriveConstants.ACCELERATION_RATE_LIMIT = PreviousConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
+      DriveConstants.BRAKE_RATE_LIMIT = PreviousConstants.DriveConstants.ACCELERATION_RATE_LIMIT;
 
       JoystickConstants.LEFT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.LEFT_DRIVER_JOYSTICK_ID;
       JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID;
@@ -125,6 +137,7 @@ public final class Constants
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
       CameraConstants.CAMERA_ENABLED = PreviousConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.SWITCH_CAMERA_BUTTON_ID = PreviousConstants.CameraConstants.SWITCH_CAMERA_BUTTON_ID;
       CameraConstants.USING_TWO_CAMERAS = PreviousConstants.CameraConstants.USING_TWO_CAMERAS;
       CameraConstants.RESOLUTION = PreviousConstants.CameraConstants.RESOLUTION;
       CameraConstants.FRAMES_PER_SECOND = PreviousConstants.CameraConstants.FRAMES_PER_SECOND;

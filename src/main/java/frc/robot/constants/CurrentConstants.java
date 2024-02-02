@@ -22,6 +22,7 @@ public final class CurrentConstants
 
         /* Encoder */
         public static final double DISTANCE_PER_PULSE = 0.00100001;
+        public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
 
         /* MOTOR CONTROLLER GROUPS */
         public static final boolean[] MOTOR_CONTROLLER_GROUPS_INVERTED =
@@ -38,7 +39,6 @@ public final class CurrentConstants
         /* Rate Limits */
         public static final double ACCELERATION_RATE_LIMIT = 1.0;
         public static final double BRAKE_RATE_LIMIT = 0.8;
-        public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
         }
 
     public static final class AutonomousConstants

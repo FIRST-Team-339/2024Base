@@ -22,6 +22,7 @@ public final class PreviousConstants
 
         /* Encoder */
         public static final double DISTANCE_PER_PULSE = 0.00100001;
+        public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
 
         /* MOTOR CONTROLLER GROUPS */
         public static final boolean[] MOTOR_CONTROLLER_GROUPS_INVERTED =
@@ -38,7 +39,6 @@ public final class PreviousConstants
         /* Rate Limits */
         public static final double ACCELERATION_RATE_LIMIT = 1.0;
         public static final double BRAKE_RATE_LIMIT = 0.8;
-        public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
         }
 
     public static final class AutonomousConstants
@@ -84,7 +84,7 @@ public final class PreviousConstants
             { 340, 240 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
-        public static final int BRIGHTNESS = 100;
+        public static final int BRIGHTNESS = 40;
         }
 
     public static final class DashboardConstants
