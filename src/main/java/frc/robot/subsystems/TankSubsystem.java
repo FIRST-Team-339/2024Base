@@ -2,6 +2,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -16,16 +21,14 @@ public class TankSubsystem extends SubsystemBase
 	private MotorController motorForLeftEncoder = new WPI_TalonFX(
 			DriveConstants.REAR_LEFT_MOTOR_ID);
 	private MotorControllerGroup leftMotorControllerGroup = new MotorControllerGroup(
-			(MotorController) new WPI_TalonFX(
-					DriveConstants.FRONT_LEFT_MOTOR_ID),
+			new WPI_TalonFX(DriveConstants.FRONT_LEFT_MOTOR_ID),
 			motorForLeftEncoder);
 
 	/* Motors on the Right Side */
 	private MotorController motorForRightEncoder = new WPI_TalonFX(
-			DriveConstants.FRONT_RIGHT_MOTOR_ID);
+			DriveConstants.REAR_RIGHT_MOTOR_ID);
 	private MotorControllerGroup rightMotorControllerGroup = new MotorControllerGroup(
-			(MotorController) new WPI_TalonFX(
-					DriveConstants.REAR_RIGHT_MOTOR_ID),
+			new WPI_TalonFX(DriveConstants.FRONT_RIGHT_MOTOR_ID),
 			motorForRightEncoder);
 
 	/* The Robot's Drive */
@@ -43,12 +46,28 @@ public class TankSubsystem extends SubsystemBase
 	/* Current Gear */
 	private DriveGears currentGear;
 
-	/* Gyro */
+	/* Odometry & Gyro */
+	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	// TODO: fix default position and make it based on auto
+	private Pose2d pose = new Pose2d(20, 10, new Rotation2d());
+	private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
+			new Rotation2d(Math.toRadians(this.gyro.getAngle())),
+			leftEncoder.getDistance(), rightEncoder.getDistance());
 
 	/* Limiters */
+	SlewRateLimiter accelerationLimiter = new SlewRateLimiter(
+			DriveConstants.ACCELERATION_RATE_LIMIT);
+	public boolean accelerationLimiterReset = true;
+	SlewRateLimiter brakingLimiter = new SlewRateLimiter(
+			DriveConstants.BRAKE_RATE_LIMIT);
+	public boolean brakeLimiterReset = true;
 
 	public TankSubsystem()
 		{
+			/* Set the currentGear value to the passed startingGear value */
+			currentGear = DriveGears.GEAR1;
+			setGear(currentGear);
+
 			/* Set the Joystick Deadband */
 			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
@@ -59,11 +78,23 @@ public class TankSubsystem extends SubsystemBase
 					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
 
 			/* Reset Encoders */
+			leftEncoder.setReverseDirection(
+					leftMotorControllerGroup.getInverted());
+			rightEncoder.setReverseDirection(
+					rightMotorControllerGroup.getInverted());
 			leftEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
 			rightEncoder.setDistancePerPulse(DriveConstants.DISTANCE_PER_PULSE);
 			leftEncoder.reset();
 			rightEncoder.reset();
 
+			/* Initialize Gyro */
+			gyro.reset();
+
+			/* Reset Odometry */
+			odometry.resetPosition(
+					new Rotation2d(Math.toRadians(this.gyro.getAngle())),
+					leftEncoder.getDistance(), rightEncoder.getDistance(),
+					pose);
 		}
 
 	/**
@@ -129,6 +160,11 @@ public class TankSubsystem extends SubsystemBase
 	public void drive(double leftSpeed, double rightSpeed)
 	{
 		differentialDrive.tankDrive(leftSpeed, rightSpeed);
+
+		double gyroAngle = this.gyro.getAngle();
+
+		pose = odometry.update(new Rotation2d(Math.toRadians(gyroAngle)),
+				leftEncoder.getDistance(), rightEncoder.getDistance());
 	}
 
 	/**
@@ -139,6 +175,140 @@ public class TankSubsystem extends SubsystemBase
 	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
 	 *            positive.
 	 */
+	public void driveStraight(double speed, boolean usingGyro)
+	{
+		// int delta = leftEncoder.get() - rightEncoder.get();
+
+		// double straightLeftSpeed = 0.0;
+		// double straightRightSpeed = 0.0;
+
+		// if (usingGyro == true)
+		// {
+		// straightLeftSpeed = speed - (Math.signum(gyro.getAngle())
+		// * DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
+		// straightRightSpeed = speed + (Math.signum(gyro.getAngle())
+		// * DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA);
+		// }
+		// else
+		// {
+		// straightLeftSpeed = speed + ((Math.signum(delta)
+		// * DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
+		// straightRightSpeed = speed - ((Math.signum(delta)
+		// * DriveConstants.DRIVE_STRAIGHT_CORRECTION_DELTA));
+		// }
+
+		// /* Only send the new power to the side lagging behind */
+		// if (straightLeftSpeed > straightRightSpeed)
+		// {
+		// straightRightSpeed = speed;
+		// }
+		// else
+		// {
+		// straightLeftSpeed = speed;
+		// }
+		drive(speed, speed);
+	}
+
+	/**
+	 * Reset the encoders
+	 */
+	public void resetEncoders()
+	{
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+
+	/**
+	 * Drives the robot straight a certain number of inches
+	 * 
+	 * @param distance
+	 *            The distance you want the robot to travel
+	 * @param speed
+	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
+	 *            positive.
+	 * @param resetEncoders
+	 *            If you want to reset the encoders (usually this would be done
+	 *            once per Command)
+	 * @return If any of the encoders (left or right) have passed the
+	 *         {@code distance} provided
+	 */
+	public boolean driveStraightInches(double distance, double speed,
+			boolean resetEncoders)
+	{
+		if (resetEncoders == true)
+			{
+			resetEncoders();
+			}
+
+		if (anyEncoderHasPassedDistance(distance) == true)
+			{
+			return true;
+			}
+		else
+			{
+			driveStraight(speed, false);
+			return false;
+			}
+	}
+
+	/**
+	 * 
+	 * @param desiredSpeed
+	 *            The desired speed to accelerate to
+	 * @return
+	 */
+	public boolean accelerate(double desiredSpeed)
+	{
+		double accelerationSpeed = accelerationLimiter
+				.calculate((accelerationLimiterReset) ? 0.0 : desiredSpeed);
+		accelerationLimiterReset = false;
+
+		if (accelerationSpeed == desiredSpeed)
+			{
+			accelerationLimiterReset = true;
+			return true;
+			}
+		else
+			{
+			drive(accelerationSpeed, accelerationSpeed);
+			return false;
+			}
+	}
+
+	/**
+	 * Slow down the robot
+	 * 
+	 * @param startingSpeed
+	 *            The desired starting speed
+	 * @return If the bot is finished braking
+	 */
+	public boolean brake(final double startingSpeed)
+	{
+		double brakeSpeed = brakingLimiter
+				.calculate((brakeLimiterReset) ? startingSpeed : 0.0);
+		brakeLimiterReset = false;
+
+		if (brakeSpeed == 0.0)
+			{
+			brakeLimiterReset = true;
+			return true;
+			}
+		else
+			{
+			driveStraight(brakeSpeed, false);
+			return false;
+			}
+	}
+
+	/**
+	 * Slow down the robot with a default starting speed of 1.0
+	 * 
+	 * @return If the bot is finished braking
+	 */
+	public boolean brake()
+	{
+		return brake(1.0);
+	}
 
 	/**
 	 * Get the current gear of the {@link TankSubsystem}
@@ -172,6 +342,17 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
+	 * Manually set the max output (usually for autonomous )
+	 * 
+	 * @param maxOutput
+	 *            The desired max output
+	 */
+	public void setMaxOutput(final double maxOutput)
+	{
+		differentialDrive.setMaxOutput(maxOutput);
+	}
+
+	/**
 	 * Shift the gear up or down
 	 * 
 	 * @param shiftBy
@@ -184,9 +365,13 @@ public class TankSubsystem extends SubsystemBase
 		DriveGears newGear = DriveGears
 				.getFromId(currentGear.getId() + shiftBy);
 
-		setGear(newGear);
-		currentGear = newGear;
-		return true;
+		if (newGear != null)
+			{
+			setGear(newGear);
+			currentGear = newGear;
+			return true;
+			}
+		return false;
 	}
 
 	/**
@@ -231,6 +416,26 @@ public class TankSubsystem extends SubsystemBase
 	{
 		DriveGears highestGear = DriveGears.getFromId(-1);
 		setGear(highestGear);
+	}
+
+	/**
+	 * Get the gyro
+	 * 
+	 * @return ADXRS450_Gyro
+	 */
+	public ADXRS450_Gyro getGyro()
+	{
+		return this.gyro;
+	}
+
+	/**
+	 * Get the pose
+	 * 
+	 * @return Pose2d
+	 */
+	public Pose2d getPose()
+	{
+		return this.pose;
 	}
 
 	}
