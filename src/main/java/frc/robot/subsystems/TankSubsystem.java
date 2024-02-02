@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.commands.teleop.Drive;
 import frc.robot.enums.DriveGears;
 import frc.robot.hardwareInterfaces.KilroyEncoder;
 
@@ -125,8 +126,8 @@ public class TankSubsystem extends SubsystemBase
 	 * @return If any of the {@code encoder} has passed the {@code distance}
 	 *         provided
 	 */
-	public boolean encoderHasPassedDistance(KilroyEncoder encoder,
-			double distance)
+	public boolean encoderHasPassedDistance(final KilroyEncoder encoder,
+			final double distance)
 	{
 		return encoder.getDistance() >= distance;
 	}
@@ -140,7 +141,7 @@ public class TankSubsystem extends SubsystemBase
 	 * @return If any of the encoders (left or right) have passed the
 	 *         {@code distance} provided
 	 */
-	public boolean anyEncoderHasPassedDistance(double distance)
+	public boolean anyEncoderHasPassedDistance(final double distance)
 	{
 		return encoderHasPassedDistance(leftEncoder, distance)
 				|| encoderHasPassedDistance(rightEncoder, distance);
@@ -157,7 +158,7 @@ public class TankSubsystem extends SubsystemBase
 	 *            The robot's right side speed along the X axis [-1.0..1.0].
 	 *            Forward is positive.
 	 */
-	public void drive(double leftSpeed, double rightSpeed)
+	public void drive(final double leftSpeed, final double rightSpeed)
 	{
 		differentialDrive.tankDrive(leftSpeed, rightSpeed);
 
@@ -175,7 +176,7 @@ public class TankSubsystem extends SubsystemBase
 	 *            The robot's speed along the X axis [-1.0..1.0]. Forward is
 	 *            positive.
 	 */
-	public void driveStraight(double speed, boolean usingGyro)
+	public void driveStraight(final double speed, final boolean usingGyro)
 	{
 		// int delta = leftEncoder.get() - rightEncoder.get();
 
@@ -219,6 +220,35 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
+	 * Determines how many inches an encoder must read to have completed a turn
+	 *
+	 * @param degrees
+	 *            How many degrees the robot should turn
+	 * @param pivot
+	 *            Whether or not the robot is pivoting on a wheel: Effectively
+	 *            doubles the turning radius
+	 * @return The calculated value in inches.
+	 */
+	public double degreesToEncoderInches(final double degrees,
+			final boolean pivot)
+	{
+		if (pivot == false)
+			return DriveConstants.TURN_RADIUS
+					* Math.toRadians(Math.abs(degrees));
+
+		return (DriveConstants.TURN_RADIUS / 2)
+				* Math.toRadians(Math.abs(degrees));
+	}
+
+	/**
+	 * @return the encoder distance average
+	 */
+	public double getEncoderDistanceAverage()
+	{
+		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+	}
+
+	/**
 	 * Drives the robot straight a certain number of inches
 	 * 
 	 * @param distance
@@ -252,12 +282,58 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
+	 * Turns the robot on the spot a number of degrees requested
+	 *
+	 * @param degrees
+	 *            How far the robot should turn. Positive for clockwise,
+	 *            negative for counter-clockwise
+	 * @param speed
+	 *            How fast the robot should turn, from 0.0 to 1.0.
+	 * @param acceleration
+	 *            Acceleration, in percent per second.
+	 * @return Whether or not the robot has finished turning the requested
+	 *         number of degrees, used in a state machine.
+	 */
+	public boolean turnDegrees(final int degrees, final double speed,
+			final double acceleration)
+	{
+		/*
+		 * If either sensor has reached the target position, then stop motors
+		 * and return true.
+		 * 
+		 */
+		System.out.println(
+				"Distance Traveled = " + this.getEncoderDistanceAverage());
+		System.out.println("Goal = " + degreesToEncoderInches(
+				Math.abs(degrees) - DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+				true));
+		if (this.getEncoderDistanceAverage() > degreesToEncoderInches(
+				Math.abs(degrees) - DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+				true))
+			{
+			this.drive(0, 0);
+			return true;
+			}
+
+		// If degrees is positive, then turn left. If not, then turn right.
+		if (degrees > 0)
+			{
+			this.drive(speed, -speed);
+			}
+		else
+			{
+			this.drive(-speed, speed);
+			}
+		return false;
+	}
+
+	/**
 	 * 
 	 * @param desiredSpeed
 	 *            The desired speed to accelerate to
 	 * @return
 	 */
-	public boolean accelerate(double desiredSpeed)
+	public boolean accelerate(final double desiredSpeed)
 	{
 		double accelerationSpeed = accelerationLimiter
 				.calculate((accelerationLimiterReset) ? 0.0 : desiredSpeed);
@@ -336,7 +412,7 @@ public class TankSubsystem extends SubsystemBase
 	 * @param gear
 	 *            The desired gear to set the max output as
 	 */
-	public void setGear(DriveGears gear)
+	public void setGear(final DriveGears gear)
 	{
 		differentialDrive.setMaxOutput(gear.getRatio());
 	}
@@ -360,7 +436,7 @@ public class TankSubsystem extends SubsystemBase
 	 * @return If the gear successfully shifted (will return false if you
 	 *         shifted to a gear that doesn't exist)
 	 */
-	public boolean shiftGearBy(int shiftBy)
+	public boolean shiftGearBy(final int shiftBy)
 	{
 		DriveGears newGear = DriveGears
 				.getFromId(currentGear.getId() + shiftBy);
