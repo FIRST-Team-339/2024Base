@@ -35,7 +35,7 @@ public class AprilTagModule
         return () ->
             {
             CvSink cvSink = CameraServer.getVideo();
-            CvSource outputStream = CameraServer.putVideo("AprilTagTest",
+            CvSource outputStream = CameraServer.putVideo("AprilTagDebug",
                     CameraConstants.RESOLUTION[0],
                     CameraConstants.RESOLUTION[1]);
 
@@ -130,5 +130,6 @@ public class AprilTagModule
     public static void setCurrentLocation(final AprilTagLocations newLocation)
     {
         currentLocation = newLocation;
+        System.out.println("Current Location: " + currentLocation.getId());
     }
     }
