@@ -7,6 +7,8 @@ import frc.robot.Constants.*;
 
 public class CameraSubsystem extends SubsystemBase
     {
+    private UsbCamera camera;
+
     /* No Constructor */
     public CameraSubsystem()
         {
@@ -57,6 +59,11 @@ public class CameraSubsystem extends SubsystemBase
             {
             server.setSource(desiredSource);
             }
+    }
+
+    public UsbCamera getCamera()
+    {
+        return this.camera;
     }
 
     }

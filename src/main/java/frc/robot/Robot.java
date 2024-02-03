@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autonomous.AutonomousCommandBase;
+import frc.robot.modules.AprilTagModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,6 +20,7 @@ public class Robot extends TimedRobot
   {
   private RobotContainer robotContainer;
   private AutonomousCommandBase autonomousCommand = null;
+  private Thread aprilTagThread;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -27,11 +29,25 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-    // Instantiate our RobotContainer. This will perform all our button
-    // bindings, and put our
-    // autonomous chooser on the dashboard.
+    /*
+     * Instantiate our RobotContainer. This will perform all our button
+     * bindings, and put our autonomous chooser on the dashboard.
+     */
     robotContainer = new RobotContainer();
-    System.out.println("Kilroy 2024 Has Started");
+
+    /* Initialize the Pose2d */
+    robotContainer.dashboardSubsystem
+        .updatePose(robotContainer.tankSubsystem.getPose());
+
+    /* Initialize the AprilTag Detector */
+    aprilTagThread = new Thread(
+        AprilTagModule.getDetectorRunnable(robotContainer.cameraSubsystem));
+    aprilTagThread.setDaemon(true);
+    aprilTagThread.start();
+
+    System.out.println("|*************************|");
+    System.out.println("| Kilroy 2024 Has Started |");
+    System.out.println("|*************************|");
   }
 
   /**
@@ -88,7 +104,9 @@ public class Robot extends TimedRobot
     // ==============================
     // All user code goes above here
     // ==============================
-    System.out.println("Kilroy 2024 Autonomous Has Started");
+    System.out.println("|************************************|");
+    System.out.println("| Kilroy 2024 Autonomous Has Started |");
+    System.out.println("|************************************|");
   }
 
   /** This function is called periodically during autonomous. */
@@ -113,7 +131,9 @@ public class Robot extends TimedRobot
     // ==============================
     // All user code goes above here
     // ==============================
-    System.out.println("Kilroy 2024 Teleop Has Started");
+    System.out.println("|********************************|");
+    System.out.println("| Kilroy 2024 Teleop Has Started |");
+    System.out.println("|********************************|");
   }
 
   /** This function is called periodically during operator control. */
