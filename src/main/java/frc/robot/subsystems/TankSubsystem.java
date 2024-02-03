@@ -128,7 +128,8 @@ public class TankSubsystem extends SubsystemBase
 	public boolean encoderHasPassedDistance(final KilroyEncoder encoder,
 			final double distance)
 	{
-		return encoder.getDistance() >= distance;
+		return distance > 0 ? encoder.getDistance() >= distance
+				: encoder.getDistance() <= distance;
 	}
 
 	/**
