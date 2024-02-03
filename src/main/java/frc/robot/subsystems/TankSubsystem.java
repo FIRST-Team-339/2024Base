@@ -298,13 +298,13 @@ public class TankSubsystem extends SubsystemBase
 		 * If either sensor has reached the target position, then stop motors
 		 * and return true.
 		 */
-		System.out.println("Encoder Distance Average: "
-				+ this.getEncoderDistanceAverage());
-		System.out
-				.println("Degrees to Encoder Inches: " + degreesToEncoderInches(
-						Math.abs(degrees)
-								+ DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
-						true));
+		// System.out.println("Encoder Distance Average: "
+		// + this.getEncoderDistanceAverage());
+		// System.out
+		// .println("Degrees to Encoder Inches: " + degreesToEncoderInches(
+		// Math.abs(degrees)
+		// + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+		// true));
 
 		if (Math.abs(this.getEncoderDistanceAverage()) > degreesToEncoderInches(
 				Math.abs(degrees) + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
