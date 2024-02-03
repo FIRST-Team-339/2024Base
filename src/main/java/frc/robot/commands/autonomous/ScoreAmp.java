@@ -7,10 +7,10 @@ public class ScoreAmp extends AutonomousCommandBase
     /* Auto Command State */
     private enum AutoCommandState
         {
-        RESET_ENCODERS_1, ACCELERATE, DRIVE, BRAKE, RESET_ENCODERS_2, REVERSE, END
+        ACCELERATE, DRIVE, BRAKE_1, RESET_ENCODERS_1, REVERSE, BRAKE_2, RESET_ENCODERS_2, PIVOT, END
         }
 
-    private AutoCommandState autoCommandState = AutoCommandState.RESET_ENCODERS_1;
+    private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
 
     /*
      * Drive Distance, supposed to be 46 inches but it is shaved off a little to
@@ -19,12 +19,11 @@ public class ScoreAmp extends AutonomousCommandBase
     public static int driveForwardDistance = 40;
 
     /**
-     * Rerverse Distance, supposed to be x inches but it is shaved off a little
-     * to account for braking
+     * Rerverse Distance
      * 
      * @param tankSubsystem
      */
-    public static int reverseDistance = 40;
+    public static int reverseDistance = -4;
 
     /**
      * Constructor
@@ -42,11 +41,6 @@ public class ScoreAmp extends AutonomousCommandBase
     {
         switch (autoCommandState)
             {
-            case RESET_ENCODERS_1:
-                tankSubsystem.resetEncoders();
-
-                autoCommandState = AutoCommandState.ACCELERATE;
-                break;
             case ACCELERATE:
                 if (tankSubsystem.accelerate(this.autonomousSpeed) == true)
                     {
@@ -57,10 +51,28 @@ public class ScoreAmp extends AutonomousCommandBase
                 if (tankSubsystem.driveStraightInches(driveForwardDistance,
                         this.autonomousSpeed, false) == true)
                     {
-                    autoCommandState = AutoCommandState.BRAKE;
+                    autoCommandState = AutoCommandState.BRAKE_1;
                     }
                 break;
-            case BRAKE:
+            case BRAKE_1:
+                if (tankSubsystem.brake(this.autonomousSpeed) == true)
+                    {
+                    autoCommandState = AutoCommandState.RESET_ENCODERS_1;
+                    }
+                break;
+            case RESET_ENCODERS_1:
+                tankSubsystem.resetEncoders();
+
+                autoCommandState = AutoCommandState.REVERSE;
+                break;
+            case REVERSE:
+                if (tankSubsystem.driveStraightInches(reverseDistance,
+                        -this.autonomousSpeed, false) == true)
+                    {
+                    autoCommandState = AutoCommandState.BRAKE_2;
+                    }
+                break;
+            case BRAKE_2:
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_2;
@@ -69,15 +81,15 @@ public class ScoreAmp extends AutonomousCommandBase
             case RESET_ENCODERS_2:
                 tankSubsystem.resetEncoders();
 
-                autoCommandState = AutoCommandState.REVERSE;
+                autoCommandState = AutoCommandState.PIVOT;
                 break;
-            case REVERSE:
-                // if (tankSubsystem.driveStraightInches(reverseDistance, 0.5,
-                // false) == true)
-                // {
-                // autoCommandState = AutoCommandState.BRAKE;
-                // }
-                tankSubsystem.turnDegrees(90, autonomousSpeed, autonomousSpeed);
+            case PIVOT:
+                if (tankSubsystem.pivotDegrees(90,
+                        this.autonomousSpeed) == true)
+                    {
+                    autoCommandState = AutoCommandState.END;
+                    }
+                break;
             case END:
                 /* Motor Safety - ensure that motors stay at 0 */
                 tankSubsystem.drive(0, 0);
