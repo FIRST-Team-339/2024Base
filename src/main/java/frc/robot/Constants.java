@@ -9,7 +9,7 @@ import frc.robot.enums.Season;
  * robot
  * 
  * <p>
- * Anything declared here should be prefaced with {@code public static final}
+ * Anything declared here should be prefaced with {@code public static}
  * </p>
  */
 public final class Constants

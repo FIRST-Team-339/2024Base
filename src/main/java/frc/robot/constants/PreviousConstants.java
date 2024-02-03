@@ -4,7 +4,7 @@ import frc.robot.enums.DriveGears;
 
 /**
  * The {@code Constants} class is to store all constants to be used with the
- * robot
+ * robot for the previous season
  * 
  * <p>
  * Anything declared here should be prefaced with {@code public static final}
@@ -41,7 +41,7 @@ public final class PreviousConstants
         public static final double BRAKE_RATE_LIMIT = 0.8;
 
         /* Turning */
-        public static final double TURN_DEGREES_FUDGE_FACTOR = 6.0;
+        public static final double TURN_DEGREES_FUDGE_FACTOR = 33.0;
         public static final double TURN_RADIUS = 16.75;
         }
 
@@ -85,10 +85,10 @@ public final class PreviousConstants
 
         /* CAMERA PROPERTIES */
         public static final int[] RESOLUTION =
-            { 340, 240 };
+            { 640, 480 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
-        public static final int BRIGHTNESS = 40;
+        public static final int BRIGHTNESS = 30;
         }
 
     public static final class DashboardConstants

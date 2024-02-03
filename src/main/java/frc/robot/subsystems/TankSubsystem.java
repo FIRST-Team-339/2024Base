@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.commands.teleop.Drive;
 import frc.robot.enums.DriveGears;
 import frc.robot.hardwareInterfaces.KilroyEncoder;
 
@@ -245,7 +244,8 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public double getEncoderDistanceAverage()
 	{
-		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+		return (Math.abs(leftEncoder.getDistance())
+				+ Math.abs(rightEncoder.getDistance())) / 2;
 	}
 
 	/**
@@ -282,33 +282,32 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
-	 * Turns the robot on the spot a number of degrees requested
+	 * Turns the robot on the spot a number of degrees
 	 *
 	 * @param degrees
 	 *            How far the robot should turn. Positive for clockwise,
 	 *            negative for counter-clockwise
 	 * @param speed
-	 *            How fast the robot should turn, from 0.0 to 1.0.
-	 * @param acceleration
-	 *            Acceleration, in percent per second.
+	 *            How fast the robot should pivot, from 0.0 to 1.0.
 	 * @return Whether or not the robot has finished turning the requested
 	 *         number of degrees, used in a state machine.
 	 */
-	public boolean turnDegrees(final int degrees, final double speed,
-			final double acceleration)
+	public boolean pivotDegrees(final int degrees, final double speed)
 	{
 		/*
 		 * If either sensor has reached the target position, then stop motors
 		 * and return true.
-		 * 
 		 */
-		System.out.println(
-				"Distance Traveled = " + this.getEncoderDistanceAverage());
-		System.out.println("Goal = " + degreesToEncoderInches(
-				Math.abs(degrees) - DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
-				true));
-		if (this.getEncoderDistanceAverage() > degreesToEncoderInches(
-				Math.abs(degrees) - DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+		System.out.println("Encoder Distance Average: "
+				+ this.getEncoderDistanceAverage());
+		System.out
+				.println("Degrees to Encoder Inches: " + degreesToEncoderInches(
+						Math.abs(degrees)
+								+ DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+						true));
+
+		if (Math.abs(this.getEncoderDistanceAverage()) > degreesToEncoderInches(
+				Math.abs(degrees) + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
 				true))
 			{
 			this.drive(0, 0);
@@ -328,6 +327,7 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
+	 * Smoothly accelerate the robot
 	 * 
 	 * @param desiredSpeed
 	 *            The desired speed to accelerate to
