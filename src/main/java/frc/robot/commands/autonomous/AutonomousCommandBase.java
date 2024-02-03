@@ -32,6 +32,7 @@ public abstract class AutonomousCommandBase extends CommandBase
     {
         // Do something at the start of every autonomous, such as resetting
         tankSubsystem.setMaxOutput(1.0);
+        tankSubsystem.resetEncoders();
     }
 
     @Override
