@@ -12,21 +12,21 @@ import frc.robot.subsystems.TankSubsystem;
 public class RobotContainer
         {
         /* Joysticks */
-        private CommandJoystick leftDriverJoystick = new CommandJoystick(
+        private final CommandJoystick leftDriverJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
-        private CommandJoystick rightDriverJoystick = new CommandJoystick(
+        private final CommandJoystick rightDriverJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID);
-        private CommandJoystick leftOperatorJoystick = new CommandJoystick(
+        private final CommandJoystick leftOperatorJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID);
-        private CommandJoystick rightOperatorJoystick = new CommandJoystick(
+        private final CommandJoystick rightOperatorJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID);
 
         /* Dashboard Subsystem */
-        public DashboardSubsystem dashboardSubsystem = new DashboardSubsystem();
+        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem();
 
         /* Camera */
-        private CameraSubsystem cameraSubsystem = new CameraSubsystem();
-        private Camera cameraCommand = new Camera(cameraSubsystem);
+        public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
+        private final Camera cameraCommand = new Camera(cameraSubsystem);
 
         /* Teleop Drive & Tank Subsystem w/ gears */
         public TankSubsystem tankSubsystem = new TankSubsystem();
