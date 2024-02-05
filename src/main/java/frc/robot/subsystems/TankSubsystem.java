@@ -51,8 +51,8 @@ public class TankSubsystem extends SubsystemBase
 	// TODO: fix default position and make it based on auto
 	private Pose2d pose = new Pose2d(20, 10, new Rotation2d());
 	private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
-			new Rotation2d(Math.toRadians(this.gyro.getAngle())),
-			leftEncoder.getDistance(), rightEncoder.getDistance());
+			new Rotation2d(0), leftEncoder.getDistance(),
+			rightEncoder.getDistance());
 
 	/* Limiters */
 	SlewRateLimiter accelerationLimiter = new SlewRateLimiter(
@@ -88,7 +88,7 @@ public class TankSubsystem extends SubsystemBase
 			rightEncoder.reset();
 
 			/* Initialize Gyro */
-			gyro.reset();
+			gyro.calibrate();
 
 			/* Reset Odometry */
 			odometry.resetPosition(
