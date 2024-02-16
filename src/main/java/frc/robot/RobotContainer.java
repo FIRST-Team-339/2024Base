@@ -3,10 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
+import frc.robot.commands.teleop.FlipperPiston.FlipperPistonUpOrDown;
 import frc.robot.commands.autonomous.*;
 import frc.robot.commands.teleop.GearShift.GearUpOrDown;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DashboardSubsystem;
+import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 public class RobotContainer
@@ -38,6 +40,13 @@ public class RobotContainer
         private GearShift gearDownCommand = new GearShift(tankSubsystem,
                         GearUpOrDown.DOWN);
 
+        /* Flipper Piston Subsytem w/ Commands */
+        private FlipperPistonSubsystem flipperPistonSubsystem = new FlipperPistonSubsystem();
+        private FlipperPiston flipPistonUpCommand = new FlipperPiston(
+                        flipperPistonSubsystem, FlipperPistonUpOrDown.UP);
+        private FlipperPiston flipPistonDownCommand = new FlipperPiston(
+                        flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
+
         public RobotContainer()
                 {
                         /* Initialize Teleop Drive & Tank Subsystem w/ gears */
@@ -59,6 +68,14 @@ public class RobotContainer
                 rightOperatorJoystick
                                 .button(CameraConstants.SWITCH_CAMERA_BUTTON_ID)
                                 .onTrue(cameraCommand);
+
+                /* Configure Flipper Piston Buttons */
+                leftOperatorJoystick.button(
+                                FlipperPistonConstants.FLIP_DOWN_BUTTON_ID)
+                                .onTrue(flipPistonDownCommand);
+                rightOperatorJoystick.button(
+                                FlipperPistonConstants.FLIP_UP_BUTTON_ID)
+                                .onTrue(flipPistonUpCommand);
         }
 
         public AutonomousCommandBase getAutonomousCommand()
