@@ -49,6 +49,24 @@ public class DoubleSolenoidGroup implements Sendable, AutoCloseable
     }
 
     /**
+     * Set the value of the solenoids to {@link DoubleSolenoid.Value#kForward
+     * forward}.
+     */
+    public void setForward()
+    {
+        set(DoubleSolenoid.Value.kForward);
+    }
+
+    /**
+     * Set the value of the solenoids to {@link DoubleSolenoid.Value#kReverse
+     * reverse}.
+     */
+    public void setReverse()
+    {
+        set(DoubleSolenoid.Value.kReverse);
+    }
+
+    /**
      * Read the current value of the solenoids.
      *
      * @return The current value of the solenoids.
