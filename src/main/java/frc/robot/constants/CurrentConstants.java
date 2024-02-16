@@ -91,6 +91,19 @@ public final class CurrentConstants
         public static final int BRIGHTNESS = 100;
         }
 
+    public static final class FlipperPistonConstants
+        {
+        /* DOUBLE SOLENOID PORTS */
+        public static final int LEFT_PISTON_FWD_PORT = 2;
+        public static final int LEFT_PISTON_REV_PORT = 3;
+        public static final int RIGHT_PISTON_FWD_PORT = 6;
+        public static final int RIGHT_PISTON_REV_PORT = 7;
+
+        /* BUTTON IDS */
+        public static final int FLIP_UP_BUTTON_ID = 1;
+        public static final int FLIP_DOWN_BUTTON_ID = 1;
+        }
+
     public static final class DashboardConstants
         {
         /* Battery Level */

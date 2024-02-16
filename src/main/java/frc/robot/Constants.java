@@ -84,6 +84,19 @@ public final class Constants
     public static int RIGHT_OPERATOR_JOYSTICK_ID;
     }
 
+  public static final class FlipperPistonConstants
+    {
+    /* DOUBLE SOLENOID PORTS */
+    public static int LEFT_PISTON_FWD_PORT;
+    public static int LEFT_PISTON_REV_PORT;
+    public static int RIGHT_PISTON_FWD_PORT;
+    public static int RIGHT_PISTON_REV_PORT;
+
+    /* BUTTON IDS */
+    public static int FLIP_UP_BUTTON_ID;
+    public static int FLIP_DOWN_BUTTON_ID;
+    }
+
   public static final class DashboardConstants
     {
     }
@@ -120,6 +133,13 @@ public final class Constants
       CameraConstants.FRAMES_PER_SECOND = CurrentConstants.CameraConstants.FRAMES_PER_SECOND;
       CameraConstants.COMPRESSION = CurrentConstants.CameraConstants.COMPRESSION;
       CameraConstants.BRIGHTNESS = CurrentConstants.CameraConstants.BRIGHTNESS;
+
+      FlipperPistonConstants.LEFT_PISTON_FWD_PORT = CurrentConstants.FlipperPistonConstants.LEFT_PISTON_FWD_PORT;
+      FlipperPistonConstants.LEFT_PISTON_REV_PORT = CurrentConstants.FlipperPistonConstants.LEFT_PISTON_REV_PORT;
+      FlipperPistonConstants.RIGHT_PISTON_FWD_PORT = CurrentConstants.FlipperPistonConstants.RIGHT_PISTON_FWD_PORT;
+      FlipperPistonConstants.RIGHT_PISTON_REV_PORT = CurrentConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
+      FlipperPistonConstants.FLIP_UP_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
+      FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
       }
     else
       {
@@ -151,6 +171,13 @@ public final class Constants
       CameraConstants.FRAMES_PER_SECOND = PreviousConstants.CameraConstants.FRAMES_PER_SECOND;
       CameraConstants.COMPRESSION = PreviousConstants.CameraConstants.COMPRESSION;
       CameraConstants.BRIGHTNESS = PreviousConstants.CameraConstants.BRIGHTNESS;
+
+      FlipperPistonConstants.LEFT_PISTON_FWD_PORT = PreviousConstants.FlipperPistonConstants.LEFT_PISTON_FWD_PORT;
+      FlipperPistonConstants.LEFT_PISTON_REV_PORT = PreviousConstants.FlipperPistonConstants.LEFT_PISTON_REV_PORT;
+      FlipperPistonConstants.RIGHT_PISTON_FWD_PORT = PreviousConstants.FlipperPistonConstants.RIGHT_PISTON_FWD_PORT;
+      FlipperPistonConstants.RIGHT_PISTON_REV_PORT = PreviousConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
+      FlipperPistonConstants.FLIP_UP_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
+      FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
       }
   }
   }
