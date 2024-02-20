@@ -25,6 +25,5 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests",
-  "java.format.settings.url": "https://gist.githubusercontent.com/fisherjacobc/38b6877dc5020eca2a46128026b152d5/raw/77842af7d952096d3f33e0f20a45f507764e3fce/formatter.xml"
+  "java.test.defaultConfig": "WPIlibUnitTests"
 }

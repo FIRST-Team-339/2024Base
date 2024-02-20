@@ -1,9 +1,9 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 
-public class FlipperPiston extends CommandBase
+public class FlipperPiston extends Command
     {
     /* Gear Shift State */
     public static enum FlipperPistonUpOrDown

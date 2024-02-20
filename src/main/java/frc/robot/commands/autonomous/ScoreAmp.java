@@ -2,13 +2,11 @@ package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.TankSubsystem;
 
-public class ScoreAmp extends AutonomousCommandBase
-    {
+public class ScoreAmp extends AutonomousCommandBase {
     /* Auto Command State */
-    private enum AutoCommandState
-        {
+    private enum AutoCommandState {
         ACCELERATE, DRIVE, BRAKE_1, RESET_ENCODERS_1, REVERSE, BRAKE_2, RESET_ENCODERS_2, PIVOT, END
-        }
+    }
 
     private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
 
@@ -32,33 +30,27 @@ public class ScoreAmp extends AutonomousCommandBase
      * Sets {@link TankSubsystem}
      * </p>
      */
-    public ScoreAmp(TankSubsystem tankSubsystem)
-        {
-            super(tankSubsystem);
-        }
+    public ScoreAmp(TankSubsystem tankSubsystem) {
+        super(tankSubsystem);
+    }
 
-    public void executeAutonomous()
-    {
-        switch (autoCommandState)
-            {
+    public void executeAutonomous() {
+        switch (autoCommandState) {
             case ACCELERATE:
-                if (tankSubsystem.accelerate(this.autonomousSpeed) == true)
-                    {
+                if (tankSubsystem.accelerate(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.DRIVE;
-                    }
+                }
                 break;
             case DRIVE:
                 if (tankSubsystem.driveStraightInches(driveForwardDistance,
-                        this.autonomousSpeed, false) == true)
-                    {
+                        this.autonomousSpeed, false) == true) {
                     autoCommandState = AutoCommandState.BRAKE_1;
-                    }
+                }
                 break;
             case BRAKE_1:
-                if (tankSubsystem.brake(this.autonomousSpeed) == true)
-                    {
+                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_1;
-                    }
+                }
                 break;
             case RESET_ENCODERS_1:
                 tankSubsystem.resetEncoders();
@@ -67,16 +59,14 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case REVERSE:
                 if (tankSubsystem.driveStraightInches(reverseDistance,
-                        -this.autonomousSpeed, false) == true)
-                    {
+                        -this.autonomousSpeed, false) == true) {
                     autoCommandState = AutoCommandState.BRAKE_2;
-                    }
+                }
                 break;
             case BRAKE_2:
-                if (tankSubsystem.brake(this.autonomousSpeed) == true)
-                    {
+                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_2;
-                    }
+                }
                 break;
             case RESET_ENCODERS_2:
                 tankSubsystem.resetEncoders();
@@ -85,15 +75,14 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case PIVOT:
                 if (tankSubsystem.pivotDegrees(90,
-                        this.autonomousSpeed) == true)
-                    {
+                        this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.END;
-                    }
+                }
                 break;
             case END:
                 /* Motor Safety - ensure that motors stay at 0 */
                 tankSubsystem.drive(0, 0);
                 break;
-            }
+        }
     }
-    }
+}

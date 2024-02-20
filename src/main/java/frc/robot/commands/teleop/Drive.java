@@ -1,12 +1,12 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
-public class Drive extends CommandBase
+public class Drive extends Command
     {
     /* Subsystems */
     private TankSubsystem tankSubsystem;
