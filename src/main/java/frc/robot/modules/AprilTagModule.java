@@ -60,7 +60,7 @@ public class AprilTagModule
                     .getQuadThresholdParameters();
             quadThreshParams.minClusterPixels = 250;
             quadThreshParams.criticalAngle *= 5; // default is 10
-            quadThreshParams.maxLineFitMSE *= 1.5;
+            quadThreshParams.maxLineFitMSE *= 1.5f;
             aprilTagDetector.setQuadThresholdParameters(quadThreshParams);
 
             aprilTagDetector.addFamily("tag36h11");
