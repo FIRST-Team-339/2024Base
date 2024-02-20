@@ -54,6 +54,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Declares the repository safe and not under dubious ownership.
+      - name: Add repository to git safe directories
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
