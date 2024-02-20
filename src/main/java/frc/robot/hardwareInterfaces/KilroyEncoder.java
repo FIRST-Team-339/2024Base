@@ -1,15 +1,11 @@
 package frc.robot.hardwareInterfaces;
 
-import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-// import com.revrobotics.CANEncoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.playingwithfusion.CANVenom;
 
 import edu.wpi.first.wpilibj.Encoder;
-// import frc.Utils.KilroyPID.PIDType;
 
 /**
  * A sensor class that is able to use both CAN features and DIO features
@@ -19,11 +15,10 @@ import edu.wpi.first.wpilibj.Encoder;
  * @author Ryan McGee
  *
  */
-public class KilroyEncoder implements DoubleSupplier
-    {
+public class KilroyEncoder {
     private Encoder dioSensor = null;
 
-    private BaseMotorController canSensor = null;
+    private TalonFX canSensor = null;
 
     private TalonSRX talonSensor = null;
 
@@ -49,25 +44,24 @@ public class KilroyEncoder implements DoubleSupplier
      * @param digitalPort1
      * @param digitalPort2
      */
-    public KilroyEncoder(int digitalPort1, int digitalPort2)
-        {
-            this.dioSensor = new Encoder(digitalPort1, digitalPort2);
-            type = SensorType.D_IO;
+    public KilroyEncoder(int digitalPort1, int digitalPort2) {
+        this.dioSensor = new Encoder(digitalPort1, digitalPort2);
+        type = SensorType.D_IO;
 
-        } // end constructor - overloaded
+    } // end constructor - overloaded
 
     /**
      * Creates the KilroyEncoder object with an encoder attached to a CAN motor
      * controller.
      *
      * @param canMotorController
-     *            The motor controller that the Encoder is attached to.
+     *                           The motor controller that the Encoder is attached
+     *                           to.
      */
-    public KilroyEncoder(BaseMotorController canMotorController)
-        {
-            this.canSensor = canMotorController;
-            type = SensorType.CAN;
-        } // end constructor - overloaded
+    public KilroyEncoder(TalonFX canMotorController) {
+        this.canSensor = canMotorController;
+        type = SensorType.CAN;
+    } // end constructor - overloaded
 
     /**
      * Creats the KilroyEncoder object with an encoder attached to a REV
@@ -75,12 +69,11 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @param canMotorController
      */
-    public KilroyEncoder(CANSparkMax canMotorController)
-        {
-            this.canEncoder = canMotorController;
-            type = SensorType.REV_CAN;
-            setTicksPerRevolution(1);
-        } // end constructor - overloaded
+    public KilroyEncoder(CANSparkMax canMotorController) {
+        this.canEncoder = canMotorController;
+        type = SensorType.REV_CAN;
+        setTicksPerRevolution(1);
+    } // end constructor - overloaded
 
     /**
      * this is the same as above it creats the object AND sets how many ticks we
@@ -89,13 +82,12 @@ public class KilroyEncoder implements DoubleSupplier
      * @param canMotorController
      * @param ticksPerRevolution
      */
-    public KilroyEncoder(CANSparkMax canMotorController, int ticksPerRevolution)
-        {
-            this.canEncoder = canMotorController;
-            type = SensorType.REV_CAN;
-            setTicksPerRevolution(ticksPerRevolution);
+    public KilroyEncoder(CANSparkMax canMotorController, int ticksPerRevolution) {
+        this.canEncoder = canMotorController;
+        type = SensorType.REV_CAN;
+        setTicksPerRevolution(ticksPerRevolution);
 
-        } // end constructor - overloaded
+    } // end constructor - overloaded
 
     /**
      * This is the same as the old kilroy can encoder, but the can hats for the
@@ -104,11 +96,10 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @param canMotorController
      */
-    public KilroyEncoder(TalonSRX canMotorController)
-        {
-            this.talonSensor = canMotorController;
-            type = SensorType.CAN_HAT;
-        } // end constructor - overloaded
+    public KilroyEncoder(TalonSRX canMotorController) {
+        this.talonSensor = canMotorController;
+        type = SensorType.CAN_HAT;
+    } // end constructor - overloaded
 
     /**
      * Creates a encoder object for the new Can Venom CIM motors, the encoder is
@@ -116,11 +107,10 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @param motorID
      */
-    public KilroyEncoder(CANVenom motorID)
-        {
-            this.venomEncoder = motorID;
-            type = SensorType.CIM;
-        } // end constructor - overloaded
+    public KilroyEncoder(CANVenom motorID) {
+        this.venomEncoder = motorID;
+        type = SensorType.CIM;
+    } // end constructor - overloaded
 
     /**
      * Encoders read revolutions / distances by counting a number of pulses
@@ -129,15 +119,13 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @return the number of pulses that has taken place since last reset().
      */
-    public int get()
-    {
-        switch (type)
-            {
+    public int get() {
+        switch (type) {
             case CAN:
                 if (this.isReversed() == true)
-                    return (int) -canSensor.getSelectedSensorPosition(0);
+                    return (int) -canSensor.getPosition().getValueAsDouble();
                 else
-                    return (int) canSensor.getSelectedSensorPosition(0);
+                    return (int) canSensor.getPosition().getValueAsDouble();
             case D_IO:
                 return (int) dioSensor.get();
             case REV_CAN:
@@ -150,12 +138,11 @@ public class KilroyEncoder implements DoubleSupplier
                 // revolutions by to
                 // get a larger integer imitating ticks
                 // getPosition - savedPosition --- Reference reset() function
-                if (canEncoder.getInverted() == true)
-                    {
+                if (canEncoder.getInverted() == true) {
                     return -(int) (this.sparkTicksPerRevolution
                             * (canEncoder.getEncoder().getPosition()
                                     - this.savedPosition));
-                    }
+                }
                 return (int) (this.sparkTicksPerRevolution
                         * (canEncoder.getEncoder().getPosition()
                                 - this.savedPosition));
@@ -167,7 +154,7 @@ public class KilroyEncoder implements DoubleSupplier
                 return (int) venomEncoder.getPosition();
             default:
                 return 0;
-            } // switch
+        } // switch
     } // end get()
 
     /**
@@ -177,15 +164,13 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @return the number of pulses that has taken place since last reset().
      */
-    public double getRaw()
-    {
-        switch (type)
-            {
+    public double getRaw() {
+        switch (type) {
             case CAN:
                 if (this.isReversed() == true)
-                    return -canSensor.getSelectedSensorPosition(0);
+                    return -canSensor.getPosition().getValueAsDouble();
                 else
-                    return canSensor.getSelectedSensorPosition(0);
+                    return canSensor.getPosition().getValueAsDouble();
             case D_IO:
                 return dioSensor.get();
             case REV_CAN:
@@ -198,12 +183,11 @@ public class KilroyEncoder implements DoubleSupplier
                 // revolutions by to
                 // get a larger integer imitating ticks
                 // getPosition - savedPosition --- Reference reset() function
-                if (canEncoder.getInverted() == true)
-                    {
+                if (canEncoder.getInverted() == true) {
                     return -(this.sparkTicksPerRevolution
                             * (canEncoder.getEncoder().getPosition()
                                     - this.savedPosition));
-                    }
+                }
                 return (this.sparkTicksPerRevolution
                         * (canEncoder.getEncoder().getPosition()
                                 - this.savedPosition));
@@ -215,7 +199,7 @@ public class KilroyEncoder implements DoubleSupplier
                 return venomEncoder.getPosition();
             default:
                 return 0;
-            } // switch
+        } // switch
     } // end getRaw()
 
     /**
@@ -226,10 +210,8 @@ public class KilroyEncoder implements DoubleSupplier
      *
      * @return how far the encoder has traveled based on a scalar.
      */
-    public double getDistance()
-    {
-        switch (type)
-            {
+    public double getDistance() {
+        switch (type) {
             case CAN:
                 return distancePerTick * this.get();
             case D_IO:
@@ -247,7 +229,7 @@ public class KilroyEncoder implements DoubleSupplier
                 return distancePerTick * this.get();
             default:
                 return this.get();
-            } // end switch type
+        } // end switch type
     } // end getDistance()
 
     /**
@@ -260,10 +242,8 @@ public class KilroyEncoder implements DoubleSupplier
      * @return How fast the sensor is rotating / moving. It is given in [units]
      *         per second, based on what you input for setDistancePerPulse.
      */
-    public double getRate()
-    {
-        switch (type)
-            {
+    public double getRate() {
+        switch (type) {
             case CAN:
                 // -----------------------
                 // The TalonFX motor controller/encoder
@@ -271,10 +251,10 @@ public class KilroyEncoder implements DoubleSupplier
                 // why we are multiplying by 10)
                 // ----------------------
                 if (this.isReversed() == true)
-                    return (-canSensor.getSelectedSensorVelocity(0) * 10)
+                    return (-canSensor.getVelocity().getValueAsDouble() * 10)
                             * this.distancePerTick;
                 else
-                    return (canSensor.getSelectedSensorVelocity(0) * 10)
+                    return (canSensor.getVelocity().getValueAsDouble() * 10)
                             * this.distancePerTick;
             case D_IO:
                 return dioSensor.getRate();
@@ -290,23 +270,21 @@ public class KilroyEncoder implements DoubleSupplier
                 return (venomEncoder.getSpeed() / 60);
             default:
                 return 0;
-            } // end switch type
+        } // end switch type
     } // end getRate()
 
     /**
      * @return How fast the motor is moving in units/minute, where the units are
      *         based on what was used in setDistancePerPulse
      */
-    public double getRPM()
-    {
+    public double getRPM() {
         return (60.0 * this.getRate());
     } // end getRPM()
 
     /**
      * @return What kind of sensor is being used, either CAN or D_IO.
      */
-    public SensorType getSensorType()
-    {
+    public SensorType getSensorType() {
         return this.type;
     } // end getSensorType()
 
@@ -314,8 +292,7 @@ public class KilroyEncoder implements DoubleSupplier
      * @return The CAN device, if being used, that contains the sensor. If
      *         digital is being used, returns null.
      */
-    public BaseMotorController getAttachedCANDevice()
-    {
+    public TalonFX getAttachedCANDevice() {
         return canSensor;
     } // end getSensorType()
 
@@ -323,8 +300,7 @@ public class KilroyEncoder implements DoubleSupplier
      * @return the digital encoder object, as supplied by WPILib. If CAN sensor
      *         is being used, returns null.
      */
-    public Encoder getAttachedDigitalDevice()
-    {
+    public Encoder getAttachedDigitalDevice() {
         return dioSensor;
     } // end getAttachedDigitalDevice()
 
@@ -332,16 +308,14 @@ public class KilroyEncoder implements DoubleSupplier
      * this returns the current number of ticks for one revoluition of a Spark
      * Max
      */
-    public int getTicksPerRevolution()
-    {
+    public int getTicksPerRevolution() {
         return this.sparkTicksPerRevolution;
     } // end getTicksPerRevolution()
 
     /**
      * This function returns whether or not the CAN encoder is reversed
      */
-    public boolean isReversed()
-    {
+    public boolean isReversed() {
         return this.CANReversed;
     } // end ifReversed()
 
@@ -352,12 +326,10 @@ public class KilroyEncoder implements DoubleSupplier
      * subtracted from it to create this reset(). The reason for this is that
      * SparkMax encoder does not have an internal reset of the encoder value
      */
-    public void reset()
-    {
-        switch (type)
-            {
+    public void reset() {
+        switch (type) {
             case CAN:
-                canSensor.setSelectedSensorPosition(0, 0, 0);
+                canSensor.setPosition(0, 0);
                 break;
             case D_IO:
                 dioSensor.reset();
@@ -372,7 +344,7 @@ public class KilroyEncoder implements DoubleSupplier
                 break;
             default:
                 return;
-            } // end switch type
+        } // end switch type
     } // end reset()
 
     /**
@@ -387,21 +359,19 @@ public class KilroyEncoder implements DoubleSupplier
      * number of ticks, and run the formula (x units)/(ticks).
      *
      * @param value
-     *            how far 1 tick is, translated to linear movement (usually
-     *            inches).
+     *              how far 1 tick is, translated to linear movement (usually
+     *              inches).
      */
-    public void setDistancePerPulse(double value)
-    {
+    public void setDistancePerPulse(double value) {
         this.distancePerTick = value;
-        switch (type)
-            {
+        switch (type) {
             case D_IO:
                 dioSensor.setDistancePerPulse(value);
                 break;
 
             default:
                 return;
-            } // end switch type
+        } // end switch type
     } // end SetDistancePerPutlse()
 
     /**
@@ -409,14 +379,12 @@ public class KilroyEncoder implements DoubleSupplier
      * by returning the reverse of whatever it is receiving.
      *
      * @param inverted
-     *            Whether or not to invert reading of the encoder.
+     *                 Whether or not to invert reading of the encoder.
      */
-    public void setReverseDirection(boolean inverted)
-    {
-        switch (type)
-            {
+    public void setReverseDirection(boolean inverted) {
+        switch (type) {
             case CAN:
-                canSensor.setSensorPhase(inverted);
+                canSensor.setInverted(inverted);
                 this.CANReversed = inverted;
                 break;
             case D_IO:
@@ -433,7 +401,7 @@ public class KilroyEncoder implements DoubleSupplier
                 break;
             default:
                 return;
-            } // end switch type
+        } // end switch type
     } // end setReverseDirection()
 
     /**
@@ -443,8 +411,7 @@ public class KilroyEncoder implements DoubleSupplier
      * @return
      */
 
-    public int setTicksPerRevolution(int ticksPerRevolution)
-    {
+    public int setTicksPerRevolution(int ticksPerRevolution) {
         return this.sparkTicksPerRevolution = ticksPerRevolution;
 
     } // end setTicksPerRevolution()
@@ -459,7 +426,7 @@ public class KilroyEncoder implements DoubleSupplier
      * will receive.
      *
      * @param pidSource
-     *            Either kDisplacement or kRate
+     *                  Either kDisplacement or kRate
      */
     // public void setPIDSourceType(PIDType pidSource)
     // {
@@ -501,8 +468,7 @@ public class KilroyEncoder implements DoubleSupplier
      * @author Ryan McGee
      *
      */
-    public enum SensorType
-        {
+    public enum SensorType {
         /** Attached to a CAN Motor Controller */
         CAN,
         /** Attached to the Digital I/O ports */
@@ -513,14 +479,7 @@ public class KilroyEncoder implements DoubleSupplier
         CAN_HAT,
         /** Attached to a CIM Motor */
         CIM
-        } // end enum SensorType
-
-    @Override
-    public double getAsDouble()
-    {
-        // TODO Auto-generated method stub
-        return 0.0;
-    } // end getAsDouble()
+    } // end enum SensorType
 
     // variable at which rotational measurements of the Spark Max is translated
     // to
@@ -531,4 +490,4 @@ public class KilroyEncoder implements DoubleSupplier
 
     private boolean CANReversed = false;
 
-    } // end class KilroyEncoder
+} // end class KilroyEncoder

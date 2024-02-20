@@ -2,13 +2,11 @@ package frc.robot.commands.autonomous;
 
 import frc.robot.subsystems.TankSubsystem;
 
-public class PassStartLine extends AutonomousCommandBase
-    {
+public class PassStartLine extends AutonomousCommandBase {
     /* Auto Command State */
-    private enum AutoCommandState
-        {
+    private enum AutoCommandState {
         RESET_ENCODERS, ACCELERATE, DRIVE, BRAKE, END
-        }
+    }
 
     private AutoCommandState autoCommandState = AutoCommandState.RESET_ENCODERS;
 
@@ -25,43 +23,37 @@ public class PassStartLine extends AutonomousCommandBase
      * Sets {@link TankSubsystem}
      * </p>
      */
-    public PassStartLine(TankSubsystem tankSubsystem)
-        {
-            super(tankSubsystem);
-        }
+    public PassStartLine(TankSubsystem tankSubsystem) {
+        super(tankSubsystem);
+    }
 
-    public void executeAutonomous()
-    {
-        switch (autoCommandState)
-            {
+    public void executeAutonomous() {
+        switch (autoCommandState) {
             case RESET_ENCODERS:
                 tankSubsystem.resetEncoders();
 
                 autoCommandState = AutoCommandState.ACCELERATE;
                 break;
             case ACCELERATE:
-                if (tankSubsystem.accelerate(this.autonomousSpeed) == true)
-                    {
+                if (tankSubsystem.accelerate(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.DRIVE;
-                    }
+                }
                 break;
             case DRIVE:
                 if (tankSubsystem.driveStraightInches(driveDistance,
-                        this.autonomousSpeed, false) == true)
-                    {
+                        this.autonomousSpeed, false) == true) {
                     autoCommandState = AutoCommandState.BRAKE;
-                    }
+                }
                 break;
             case BRAKE:
-                if (tankSubsystem.brake(this.autonomousSpeed) == true)
-                    {
+                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.END;
-                    }
+                }
                 break;
             case END:
                 /* Motor Safety - ensure that motors stay at 0 */
                 tankSubsystem.drive(0, 0);
                 break;
-            }
+        }
     }
-    }
+}

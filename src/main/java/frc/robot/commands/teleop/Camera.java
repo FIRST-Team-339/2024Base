@@ -3,7 +3,7 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.CameraSubsystem;
 
@@ -15,7 +15,7 @@ import frc.robot.subsystems.CameraSubsystem;
  * @author Jacob Fisher
  * @created 24 January 2024
  */
-public class Camera extends CommandBase
+public class Camera extends Command
     {
     /* Camera Subsystem */
     private CameraSubsystem cameraSubsystem;

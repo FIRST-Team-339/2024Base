@@ -1,6 +1,6 @@
 package frc.robot.commands.autonomous;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.TankSubsystem;
 
 /**
@@ -11,8 +11,7 @@ import frc.robot.subsystems.TankSubsystem;
  * It's purpose is to handle the Delay Potentiometer before running
  * </p>
  */
-public abstract class AutonomousCommandBase extends CommandBase
-    {
+public abstract class AutonomousCommandBase extends Command {
 
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
@@ -22,27 +21,23 @@ public abstract class AutonomousCommandBase extends CommandBase
      */
     protected double autonomousSpeed = 0.5;
 
-    protected AutonomousCommandBase(TankSubsystem tankSubsystem)
-        {
-            this.tankSubsystem = tankSubsystem;
-        }
+    protected AutonomousCommandBase(TankSubsystem tankSubsystem) {
+        this.tankSubsystem = tankSubsystem;
+    }
 
     @Override
-    public final void initialize()
-    {
+    public final void initialize() {
         // Do something at the start of every autonomous, such as resetting
         tankSubsystem.setMaxOutput(1.0);
         tankSubsystem.resetEncoders();
     }
 
     @Override
-    public final void execute()
-    {
+    public final void execute() {
         executeAutonomous();
     }
 
-    public void endAutonomous()
-    {
+    public void endAutonomous() {
         // Do stuff before autonomous is ended
         cancel();
     }
@@ -54,4 +49,4 @@ public abstract class AutonomousCommandBase extends CommandBase
      */
     public abstract void executeAutonomous();
 
-    }
+}

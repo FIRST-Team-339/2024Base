@@ -1,9 +1,9 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.TankSubsystem;
 
-public class GearShift extends CommandBase
+public class GearShift extends Command
     {
     /* Gear Shift State */
     public static enum GearUpOrDown
