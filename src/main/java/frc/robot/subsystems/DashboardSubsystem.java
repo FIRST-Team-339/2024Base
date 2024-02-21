@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.enums.AutonomousModes;
+import frc.robot.enums.*;
 
 public class DashboardSubsystem extends SubsystemBase
     {
@@ -38,9 +38,12 @@ public class DashboardSubsystem extends SubsystemBase
             SmartDashboard.putData("Field", field);
         }
 
+    /**
+     * @return if autonomous functions are enabled
+     */
     public boolean getAutonomousEnabled()
     {
-        throw new UnsupportedOperationException("Not implemented");
+        return autonomousEnabled.get();
     }
 
     public AutonomousModes getAutonomousMode()
@@ -48,14 +51,25 @@ public class DashboardSubsystem extends SubsystemBase
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    public double getAutonomousDelay()
+    public AutonomousModeOptions getAutonomousModeOptions()
     {
         throw new UnsupportedOperationException("Not implemented");
     }
 
+    /**
+     * @return the autonomous delay in seconds
+     */
+    public double getAutonomousDelay()
+    {
+        return autonomousDelay.get();
+    }
+
+    /**
+     * @return if demo mode is enabled
+     */
     public boolean getDemoModeEnabled()
     {
-        throw new UnsupportedOperationException("Not implemented");
+        return demoEnabled.get();
     }
 
     public void updatePose(final Pose2d newPose)
