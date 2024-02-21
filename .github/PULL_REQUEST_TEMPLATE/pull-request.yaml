@@ -1,8 +1,6 @@
 name: Pull Request Template
 
-about: Use this template for creating pull requests.
-
-title: "Your title here"
+description: Use this template for creating pull requests.
 
 body:
   - type: textarea
