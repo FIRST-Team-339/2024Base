@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
@@ -11,7 +13,8 @@ import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
-public class RobotContainer {
+public class RobotContainer
+        {
         /* Joysticks */
         private final CommandJoystick leftDriverJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
@@ -46,15 +49,17 @@ public class RobotContainer {
         private FlipperPiston flipPistonDownCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
 
-        public RobotContainer() {
-                /* Initialize Teleop Drive & Tank Subsystem w/ gears */
-                tankSubsystem.setDefaultCommand(teleopDriveCommand);
+        public RobotContainer()
+                {
+                        /* Initialize Teleop Drive & Tank Subsystem w/ gears */
+                        tankSubsystem.setDefaultCommand(teleopDriveCommand);
 
-                /* Configure Button Bindings */
-                configureButtonBindings();
-        }
+                        /* Configure Button Bindings */
+                        configureButtonBindings();
+                }
 
-        private void configureButtonBindings() {
+        private void configureButtonBindings()
+        {
                 /* Configure Gear Buttons */
                 rightDriverJoystick.button(DriveConstants.GEAR_UP_BUTTON_ID)
                                 .onTrue(gearUpCommand);
@@ -75,13 +80,36 @@ public class RobotContainer {
                                 .onTrue(flipPistonUpCommand);
         }
 
-        public AutonomousCommandBase getAutonomousCommand() {
-                // TODO: Check if autonomous is enabled
-                // TODO: Get autonomous command from dashboard
-                var test = new ScoreAmp(tankSubsystem);
-                test.addRequirements(tankSubsystem);
+        public AutonomousCommandBase getAutonomousCommand()
+        {
+                AutonomousCommandBase autonomousCommand = null;
 
-                return test;
+                if (dashboardSubsystem.getAutonomousEnabled())
+                        {
+                        switch (dashboardSubsystem.getAutonomousMode())
+                                {
+                                case PASS_START_LINE:
+                                        autonomousCommand = new PassStartLine(
+                                                        tankSubsystem);
+                                        break;
+                                case SCORE_AMP:
+                                        autonomousCommand = new ScoreAmp(
+                                                        tankSubsystem);
+                                        break;
+                                default:
+                                        System.out.println(
+                                                        "INVALID AUTONOMOUS MODE");
+                                        break;
+                                }
+
+                        if (autonomousCommand != null)
+                                autonomousCommand
+                                                .addRequirements(tankSubsystem);
+                        }
+                else
+                        System.out.println("AUTONOMOUS MODE DISABLED");
+
+                return autonomousCommand;
         }
 
-}
+        }
