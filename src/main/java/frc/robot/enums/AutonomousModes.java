@@ -24,4 +24,21 @@ public enum AutonomousModes
     {
         return friendlyName;
     }
+
+    /**
+     * Get the autonomous mode based on the ID
+     * 
+     * @return An {@link AutonomousModes} enum
+     */
+    public AutonomousModes getFromId(final int id)
+    {
+        for (AutonomousModes autonomousMode : values())
+            {
+            if (autonomousMode.id == id)
+                {
+                return autonomousMode;
+                }
+            }
+        return null;
+    }
     }
