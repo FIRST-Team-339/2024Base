@@ -1,0 +1,33 @@
+name: Feature Request Template
+
+description: Use this template to submit a feature request.
+
+title: "feat: "
+
+projects: ["FIRST-Team-339/1"]
+
+labels: ["type:enhancement"]
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: Please provide a detailed description of the feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information (Optional)
+      description: Add any additional information or context that may be helpful.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: can_contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: Would you be willing to help with this issue?
