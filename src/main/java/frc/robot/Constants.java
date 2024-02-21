@@ -14,7 +14,7 @@ import frc.robot.enums.Season;
  */
 public final class Constants
   {
-  public static Season season = Season.PreviousSeason;
+  public static Season season = Season.CurrentSeason;
 
   public static final class DriveConstants
     {
