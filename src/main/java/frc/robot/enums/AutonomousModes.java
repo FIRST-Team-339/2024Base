@@ -30,7 +30,7 @@ public enum AutonomousModes
      * 
      * @return An {@link AutonomousModes} enum
      */
-    public AutonomousModes getFromId(final int id)
+    public static AutonomousModes getFromId(final int id)
     {
         for (AutonomousModes autonomousMode : values())
             {
