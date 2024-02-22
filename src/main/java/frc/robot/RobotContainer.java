@@ -1,6 +1,6 @@
 package frc.robot;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
@@ -82,6 +82,7 @@ public class RobotContainer
 
         public AutonomousCommandBase getAutonomousCommand()
         {
+                Function<TankSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
                 AutonomousCommandBase autonomousCommand = null;
 
                 if (dashboardSubsystem.getAutonomousEnabled())
@@ -89,12 +90,10 @@ public class RobotContainer
                         switch (dashboardSubsystem.getAutonomousMode())
                                 {
                                 case PASS_START_LINE:
-                                        autonomousCommand = new PassStartLine(
-                                                        tankSubsystem);
+                                        autonomousCommandConstructor = PassStartLine::new;
                                         break;
                                 case SCORE_AMP:
-                                        autonomousCommand = new ScoreAmp(
-                                                        tankSubsystem);
+                                        autonomousCommandConstructor = ScoreAmp::new;
                                         break;
                                 default:
                                         System.out.println(
@@ -102,9 +101,14 @@ public class RobotContainer
                                         break;
                                 }
 
-                        if (autonomousCommand != null)
+                        if (autonomousCommandConstructor != null)
+                                {
+                                autonomousCommand = autonomousCommandConstructor
+                                                .apply(tankSubsystem);
+
                                 autonomousCommand
                                                 .addRequirements(tankSubsystem);
+                                }
                         }
                 else
                         System.out.println("AUTONOMOUS MODE DISABLED");
