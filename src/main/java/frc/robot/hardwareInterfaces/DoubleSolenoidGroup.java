@@ -25,6 +25,30 @@ public class DoubleSolenoidGroup implements Sendable, AutoCloseable
                 }
         }
 
+    public DoubleSolenoidGroup(final DoubleSolenoid[] doubleSolenoids,
+            final boolean forward) throws IllegalArgumentException
+        {
+            if (doubleSolenoids.length < 1)
+                {
+                throw new IllegalArgumentException(
+                        "doubleSolenoids must have at least one solenoid in it");
+                }
+
+            for (DoubleSolenoid doubleSolenoid : doubleSolenoids)
+                {
+                this.doubleSolenoids.add(doubleSolenoid);
+                }
+
+            if (forward)
+                {
+                setForward();
+                }
+            else
+                {
+                setReverse();
+                }
+        }
+
     @Override
     public synchronized void close()
     {

@@ -15,10 +15,10 @@ public final class CurrentConstants
     public static final class DriveConstants
         {
         /* MOTOR IDs */
-        public static final int FRONT_LEFT_MOTOR_ID = 9;
-        public static final int REAR_LEFT_MOTOR_ID = 8;
-        public static final int FRONT_RIGHT_MOTOR_ID = 19;
-        public static final int REAR_RIGHT_MOTOR_ID = 16;
+        public static final int FRONT_LEFT_MOTOR_ID = 20;
+        public static final int REAR_LEFT_MOTOR_ID = 21;
+        public static final int FRONT_RIGHT_MOTOR_ID = 22;
+        public static final int REAR_RIGHT_MOTOR_ID = 23;
 
         /* Encoder */
         public static final double DISTANCE_PER_PULSE = 0.00100001;
