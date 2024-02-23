@@ -85,10 +85,10 @@ public final class CurrentConstants
 
         /* CAMERA PROPERTIES */
         public static final int[] RESOLUTION =
-            { 340, 240 };
+            { 1080, 720 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
-        public static final int BRIGHTNESS = 100;
+        public static final int BRIGHTNESS = 35;
         }
 
     public static final class FlipperPistonConstants
