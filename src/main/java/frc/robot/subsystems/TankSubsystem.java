@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.playingwithfusion.CANVenom;
+import com.playingwithfusion.CANVenom.BrakeCoastMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -83,6 +84,10 @@ public class TankSubsystem extends SubsystemBase
 			leftEncoder.reset();
 			rightEncoder.reset();
 
+			/* Set Braking */
+			frontLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+			frontRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+
 			/* Initialize Gyro */
 			gyro.calibrate();
 
@@ -162,6 +167,8 @@ public class TankSubsystem extends SubsystemBase
 
 		pose = odometry.update(new Rotation2d(Math.toRadians(gyroAngle)),
 				leftEncoder.getDistance(), rightEncoder.getDistance());
+
+		System.out.println("Encoders?? " + leftEncoder.getDistance());
 	}
 
 	/**
