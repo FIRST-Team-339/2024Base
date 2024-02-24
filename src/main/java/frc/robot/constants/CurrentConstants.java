@@ -21,7 +21,9 @@ public final class CurrentConstants
         public static final int REAR_RIGHT_MOTOR_ID = 23;
 
         /* Encoder */
-        public static final double DISTANCE_PER_PULSE = (6.0 * Math.PI) / 8.45;
+        // public static final double DISTANCE_PER_PULSE = (6.0 * Math.PI) /
+        // 8.45;
+        public static final double DISTANCE_PER_PULSE = 2.5;
         public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
 
         /* MOTOR CONTROLLER GROUPS */
