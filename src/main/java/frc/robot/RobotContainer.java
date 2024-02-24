@@ -105,9 +105,6 @@ public class RobotContainer
                                 {
                                 autonomousCommand = autonomousCommandConstructor
                                                 .apply(tankSubsystem);
-
-                                autonomousCommand
-                                                .addRequirements(tankSubsystem);
                                 }
                         }
                 else

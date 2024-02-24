@@ -25,6 +25,8 @@ public abstract class AutonomousCommandBase extends Command
     protected AutonomousCommandBase(TankSubsystem tankSubsystem)
         {
             this.tankSubsystem = tankSubsystem;
+
+            addRequirements(tankSubsystem);
         }
 
     @Override
