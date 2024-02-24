@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import java.util.Arrays;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,20 +13,6 @@ public class DashboardSubsystem extends SubsystemBase
     {
     /* Field2d */
     private Field2d field = new Field2d();
-
-    /* Network Tables */
-    private NetworkTableInstance instance = NetworkTableInstance.getDefault();
-    private NetworkTable table = instance.getTable("Kilroy");
-    private BooleanSubscriber autonomousEnabled = table
-            .getBooleanTopic("/Auto/Enabled").subscribe(false);
-    // TODO: populate options
-    private StringArraySubscriber autonomousModeOptions = table
-            .getStringArrayTopic("/Auto/CommandOptions").subscribe(new String[]
-            { "" });
-    private DoubleSubscriber autonomousDelay = table
-            .getDoubleTopic("/Auto/Delay").subscribe(0);
-    private BooleanSubscriber demoEnabled = table
-            .getBooleanTopic("/Demo/Enabled").subscribe(false);
 
     private SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
@@ -41,7 +26,22 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public DashboardSubsystem()
         {
+            /* Field Data */
             SmartDashboard.putData("Field", field);
+
+            /* Autonomous Enabled */
+            SmartDashboard.putBoolean("Kilroy.Auto.Enabled",
+                    getAutonomousEnabled());
+            SmartDashboard.setPersistent("Kilroy.Auto.Enabled");
+
+            /* Autonomous Delay */
+            SmartDashboard.putNumber("Kilroy.Auto.Delay", getAutonomousDelay());
+            SmartDashboard.setPersistent("Kilroy.Auto.Delay");
+
+            /* Demo Enabled */
+            SmartDashboard.putBoolean("Kilroy.Demo.Enabled",
+                    getDemoModeEnabled());
+            SmartDashboard.setPersistent("Kilroy.Demo.Enabled");
         }
 
     /**
@@ -49,7 +49,7 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public boolean getAutonomousEnabled()
     {
-        return autonomousEnabled.get();
+        return SmartDashboard.getBoolean("Kilroy.Auto.Enabled", true);
     }
 
     public AutonomousModes getAutonomousMode()
@@ -67,7 +67,7 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public double getAutonomousDelay()
     {
-        return autonomousDelay.get();
+        return SmartDashboard.getNumber("Kilroy.Auto.Delay", 0.0);
     }
 
     /**
@@ -75,7 +75,7 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public boolean getDemoModeEnabled()
     {
-        return demoEnabled.get();
+        return SmartDashboard.getBoolean("Kilroy.Demo.Enabled", false);
     }
 
     /**
