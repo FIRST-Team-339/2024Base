@@ -128,6 +128,9 @@ public class Robot extends TimedRobot
       autonomousCommand.endAutonomous();
       }
 
+    /* Initial States */
+    robotContainer.flipperPistonSubsystem.flipUp();
+
     // ==============================
     // All user code goes above here
     // ==============================

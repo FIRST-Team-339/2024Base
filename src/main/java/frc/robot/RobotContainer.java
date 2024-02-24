@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.Function;
+
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
@@ -11,7 +13,8 @@ import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
-public class RobotContainer {
+public class RobotContainer
+        {
         /* Joysticks */
         private final CommandJoystick leftDriverJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
@@ -30,31 +33,33 @@ public class RobotContainer {
         private final Camera cameraCommand = new Camera(cameraSubsystem);
 
         /* Teleop Drive & Tank Subsystem w/ gears */
-        public TankSubsystem tankSubsystem = new TankSubsystem();
-        private Drive teleopDriveCommand = new Drive(tankSubsystem,
+        public final TankSubsystem tankSubsystem = new TankSubsystem();
+        private final Drive teleopDriveCommand = new Drive(tankSubsystem,
                         dashboardSubsystem, () -> leftDriverJoystick.getY(),
                         () -> rightDriverJoystick.getY());
-        private GearShift gearUpCommand = new GearShift(tankSubsystem,
+        private final GearShift gearUpCommand = new GearShift(tankSubsystem,
                         GearUpOrDown.UP);
-        private GearShift gearDownCommand = new GearShift(tankSubsystem,
+        private final GearShift gearDownCommand = new GearShift(tankSubsystem,
                         GearUpOrDown.DOWN);
 
         /* Flipper Piston Subsytem w/ Commands */
-        private FlipperPistonSubsystem flipperPistonSubsystem = new FlipperPistonSubsystem();
-        private FlipperPiston flipPistonUpCommand = new FlipperPiston(
+        public final FlipperPistonSubsystem flipperPistonSubsystem = new FlipperPistonSubsystem();
+        private final FlipperPiston flipPistonUpCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.UP);
-        private FlipperPiston flipPistonDownCommand = new FlipperPiston(
+        private final FlipperPiston flipPistonDownCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
 
-        public RobotContainer() {
-                /* Initialize Teleop Drive & Tank Subsystem w/ gears */
-                tankSubsystem.setDefaultCommand(teleopDriveCommand);
+        public RobotContainer()
+                {
+                        /* Initialize Teleop Drive & Tank Subsystem w/ gears */
+                        tankSubsystem.setDefaultCommand(teleopDriveCommand);
 
-                /* Configure Button Bindings */
-                configureButtonBindings();
-        }
+                        /* Configure Button Bindings */
+                        configureButtonBindings();
+                }
 
-        private void configureButtonBindings() {
+        private void configureButtonBindings()
+        {
                 /* Configure Gear Buttons */
                 rightDriverJoystick.button(DriveConstants.GEAR_UP_BUTTON_ID)
                                 .onTrue(gearUpCommand);
@@ -75,7 +80,8 @@ public class RobotContainer {
                                 .onTrue(flipPistonUpCommand);
         }
 
-        public AutonomousCommandBase getAutonomousCommand() {
+        public AutonomousCommandBase getAutonomousCommand()
+        {
                 // TODO: Check if autonomous is enabled
                 // TODO: Get autonomous command from dashboard
                 var test = new ScoreAmp(tankSubsystem);
@@ -84,4 +90,4 @@ public class RobotContainer {
                 return test;
         }
 
-}
+        }
