@@ -12,12 +12,10 @@ import frc.robot.enums.Season;
  * Anything declared here should be prefaced with {@code public static}
  * </p>
  */
-public final class Constants
-  {
+public final class Constants {
   public static Season season = Season.CurrentSeason;
 
-  public static final class DriveConstants
-    {
+  public static final class DriveConstants {
     /* MOTOR IDs */
     public static int FRONT_LEFT_MOTOR_ID;
     public static int REAR_LEFT_MOTOR_ID;
@@ -46,12 +44,12 @@ public final class Constants
     /* Turning */
     public static double TURN_DEGREES_FUDGE_FACTOR;
     public static double TURN_RADIUS;
-    }
+  }
 
-  public static final class CameraConstants
-    {
+  public static final class CameraConstants {
     /* SOFTWARE PROPERTIES */
     public static boolean CAMERA_ENABLED;
+    public static boolean APRIL_TAGS_ENABLED;
     public static boolean USING_TWO_CAMERAS;
 
     /* BUTTON IDS */
@@ -62,10 +60,9 @@ public final class Constants
     public static int FRAMES_PER_SECOND;
     public static int COMPRESSION;
     public static int BRIGHTNESS;
-    }
+  }
 
-  public static final class AutonomousConstants
-    {
+  public static final class AutonomousConstants {
     /* Autonomous Hardware IDs */
 
     /* Autonomous Delay */
@@ -73,19 +70,17 @@ public final class Constants
     /* Autonomous Drive Constants */
 
     /* Autonomous Mode */
-    }
+  }
 
-  public static final class JoystickConstants
-    {
+  public static final class JoystickConstants {
     /* JOYSTICK IDs */
     public static int LEFT_DRIVER_JOYSTICK_ID;
     public static int RIGHT_DRIVER_JOYSTICK_ID;
     public static int LEFT_OPERATOR_JOYSTICK_ID;
     public static int RIGHT_OPERATOR_JOYSTICK_ID;
-    }
+  }
 
-  public static final class FlipperPistonConstants
-    {
+  public static final class FlipperPistonConstants {
     /* DOUBLE SOLENOID PORTS */
     public static int LEFT_PISTON_FWD_PORT;
     public static int LEFT_PISTON_REV_PORT;
@@ -95,16 +90,13 @@ public final class Constants
     /* BUTTON IDS */
     public static int FLIP_UP_BUTTON_ID;
     public static int FLIP_DOWN_BUTTON_ID;
-    }
+  }
 
-  public static final class DashboardConstants
-    {
-    }
+  public static final class DashboardConstants {
+  }
 
-  public static void initialize()
-  {
-    if (season == Season.CurrentSeason)
-      {
+  public static void initialize() {
+    if (season == Season.CurrentSeason) {
       DriveConstants.FRONT_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.FRONT_LEFT_MOTOR_ID;
       DriveConstants.FRONT_RIGHT_MOTOR_ID = CurrentConstants.DriveConstants.FRONT_RIGHT_MOTOR_ID;
       DriveConstants.REAR_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
@@ -127,6 +119,7 @@ public final class Constants
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = CurrentConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
       CameraConstants.CAMERA_ENABLED = CurrentConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.APRIL_TAGS_ENABLED = CurrentConstants.CameraConstants.APRIL_TAGS_ENABLED;
       CameraConstants.SWITCH_CAMERA_BUTTON_ID = CurrentConstants.CameraConstants.SWITCH_CAMERA_BUTTON_ID;
       CameraConstants.USING_TWO_CAMERAS = CurrentConstants.CameraConstants.USING_TWO_CAMERAS;
       CameraConstants.RESOLUTION = CurrentConstants.CameraConstants.RESOLUTION;
@@ -140,9 +133,7 @@ public final class Constants
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = CurrentConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
-      }
-    else
-      {
+    } else {
       DriveConstants.FRONT_LEFT_MOTOR_ID = PreviousConstants.DriveConstants.FRONT_LEFT_MOTOR_ID;
       DriveConstants.FRONT_RIGHT_MOTOR_ID = PreviousConstants.DriveConstants.FRONT_RIGHT_MOTOR_ID;
       DriveConstants.REAR_LEFT_MOTOR_ID = PreviousConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
@@ -165,6 +156,7 @@ public final class Constants
       JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID = PreviousConstants.JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID;
 
       CameraConstants.CAMERA_ENABLED = PreviousConstants.CameraConstants.CAMERA_ENABLED;
+      CameraConstants.APRIL_TAGS_ENABLED = PreviousConstants.CameraConstants.APRIL_TAGS_ENABLED;
       CameraConstants.SWITCH_CAMERA_BUTTON_ID = PreviousConstants.CameraConstants.SWITCH_CAMERA_BUTTON_ID;
       CameraConstants.USING_TWO_CAMERAS = PreviousConstants.CameraConstants.USING_TWO_CAMERAS;
       CameraConstants.RESOLUTION = PreviousConstants.CameraConstants.RESOLUTION;
@@ -178,6 +170,6 @@ public final class Constants
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = PreviousConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
-      }
+    }
   }
-  }
+}
