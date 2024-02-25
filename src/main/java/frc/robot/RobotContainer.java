@@ -8,13 +8,14 @@ import frc.robot.commands.teleop.*;
 import frc.robot.commands.teleop.FlipperPiston.FlipperPistonUpOrDown;
 import frc.robot.commands.autonomous.*;
 import frc.robot.commands.teleop.GearShift.GearUpOrDown;
+import frc.robot.enums.AutonomousModes;
+import frc.robot.enums.DriveGears;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
-public class RobotContainer
-        {
+public class RobotContainer {
         /* Joysticks */
         private final CommandJoystick leftDriverJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
@@ -25,12 +26,12 @@ public class RobotContainer
         private final CommandJoystick rightOperatorJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID);
 
-        /* Dashboard Subsystem */
-        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem();
-
         /* Camera */
         public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
         private final Camera cameraCommand = new Camera(cameraSubsystem);
+
+        /* Dashboard Subsystem */
+        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem(cameraSubsystem);
 
         /* Teleop Drive & Tank Subsystem w/ gears */
         public final TankSubsystem tankSubsystem = new TankSubsystem();
@@ -49,17 +50,18 @@ public class RobotContainer
         private final FlipperPiston flipPistonDownCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
 
-        public RobotContainer()
-                {
-                        /* Initialize Teleop Drive & Tank Subsystem w/ gears */
-                        tankSubsystem.setDefaultCommand(teleopDriveCommand);
+        public RobotContainer() {
+                /* Initialize Teleop Drive & Tank Subsystem w/ gears */
+                tankSubsystem.setDefaultCommand(teleopDriveCommand);
 
-                        /* Configure Button Bindings */
-                        configureButtonBindings();
-                }
+                /* Configure Button Bindings */
+                configureButtonBindings();
 
-        private void configureButtonBindings()
-        {
+                /* Autonomous Modes */
+                populateAutonomousModes();
+        }
+
+        private void configureButtonBindings() {
                 /* Configure Gear Buttons */
                 rightDriverJoystick.button(DriveConstants.GEAR_UP_BUTTON_ID)
                                 .onTrue(gearUpCommand);
@@ -80,15 +82,16 @@ public class RobotContainer
                                 .onTrue(flipPistonUpCommand);
         }
 
-        public AutonomousCommandBase getAutonomousCommand()
-        {
+        private void populateAutonomousModes() {
+                dashboardSubsystem.setAutoModeChoices(AutonomousModes.values(), AutonomousModes.PASS_START_LINE);
+        }
+
+        public AutonomousCommandBase getAutonomousCommand() {
                 Function<TankSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
                 AutonomousCommandBase autonomousCommand = null;
 
-                if (dashboardSubsystem.getAutonomousEnabled())
-                        {
-                        switch (dashboardSubsystem.getAutonomousMode())
-                                {
+                if (dashboardSubsystem.getAutonomousEnabled()) {
+                        switch (dashboardSubsystem.getAutonomousMode()) {
                                 case PASS_START_LINE:
                                         autonomousCommandConstructor = PassStartLine::new;
                                         break;
@@ -99,18 +102,16 @@ public class RobotContainer
                                         System.out.println(
                                                         "INVALID AUTONOMOUS MODE");
                                         break;
-                                }
+                        }
 
-                        if (autonomousCommandConstructor != null)
-                                {
+                        if (autonomousCommandConstructor != null) {
                                 autonomousCommand = autonomousCommandConstructor
                                                 .apply(tankSubsystem);
-                                }
                         }
-                else
+                } else
                         System.out.println("AUTONOMOUS MODE DISABLED");
 
                 return autonomousCommand;
         }
 
-        }
+}
