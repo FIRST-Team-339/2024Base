@@ -78,6 +78,7 @@ public final class PreviousConstants
         {
         /* SOFTWARE PROPERTIES */
         public static final boolean CAMERA_ENABLED = true;
+        public static final boolean APRIL_TAGS_ENABLED = false;
         public static final boolean USING_TWO_CAMERAS = false;
 
         /* BUTTON IDS */
