@@ -28,7 +28,8 @@ public class DashboardSubsystem extends SubsystemBase
     /* Shuffleboard */
     private ShuffleboardTab tab = Shuffleboard.getTab("Kilroy");
     private GenericEntry autonomousEnabled = tab
-            .addPersistent("Auto Enabled", true)
+            .addPersistent("Auto Enabled",
+                    DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
             .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
             .withPosition(0, 5).getEntry();
     @SuppressWarnings("unused")
@@ -37,14 +38,17 @@ public class DashboardSubsystem extends SubsystemBase
     @SuppressWarnings("unused")
     private ComplexWidget autonomousModeOptions;
     private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
-    private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay", 0.0)
+    private GenericEntry autonomousDelay = tab
+            .addPersistent("Auto Delay",
+                    DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
             .withPosition(5, 5)
             .withProperties(
                     Map.of("min", 0.0, "max", 5.0, "block increment", 0.1))
             .getEntry();
     private GenericEntry demoModeEnabled = tab
-            .addPersistent("Demo Enabled", true)
+            .addPersistent("Demo Enabled",
+                    DashboardConstants.DEMO_ENABLED_DEFAULT)
             .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
             .withPosition(7, 0).getEntry();
 
@@ -113,7 +117,8 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public boolean getAutonomousEnabled()
     {
-        return autonomousEnabled.getBoolean(true);
+        return autonomousEnabled
+                .getBoolean(DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT);
     }
 
     public AutonomousModes getAutonomousMode()
@@ -131,7 +136,8 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public double getAutonomousDelay()
     {
-        return autonomousDelay.getDouble(0.0);
+        return autonomousDelay
+                .getDouble(DashboardConstants.AUTONOMOUS_DELAY_DEFAULT);
     }
 
     /**
@@ -139,7 +145,8 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public boolean getDemoModeEnabled()
     {
-        return demoModeEnabled.getBoolean(false);
+        return demoModeEnabled
+                .getBoolean(DashboardConstants.DEMO_ENABLED_DEFAULT);
     }
 
     /**

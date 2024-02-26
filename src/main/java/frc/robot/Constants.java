@@ -1,6 +1,7 @@
 package frc.robot;
 
-import frc.robot.constants.*;
+import frc.robot.constants.CurrentConstants;
+import frc.robot.constants.PreviousConstants;
 import frc.robot.enums.DriveGears;
 import frc.robot.enums.Season;
 
@@ -102,6 +103,11 @@ public final class Constants
     {
     /* Battery Level */
     public static double LOW_BATTERY_LEVEL;
+
+    /* Default Values */
+    public static boolean AUTONOMOUS_ENABLED_DEFAULT;
+    public static double AUTONOMOUS_DELAY_DEFAULT;
+    public static boolean DEMO_ENABLED_DEFAULT;
     }
 
   public static void initialize()
@@ -146,6 +152,9 @@ public final class Constants
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
 
       DashboardConstants.LOW_BATTERY_LEVEL = CurrentConstants.DashboardConstants.LOW_BATTERY_LEVEL;
+      DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT = CurrentConstants.DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT;
+      DashboardConstants.AUTONOMOUS_DELAY_DEFAULT = CurrentConstants.DashboardConstants.AUTONOMOUS_DELAY_DEFAULT;
+      DashboardConstants.DEMO_ENABLED_DEFAULT = CurrentConstants.DashboardConstants.DEMO_ENABLED_DEFAULT;
       }
     else
       {
@@ -187,6 +196,9 @@ public final class Constants
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
 
       DashboardConstants.LOW_BATTERY_LEVEL = PreviousConstants.DashboardConstants.LOW_BATTERY_LEVEL;
+      DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT = PreviousConstants.DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT;
+      DashboardConstants.AUTONOMOUS_DELAY_DEFAULT = PreviousConstants.DashboardConstants.AUTONOMOUS_DELAY_DEFAULT;
+      DashboardConstants.DEMO_ENABLED_DEFAULT = PreviousConstants.DashboardConstants.DEMO_ENABLED_DEFAULT;
       }
   }
   }
