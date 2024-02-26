@@ -3,8 +3,8 @@ package frc.robot.constants;
 import frc.robot.enums.DriveGears;
 
 /**
- * The {@code Constants} class is to store all constants to be used with the
- * robot for the current season
+ * The {@code CurrentConstants} class is to store all constants to be used with
+ * the robot for the current season
  * 
  * <p>
  * Anything declared here should be prefaced with {@code public static final}
