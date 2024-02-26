@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 /**
@@ -56,10 +57,15 @@ public abstract class AutonomousCommandBase extends Command
      */
     public abstract void executeAutonomous();
 
+    public static DashboardSubsystem.AutonomousModeOptionSupplier[] getAutonomousOptions()
+    {
+        return null;
+    }
+
     /**
      * Method that is called when command options are updated
      */
     public void updateCommandOptions()
     {
-    };
+    }
     }
