@@ -1,7 +1,9 @@
 package frc.robot;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
@@ -9,13 +11,14 @@ import frc.robot.commands.teleop.FlipperPiston.FlipperPistonUpOrDown;
 import frc.robot.commands.autonomous.*;
 import frc.robot.commands.teleop.GearShift.GearUpOrDown;
 import frc.robot.enums.AutonomousModes;
-import frc.robot.enums.DriveGears;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
+import frc.robot.subsystems.DashboardSubsystem.AutonomousModeOptionSupplier;
 
-public class RobotContainer {
+public class RobotContainer
+        {
         /* Joysticks */
         private final CommandJoystick leftDriverJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
@@ -31,7 +34,8 @@ public class RobotContainer {
         private final Camera cameraCommand = new Camera(cameraSubsystem);
 
         /* Dashboard Subsystem */
-        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem(cameraSubsystem);
+        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem(
+                        cameraSubsystem);
 
         /* Teleop Drive & Tank Subsystem w/ gears */
         public final TankSubsystem tankSubsystem = new TankSubsystem();
@@ -50,18 +54,20 @@ public class RobotContainer {
         private final FlipperPiston flipPistonDownCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
 
-        public RobotContainer() {
-                /* Initialize Teleop Drive & Tank Subsystem w/ gears */
-                tankSubsystem.setDefaultCommand(teleopDriveCommand);
+        public RobotContainer()
+                {
+                        /* Initialize Teleop Drive & Tank Subsystem w/ gears */
+                        tankSubsystem.setDefaultCommand(teleopDriveCommand);
 
-                /* Configure Button Bindings */
-                configureButtonBindings();
+                        /* Configure Button Bindings */
+                        configureButtonBindings();
 
-                /* Autonomous Modes */
-                populateAutonomousModes();
-        }
+                        /* Autonomous Modes */
+                        populateAutonomousModes();
+                }
 
-        private void configureButtonBindings() {
+        private void configureButtonBindings()
+        {
                 /* Configure Gear Buttons */
                 rightDriverJoystick.button(DriveConstants.GEAR_UP_BUTTON_ID)
                                 .onTrue(gearUpCommand);
@@ -82,16 +88,88 @@ public class RobotContainer {
                                 .onTrue(flipPistonUpCommand);
         }
 
-        private void populateAutonomousModes() {
-                dashboardSubsystem.setAutoModeChoices(AutonomousModes.values(), AutonomousModes.PASS_START_LINE);
+        private void populateAutonomousModes()
+        {
+                AutonomousModes[] autonomousModes = AutonomousModes.values();
+                String[] autonomousModeStrings = new String[autonomousModes.length];
+
+                for (int i = 0; i < autonomousModes.length; i++)
+                        {
+                        autonomousModeStrings[i] = autonomousModes[i]
+                                        .toString(); // Convert enum to string
+                        }
+
+                AutonomousModes defaultAutonomousMode = AutonomousModes.PASS_START_LINE;
+                dashboardSubsystem.setAutoModeChoices(autonomousModeStrings,
+                                defaultAutonomousMode.toString(),
+                                defaultAutonomousMode.getId());
+
+                dashboardSubsystem.setListener(
+                                DashboardSubsystem.ListenerType.AutonomousMode,
+                                this::onAutonomousModeUpdate);
         }
 
-        public AutonomousCommandBase getAutonomousCommand() {
+        private void onAutonomousModeUpdate(final int newAutonomousModeId)
+        {
+                AutonomousModes newAutonomousMode = AutonomousModes
+                                .getFromId(newAutonomousModeId);
+
+                AutonomousModeOptionSupplier[] autonomousModeOptions = null;
+
+                switch (newAutonomousMode)
+                        {
+                        case PASS_START_LINE:
+                                autonomousModeOptions = PassStartLine
+                                                .getAutonomousOptions();
+                                break;
+                        case SCORE_AMP:
+                                autonomousModeOptions = ScoreAmp
+                                                .getAutonomousOptions();
+                                break;
+                        default:
+                                System.err.println("INVALID AUTONOMOUS MODE");
+                                break;
+                        }
+
+                if (autonomousModeOptions != null)
+                        {
+                        String[] autonomousModeOptionStrings = new String[autonomousModeOptions.length];
+
+                        for (int i = 0; i < autonomousModeOptions.length; i++)
+                                {
+                                autonomousModeOptionStrings[i] = autonomousModeOptions[i]
+                                                .toString(); // Convert to
+                                                             // string
+                                }
+
+                        AutonomousModeOptionSupplier defaultAutonomousModeOption = autonomousModeOptions[0];
+                        dashboardSubsystem.setAutoModeOptionsChoices(
+                                        autonomousModeOptionStrings,
+                                        defaultAutonomousModeOption.toString(),
+                                        defaultAutonomousModeOption.getId());
+
+                        }
+                else
+                        dashboardSubsystem.getTab()
+                                        .add("No Auto Mode Options", false)
+                                        .withWidget(BuiltInWidgets.kBooleanBox)
+                                        .withSize(2, 1).withPosition(3, 5);
+        }
+
+        private void onAutonomousModeOptionUpdate()
+        {
+
+        }
+
+        public AutonomousCommandBase getAutonomousCommand()
+        {
                 Function<TankSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
                 AutonomousCommandBase autonomousCommand = null;
 
-                if (dashboardSubsystem.getAutonomousEnabled()) {
-                        switch (dashboardSubsystem.getAutonomousMode()) {
+                if (dashboardSubsystem.getAutonomousEnabled())
+                        {
+                        switch (dashboardSubsystem.getAutonomousMode())
+                                {
                                 case PASS_START_LINE:
                                         autonomousCommandConstructor = PassStartLine::new;
                                         break;
@@ -99,19 +177,21 @@ public class RobotContainer {
                                         autonomousCommandConstructor = ScoreAmp::new;
                                         break;
                                 default:
-                                        System.out.println(
+                                        System.err.println(
                                                         "INVALID AUTONOMOUS MODE");
                                         break;
-                        }
+                                }
 
-                        if (autonomousCommandConstructor != null) {
+                        if (autonomousCommandConstructor != null)
+                                {
                                 autonomousCommand = autonomousCommandConstructor
                                                 .apply(tankSubsystem);
+                                }
                         }
-                } else
+                else
                         System.out.println("AUTONOMOUS MODE DISABLED");
 
                 return autonomousCommand;
         }
 
-}
+        }
