@@ -19,8 +19,7 @@ import frc.robot.Constants.CameraConstants;
 import frc.robot.enums.AprilTagLocations;
 import frc.robot.subsystems.CameraSubsystem;
 
-public class AprilTagModule
-    {
+public class AprilTagModule {
     private static AprilTagLocations currentLocation = null;
 
     /**
@@ -30,12 +29,9 @@ public class AprilTagModule
      * @param cameraSubsystem
      * @return
      */
-    public static Runnable getDetectorRunnable(CameraSubsystem cameraSubsystem)
-    {
-        return () ->
-            {
-            if (CameraConstants.CAMERA_ENABLED)
-                {
+    public static Runnable getDetectorRunnable(CameraSubsystem cameraSubsystem) {
+        return () -> {
+            if (CameraConstants.CAMERA_ENABLED && CameraConstants.APRIL_TAGS_ENABLED) {
                 CvSink cvSink = CameraServer.getVideo();
                 CvSource outputStream = CameraServer.putVideo("AprilTagDebug",
                         CameraConstants.RESOLUTION[0],
@@ -70,13 +66,11 @@ public class AprilTagModule
                 Timer timer = new Timer();
                 timer.start();
 
-                while (!Thread.interrupted())
-                    {
-                    if (cvSink.grabFrame(mat) == 0)
-                        {
+                while (!Thread.interrupted()) {
+                    if (cvSink.grabFrame(mat) == 0) {
                         outputStream.notifyError(cvSink.getError());
                         continue;
-                        }
+                    }
 
                     Imgproc.cvtColor(mat, grayMat, Imgproc.COLOR_RGB2GRAY);
 
@@ -85,8 +79,7 @@ public class AprilTagModule
 
                     HashSet<Integer> set = new HashSet<Integer>();
 
-                    for (var result : results)
-                        {
+                    for (var result : results) {
                         pt0.x = result.getCornerX(0);
                         pt1.x = result.getCornerX(1);
                         pt2.x = result.getCornerX(2);
@@ -111,29 +104,26 @@ public class AprilTagModule
                         Imgproc.putText(mat, String.valueOf(result.getId()),
                                 pt2, Imgproc.FONT_HERSHEY_SIMPLEX, 2, green, 7);
 
-                        }
+                    }
                     ;
 
-                    for (int id : set)
-                        {
+                    for (int id : set) {
                         setCurrentLocation(AprilTagLocations.getFromId(id));
-                        }
+                    }
 
                     outputStream.putFrame(mat);
-                    }
-                aprilTagDetector.close();
                 }
-            };
+                aprilTagDetector.close();
+            }
+        };
     }
 
-    public static AprilTagLocations getCurrentLocation()
-    {
+    public static AprilTagLocations getCurrentLocation() {
         return currentLocation;
     }
 
-    public static void setCurrentLocation(final AprilTagLocations newLocation)
-    {
+    public static void setCurrentLocation(final AprilTagLocations newLocation) {
         currentLocation = newLocation;
         System.out.println("Current Location: " + currentLocation.getId());
     }
-    }
+}
