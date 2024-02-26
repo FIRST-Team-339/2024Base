@@ -31,8 +31,10 @@ public class DashboardSubsystem extends SubsystemBase
             .addPersistent("Auto Enabled", true)
             .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
             .withPosition(0, 5).getEntry();
+    @SuppressWarnings("unused")
     private ComplexWidget autonomousMode;
     private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
+    @SuppressWarnings("unused")
     private ComplexWidget autonomousModeOptions;
     private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
     private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay", 0.0)
