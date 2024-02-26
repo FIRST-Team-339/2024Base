@@ -38,6 +38,10 @@ public class DashboardSubsystem extends SubsystemBase
             .withProperties(
                     Map.of("min", 0.0, "max", 5.0, "block increment", 0.1))
             .getEntry();
+    private GenericEntry demoModeEnabled = tab
+            .addPersistent("Demo Enabled", true)
+            .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
+            .withPosition(7, 0).getEntry();
 
     public static interface AutonomousModeOptionSupplier
         {
@@ -119,7 +123,7 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public boolean getDemoModeEnabled()
     {
-        return SmartDashboard.getBoolean("Kilroy.Demo.Enabled", false);
+        return demoModeEnabled.getBoolean(false);
     }
 
     /**
