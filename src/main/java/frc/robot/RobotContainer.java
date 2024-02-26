@@ -1,6 +1,5 @@
 package frc.robot;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -40,7 +39,7 @@ public class RobotContainer
         /* Teleop Drive & Tank Subsystem w/ gears */
         public final TankSubsystem tankSubsystem = new TankSubsystem();
         private final Drive teleopDriveCommand = new Drive(tankSubsystem,
-                        dashboardSubsystem, () -> leftDriverJoystick.getY(),
+                        () -> leftDriverJoystick.getY(),
                         () -> rightDriverJoystick.getY());
         private final GearShift gearUpCommand = new GearShift(tankSubsystem,
                         GearUpOrDown.UP);
