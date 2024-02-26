@@ -5,6 +5,9 @@ import java.util.function.Consumer;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -42,6 +45,17 @@ public class DashboardSubsystem extends SubsystemBase
             .addPersistent("Demo Enabled", true)
             .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
             .withPosition(7, 0).getEntry();
+
+    private static class SimplePersistentNTValues
+        {
+        private static NetworkTableInstance instance = NetworkTableInstance
+                .getDefault();
+        private static NetworkTable table = instance.getTable("KilroyPersist");
+        private static NetworkTableEntry autonomousMode = table
+                .getEntry("/AutonomousMode");
+        private static NetworkTableEntry autonomousModeOption = table
+                .getEntry("/AutonomousModeOption");
+        }
 
     public static interface AutonomousModeOptionSupplier
         {
@@ -261,11 +275,23 @@ public class DashboardSubsystem extends SubsystemBase
             {
             case AutonomousMode:
                 if (autonomousModeChooser != null)
-                    autonomousModeChooser.onChange(listener);
+                    autonomousModeChooser.onChange((Integer updated) ->
+                        {
+                        SimplePersistentNTValues.autonomousMode
+                                .setInteger(updated);
+
+                        listener.accept(updated);
+                        });
                 break;
             case AutonomousModeOption:
                 if (autonomousModeOptionsChooser != null)
-                    autonomousModeOptionsChooser.onChange(listener);
+                    autonomousModeOptionsChooser.onChange((Integer updated) ->
+                        {
+                        SimplePersistentNTValues.autonomousModeOption
+                                .setInteger(updated);
+
+                        listener.accept(updated);
+                        });
                 break;
             }
     }
