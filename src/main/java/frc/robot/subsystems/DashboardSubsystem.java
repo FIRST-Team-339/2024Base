@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -25,17 +24,15 @@ public class DashboardSubsystem extends SubsystemBase
 
     /* Shuffleboard */
     private ShuffleboardTab tab = Shuffleboard.getTab("Kilroy");
-    // private ComplexWidget camera =
-    // tab.add(cameraSubsystem.getVideoSource()).withWidget(BuiltInWidgets.kCameraStream)
-    // .withSize(5, 4).withPosition(0, 0);
-    private GenericEntry autonomousEnabled = tab.add("Auto Enabled", true)
+    private GenericEntry autonomousEnabled = tab
+            .addPersistent("Auto Enabled", true)
             .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
             .withPosition(0, 5).getEntry();
     private ComplexWidget autonomousMode;
     private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
     private ComplexWidget autonomousModeOptions;
     private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
-    private GenericEntry autonomousDelay = tab.add("Auto Delay", 0.0)
+    private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay", 0.0)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
             .withPosition(5, 5)
             .withProperties(
@@ -114,7 +111,7 @@ public class DashboardSubsystem extends SubsystemBase
      */
     public double getAutonomousDelay()
     {
-        return SmartDashboard.getNumber("Kilroy.Auto.Delay", 0.0);
+        return autonomousDelay.getDouble(0.0);
     }
 
     /**
