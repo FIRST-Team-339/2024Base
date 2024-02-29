@@ -28,7 +28,7 @@ public class FlipperPistonSubsystem extends SubsystemBase
    */
   public void flipUp()
   {
-    this.doubleSolenoidGroup.setForward();
+    this.doubleSolenoidGroup.setReverse();
   }
 
   /**
@@ -36,6 +36,6 @@ public class FlipperPistonSubsystem extends SubsystemBase
    */
   public void flipDown()
   {
-    this.doubleSolenoidGroup.setReverse();
+    this.doubleSolenoidGroup.setForward();
   }
   }
