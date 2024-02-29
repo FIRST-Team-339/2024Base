@@ -13,7 +13,7 @@ import frc.robot.enums.Season;
  * Anything declared here should be prefaced with {@code public static}
  * </p>
  */
-public final class Constants`
+public final class Constants
   {
   public static Season season = Season.CurrentSeason;
 
@@ -97,7 +97,7 @@ public final class Constants`
     /* BUTTON IDS */
     public static int FLIP_UP_BUTTON_ID;
     public static int FLIP_DOWN_BUTTON_ID;
-    
+
     /* Default State */
     public static boolean FORWARD_BY_DEFAULT;
     }
