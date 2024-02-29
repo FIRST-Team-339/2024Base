@@ -20,7 +20,8 @@ public class FlipperPistonSubsystem extends SubsystemBase
                 FlipperPistonConstants.RIGHT_PISTON_FWD_PORT,
                 FlipperPistonConstants.RIGHT_PISTON_REV_PORT) };
 
-      this.doubleSolenoidGroup = new DoubleSolenoidGroup(doubleSolenoids, true);
+      this.doubleSolenoidGroup = new DoubleSolenoidGroup(doubleSolenoids,
+          FlipperPistonConstants.FORWARD_BY_DEFAULT);
     }
 
   /**

@@ -105,6 +105,9 @@ public final class CurrentConstants
         /* BUTTON IDS */
         public static final int FLIP_UP_BUTTON_ID = 1;
         public static final int FLIP_DOWN_BUTTON_ID = 1;
+
+        /* Default State */
+        public static final boolean FORWARD_BY_DEFAULT = true;
         }
 
     public static final class DashboardConstants
