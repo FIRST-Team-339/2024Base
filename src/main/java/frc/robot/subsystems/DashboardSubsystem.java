@@ -31,7 +31,7 @@ public class DashboardSubsystem extends SubsystemBase
                         "Auto Enabled",
                         DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
                         .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
-                        .withPosition(0, 5).getEntry();
+                        .withPosition(5, 0).getEntry();
         @SuppressWarnings("unused")
         private ComplexWidget autonomousMode;
         private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
@@ -41,14 +41,14 @@ public class DashboardSubsystem extends SubsystemBase
         private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay",
                         DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
                         .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
-                        .withPosition(5, 5).withProperties(Map.of("min", 0.0,
+                        .withPosition(10, 0).withProperties(Map.of("min", 0.0,
                                         "max", 5.0, "block increment", 0.1))
                         .getEntry();
         private GenericEntry demoModeEnabled = tab
                         .addPersistent("Demo Enabled",
                                         DashboardConstants.DEMO_ENABLED_DEFAULT)
                         .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
-                        .withPosition(7, 0).getEntry();
+                        .withPosition(5, 2).getEntry();
 
         private static class SimplePersistentNTValues
                 {
@@ -78,17 +78,19 @@ public class DashboardSubsystem extends SubsystemBase
                                 {
                                 tab.add(cameraSubsystem.getVideoSource())
                                                 .withWidget(BuiltInWidgets.kCameraStream)
-                                                .withSize(6, 5)
+                                                .withSize(5, 5)
                                                 .withPosition(0, 0)
                                                 .withProperties(Map.of(
                                                                 "rotation",
-                                                                "QUARTER_CW"));
+                                                                "NONE",
+                                                                "show controls",
+                                                                false));
                                 }
                         else
                                 {
                                 tab.add("Camera Disabled", false).withWidget(
                                                 BuiltInWidgets.kBooleanBox)
-                                                .withSize(6, 5)
+                                                .withSize(5, 5)
                                                 .withPosition(0, 0);
                                 }
 
@@ -168,7 +170,7 @@ public class DashboardSubsystem extends SubsystemBase
                 autonomousMode = tab
                                 .add("Autonomous Mode", autonomousModeChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(2, 1).withPosition(1, 5);
+                                .withSize(2, 1).withPosition(6, 0);
         }
 
         /**
@@ -206,7 +208,7 @@ public class DashboardSubsystem extends SubsystemBase
                                 .add("Auto Mode Options",
                                                 autonomousModeOptionsChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(2, 1).withPosition(3, 5);
+                                .withSize(2, 1).withPosition(8, 0);
         }
 
         private static enum SendableChooserType
