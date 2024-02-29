@@ -167,9 +167,6 @@ public class TankSubsystem extends SubsystemBase
 
 		pose = odometry.update(new Rotation2d(Math.toRadians(gyroAngle)),
 				leftEncoder.getDistance(), rightEncoder.getDistance());
-
-		System.out.println("Encoders distance: " + leftEncoder.getDistance());
-		System.out.println("Encoders ticks: " + leftEncoder.get());
 	}
 
 	/**

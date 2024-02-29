@@ -2,6 +2,7 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DashboardSubsystem;
+import frc.robot.enums.DriveGears;
 import frc.robot.subsystems.TankSubsystem;
 
 /**
@@ -48,6 +49,7 @@ public abstract class AutonomousCommandBase extends Command
     {
         // Do stuff before autonomous is ended
         cancel();
+        tankSubsystem.setGear(DriveGears.GEAR1);
     }
 
     /**
