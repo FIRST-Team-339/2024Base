@@ -64,6 +64,11 @@ public abstract class AutonomousCommandBase extends Command
 
     /**
      * Method that is called when the selected command option is updated
+     * 
+     * It has a default implementation of doing ABSOLUTELY NOTHING, just so
+     * WPILib doesn't go kaboom
+     * 
+     * If you need to use this method, implement it yourself in the command
      */
     public void updateCommandOption(final int commandOptionId)
     {
