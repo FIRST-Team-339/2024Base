@@ -12,10 +12,12 @@ import frc.robot.enums.Season;
  * Anything declared here should be prefaced with {@code public static}
  * </p>
  */
-public final class Constants {
+public final class Constants
+  {
   public static Season season = Season.CurrentSeason;
 
-  public static final class DriveConstants {
+  public static final class DriveConstants
+    {
     /* MOTOR IDs */
     public static int FRONT_LEFT_MOTOR_ID;
     public static int REAR_LEFT_MOTOR_ID;
@@ -44,9 +46,10 @@ public final class Constants {
     /* Turning */
     public static double TURN_DEGREES_FUDGE_FACTOR;
     public static double TURN_RADIUS;
-  }
+    }
 
-  public static final class CameraConstants {
+  public static final class CameraConstants
+    {
     /* SOFTWARE PROPERTIES */
     public static boolean CAMERA_ENABLED;
     public static boolean APRIL_TAGS_ENABLED;
@@ -60,9 +63,10 @@ public final class Constants {
     public static int FRAMES_PER_SECOND;
     public static int COMPRESSION;
     public static int BRIGHTNESS;
-  }
+    }
 
-  public static final class AutonomousConstants {
+  public static final class AutonomousConstants
+    {
     /* Autonomous Hardware IDs */
 
     /* Autonomous Delay */
@@ -70,17 +74,19 @@ public final class Constants {
     /* Autonomous Drive Constants */
 
     /* Autonomous Mode */
-  }
+    }
 
-  public static final class JoystickConstants {
+  public static final class JoystickConstants
+    {
     /* JOYSTICK IDs */
     public static int LEFT_DRIVER_JOYSTICK_ID;
     public static int RIGHT_DRIVER_JOYSTICK_ID;
     public static int LEFT_OPERATOR_JOYSTICK_ID;
     public static int RIGHT_OPERATOR_JOYSTICK_ID;
-  }
+    }
 
-  public static final class FlipperPistonConstants {
+  public static final class FlipperPistonConstants
+    {
     /* DOUBLE SOLENOID PORTS */
     public static int LEFT_PISTON_FWD_PORT;
     public static int LEFT_PISTON_REV_PORT;
@@ -90,13 +96,19 @@ public final class Constants {
     /* BUTTON IDS */
     public static int FLIP_UP_BUTTON_ID;
     public static int FLIP_DOWN_BUTTON_ID;
-  }
 
-  public static final class DashboardConstants {
-  }
+    /* Default State */
+    public static boolean FORWARD_BY_DEFAULT;
+    }
 
-  public static void initialize() {
-    if (season == Season.CurrentSeason) {
+  public static final class DashboardConstants
+    {
+    }
+
+  public static void initialize()
+  {
+    if (season == Season.CurrentSeason)
+      {
       DriveConstants.FRONT_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.FRONT_LEFT_MOTOR_ID;
       DriveConstants.FRONT_RIGHT_MOTOR_ID = CurrentConstants.DriveConstants.FRONT_RIGHT_MOTOR_ID;
       DriveConstants.REAR_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
@@ -133,7 +145,10 @@ public final class Constants {
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = CurrentConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
-    } else {
+      FlipperPistonConstants.FORWARD_BY_DEFAULT = CurrentConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
+      }
+    else
+      {
       DriveConstants.FRONT_LEFT_MOTOR_ID = PreviousConstants.DriveConstants.FRONT_LEFT_MOTOR_ID;
       DriveConstants.FRONT_RIGHT_MOTOR_ID = PreviousConstants.DriveConstants.FRONT_RIGHT_MOTOR_ID;
       DriveConstants.REAR_LEFT_MOTOR_ID = PreviousConstants.DriveConstants.REAR_LEFT_MOTOR_ID;
@@ -170,6 +185,7 @@ public final class Constants {
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = PreviousConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
-    }
+      FlipperPistonConstants.FORWARD_BY_DEFAULT = PreviousConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
+      }
   }
-}
+  }
