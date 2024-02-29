@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autonomous.AutonomousCommandBase;
 import frc.robot.modules.AprilTagModule;
+import frc.robot.subsystems.DashboardSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +35,11 @@ public class Robot extends TimedRobot
      * bindings, and put our autonomous chooser on the dashboard.
      */
     robotContainer = new RobotContainer();
+
+    /* Autonomous Mode Option Updates */
+    robotContainer.dashboardSubsystem.setListener(
+        DashboardSubsystem.ListenerType.AutonomousModeOption,
+        this::onAutonomousModeOptionUpdate);
 
     /* Initialize the Pose2d */
     robotContainer.dashboardSubsystem
@@ -87,6 +93,16 @@ public class Robot extends TimedRobot
   {
   }
 
+  public void onAutonomousModeOptionUpdate(final int newAutonomousModeOptionId)
+  {
+    // -1 signifies NONE, so ignore that
+    // Also check that there is an autonomous command
+    if (newAutonomousModeOptionId != -1 && autonomousCommand != null)
+      {
+      autonomousCommand.updateCommandOption(newAutonomousModeOptionId);
+      }
+  }
+
   /**
    * This autonomous runs the autonomous command selected by your
    * {@link RobotContainer} class.
@@ -126,6 +142,7 @@ public class Robot extends TimedRobot
     if (autonomousCommand != null)
       {
       autonomousCommand.endAutonomous();
+      autonomousCommand = null;
       }
 
     /* Initial States */

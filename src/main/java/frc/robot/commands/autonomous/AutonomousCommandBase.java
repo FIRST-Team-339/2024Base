@@ -63,9 +63,9 @@ public abstract class AutonomousCommandBase extends Command
     }
 
     /**
-     * Method that is called when command options are updated
+     * Method that is called when the selected command option is updated
      */
-    public void updateCommandOptions()
+    public void updateCommandOption(final int commandOptionId)
     {
     }
     }

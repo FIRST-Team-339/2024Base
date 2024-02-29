@@ -149,15 +149,9 @@ public class RobotContainer
 
                         }
                 else
-                        dashboardSubsystem.getTab()
-                                        .add("No Auto Mode Options", false)
-                                        .withWidget(BuiltInWidgets.kBooleanBox)
-                                        .withSize(2, 1).withPosition(3, 5);
-        }
-
-        private void onAutonomousModeOptionUpdate()
-        {
-
+                        dashboardSubsystem
+                                        .setAutoModeOptionsChoices(new String[]
+                                        { "None" }, "None", -1);
         }
 
         public AutonomousCommandBase getAutonomousCommand()
