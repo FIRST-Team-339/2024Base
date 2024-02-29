@@ -13,7 +13,7 @@ import frc.robot.enums.Season;
  * Anything declared here should be prefaced with {@code public static}
  * </p>
  */
-public final class Constants
+public final class Constants`
   {
   public static Season season = Season.CurrentSeason;
 
@@ -97,6 +97,9 @@ public final class Constants
     /* BUTTON IDS */
     public static int FLIP_UP_BUTTON_ID;
     public static int FLIP_DOWN_BUTTON_ID;
+    
+    /* Default State */
+    public static boolean FORWARD_BY_DEFAULT;
     }
 
   public static final class DashboardConstants
@@ -150,11 +153,13 @@ public final class Constants
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = CurrentConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
+      FlipperPistonConstants.FORWARD_BY_DEFAULT = CurrentConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
 
       DashboardConstants.LOW_BATTERY_LEVEL = CurrentConstants.DashboardConstants.LOW_BATTERY_LEVEL;
       DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT = CurrentConstants.DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT;
       DashboardConstants.AUTONOMOUS_DELAY_DEFAULT = CurrentConstants.DashboardConstants.AUTONOMOUS_DELAY_DEFAULT;
       DashboardConstants.DEMO_ENABLED_DEFAULT = CurrentConstants.DashboardConstants.DEMO_ENABLED_DEFAULT;
+
       }
     else
       {
@@ -194,6 +199,7 @@ public final class Constants
       FlipperPistonConstants.RIGHT_PISTON_REV_PORT = PreviousConstants.FlipperPistonConstants.RIGHT_PISTON_REV_PORT;
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = PreviousConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
+      FlipperPistonConstants.FORWARD_BY_DEFAULT = PreviousConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
 
       DashboardConstants.LOW_BATTERY_LEVEL = PreviousConstants.DashboardConstants.LOW_BATTERY_LEVEL;
       DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT = PreviousConstants.DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT;
