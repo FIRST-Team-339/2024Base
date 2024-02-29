@@ -116,11 +116,6 @@ public class DashboardSubsystem extends SubsystemBase
                                 .getFromId(autonomousModeChooser.getSelected());
         }
 
-        public AutonomousModeOptions getAutonomousModeOptions()
-        {
-                throw new UnsupportedOperationException("Not implemented");
-        }
-
         /**
          * @return the autonomous delay in seconds
          */
