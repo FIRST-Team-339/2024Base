@@ -91,7 +91,7 @@ public final class CurrentConstants
             { 340, 240 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
-        public static final int BRIGHTNESS = 35;
+        public static final int BRIGHTNESS = 0;
         }
 
     public static final class FlipperPistonConstants
