@@ -22,7 +22,7 @@ public abstract class AutonomousCommandBase extends Command
     /**
      * Autonomous Speed (can be changed) but comes with a default value of `0.5`
      */
-    protected double autonomousSpeed = 0.5;
+    protected double autonomousSpeed = 0.6;
 
     protected AutonomousCommandBase(TankSubsystem tankSubsystem)
         {
