@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous;
 
+import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 public class PassStartLine extends AutonomousCommandBase
@@ -25,9 +26,9 @@ public class PassStartLine extends AutonomousCommandBase
      * Sets {@link TankSubsystem}
      * </p>
      */
-    public PassStartLine(TankSubsystem tankSubsystem)
+    public PassStartLine(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem)
         {
-            super(tankSubsystem);
+            super(tankSubsystem, dashboardSubsystem);
         }
 
     public void executeAutonomous()
