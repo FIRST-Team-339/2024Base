@@ -88,7 +88,7 @@ public final class CurrentConstants
 
         /* CAMERA PROPERTIES */
         public static final int[] RESOLUTION =
-            { 340, 240 };
+            { 1080, 720 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
         public static final int BRIGHTNESS = 0;
@@ -114,5 +114,10 @@ public final class CurrentConstants
         {
         /* Battery Level */
         public static final double LOW_BATTERY_LEVEL = 11.5;
+
+        /* Default Values */
+        public static final boolean AUTONOMOUS_ENABLED_DEFAULT = true;
+        public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
+        public static final boolean DEMO_ENABLED_DEFAULT = false;
         }
     }

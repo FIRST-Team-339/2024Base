@@ -112,5 +112,10 @@ public final class PreviousConstants
         {
         /* Battery Level */
         public static final double LOW_BATTERY_LEVEL = 11.5;
+
+        /* Default Values */
+        public static final boolean AUTONOMOUS_ENABLED_DEFAULT = true;
+        public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
+        public static final boolean DEMO_ENABLED_DEFAULT = false;
         }
     }

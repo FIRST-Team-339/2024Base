@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.enums.DriveGears;
 import frc.robot.subsystems.TankSubsystem;
 
@@ -12,7 +13,8 @@ import frc.robot.subsystems.TankSubsystem;
  * It's purpose is to handle the Delay Potentiometer before running
  * </p>
  */
-public abstract class AutonomousCommandBase extends Command {
+public abstract class AutonomousCommandBase extends Command
+    {
 
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
@@ -22,23 +24,29 @@ public abstract class AutonomousCommandBase extends Command {
      */
     protected double autonomousSpeed = 0.5;
 
-    protected AutonomousCommandBase(TankSubsystem tankSubsystem) {
-        this.tankSubsystem = tankSubsystem;
-    }
+    protected AutonomousCommandBase(TankSubsystem tankSubsystem)
+        {
+            this.tankSubsystem = tankSubsystem;
+
+            addRequirements(tankSubsystem);
+        }
 
     @Override
-    public final void initialize() {
+    public final void initialize()
+    {
         // Do something at the start of every autonomous, such as resetting
         tankSubsystem.setMaxOutput(1.0);
         tankSubsystem.resetEncoders();
     }
 
     @Override
-    public final void execute() {
+    public final void execute()
+    {
         executeAutonomous();
     }
 
-    public void endAutonomous() {
+    public void endAutonomous()
+    {
         // Do stuff before autonomous is ended
         cancel();
         tankSubsystem.setGear(DriveGears.GEAR1);
@@ -51,4 +59,20 @@ public abstract class AutonomousCommandBase extends Command {
      */
     public abstract void executeAutonomous();
 
-}
+    public static DashboardSubsystem.AutonomousModeOptionSupplier[] getAutonomousOptions()
+    {
+        return null;
+    }
+
+    /**
+     * Method that is called when the selected command option is updated
+     * 
+     * It has a default implementation of doing ABSOLUTELY NOTHING, just so
+     * WPILib doesn't go kaboom
+     * 
+     * If you need to use this method, implement it yourself in the command
+     */
+    public void updateCommandOption(final int commandOptionId)
+    {
+    }
+    }
