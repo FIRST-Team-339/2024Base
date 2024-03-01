@@ -13,10 +13,9 @@ public class PassStartLine extends AutonomousCommandBase
     private AutoCommandState autoCommandState = AutoCommandState.RESET_ENCODERS;
 
     /**
-     * Drive Distance, supposed to be 46 inches but it is shaved off a little to
-     * account for braking
+     * Drive Distance
      */
-    public static int driveDistance = 36;
+    public static int driveDistance = 45;
 
     /**
      * Constructor
