@@ -30,8 +30,8 @@ public class DashboardSubsystem extends SubsystemBase
         private GenericEntry autonomousEnabled = tab.addPersistent(
                         "Auto Enabled",
                         DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
-                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
-                        .withPosition(5, 0).getEntry();
+                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
+                        .withPosition(6, 0).getEntry();
         @SuppressWarnings("unused")
         private ComplexWidget autonomousMode;
         private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
@@ -40,15 +40,15 @@ public class DashboardSubsystem extends SubsystemBase
         private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
         private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay",
                         DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
-                        .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
-                        .withPosition(10, 0).withProperties(Map.of("min", 0.0,
+                        .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 2)
+                        .withPosition(14, 0).withProperties(Map.of("min", 0.0,
                                         "max", 5.0, "block increment", 0.1))
                         .getEntry();
         private GenericEntry demoModeEnabled = tab
                         .addPersistent("Demo Enabled",
                                         DashboardConstants.DEMO_ENABLED_DEFAULT)
-                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1)
-                        .withPosition(5, 2).getEntry();
+                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
+                        .withPosition(6, 3).getEntry();
 
         private static class SimplePersistentNTValues
                 {
@@ -84,7 +84,7 @@ public class DashboardSubsystem extends SubsystemBase
                                                                 "rotation",
                                                                 "NONE",
                                                                 "show controls",
-                                                                false));
+                                                                false, "show crosshair", false));
                                 }
                         else
                                 {
@@ -170,7 +170,7 @@ public class DashboardSubsystem extends SubsystemBase
                 autonomousMode = tab
                                 .add("Autonomous Mode", autonomousModeChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(2, 1).withPosition(6, 0);
+                                .withSize(3, 2).withPosition(8, 0);
         }
 
         /**
@@ -208,7 +208,7 @@ public class DashboardSubsystem extends SubsystemBase
                                 .add("Auto Mode Options",
                                                 autonomousModeOptionsChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(2, 1).withPosition(8, 0);
+                                .withSize(3, 2).withPosition(11, 0);
         }
 
         private static enum SendableChooserType
