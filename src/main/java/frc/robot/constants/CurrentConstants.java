@@ -31,7 +31,7 @@ public final class CurrentConstants
             { false, true };
 
         /* JOYSTICK DEADBAND */
-        public static final double JOYSTICK_DEADBAND = 0.05;
+        public static final double JOYSTICK_DEADBAND = 0.2;
 
         /* Gears */
         public static final DriveGears DEFAULT_GEAR = DriveGears.GEAR1;
@@ -91,7 +91,7 @@ public final class CurrentConstants
             { 1080, 720 };
         public static final int FRAMES_PER_SECOND = 20;
         public static final int COMPRESSION = 60;
-        public static final int BRIGHTNESS = 35;
+        public static final int BRIGHTNESS = 0;
         }
 
     public static final class FlipperPistonConstants
