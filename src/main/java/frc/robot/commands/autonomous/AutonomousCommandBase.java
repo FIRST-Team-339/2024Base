@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.enums.DriveGears;
@@ -15,20 +16,25 @@ import frc.robot.subsystems.TankSubsystem;
  */
 public abstract class AutonomousCommandBase extends Command
     {
+    /* Auto Delay Timer */
+    private Timer autoDelayTimer = new Timer();
+    private boolean autoDelayTimerStarted = false;
 
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
+    protected DashboardSubsystem dashboardSubsystem;
 
     /**
      * Autonomous Speed (can be changed) but comes with a default value of `0.5`
      */
     protected double autonomousSpeed = 0.6;
 
-    protected AutonomousCommandBase(TankSubsystem tankSubsystem)
+    protected AutonomousCommandBase(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem)
         {
             this.tankSubsystem = tankSubsystem;
+            this.dashboardSubsystem = dashboardSubsystem;
 
-            addRequirements(tankSubsystem);
+            addRequirements(tankSubsystem, dashboardSubsystem);
         }
 
     @Override
@@ -42,7 +48,15 @@ public abstract class AutonomousCommandBase extends Command
     @Override
     public final void execute()
     {
-        executeAutonomous();
+        if (autoDelayTimerStarted == false) {
+            autoDelayTimer.start();
+        } else {
+            if (autoDelayTimer.hasElapsed(dashboardSubsystem.getAutonomousDelay())) {
+                executeAutonomous();
+            } else {
+                tankSubsystem.drive(0, 0);
+            }
+        }
     }
 
     public void endAutonomous()

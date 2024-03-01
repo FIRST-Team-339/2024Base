@@ -1,8 +1,7 @@
 package frc.robot;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
@@ -156,7 +155,7 @@ public class RobotContainer
 
         public AutonomousCommandBase getAutonomousCommand()
         {
-                Function<TankSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
+                BiFunction<TankSubsystem, DashboardSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
                 AutonomousCommandBase autonomousCommand = null;
 
                 if (dashboardSubsystem.getAutonomousEnabled())
@@ -178,7 +177,7 @@ public class RobotContainer
                         if (autonomousCommandConstructor != null)
                                 {
                                 autonomousCommand = autonomousCommandConstructor
-                                                .apply(tankSubsystem);
+                                                .apply(tankSubsystem, dashboardSubsystem);
                                 }
                         }
                 else

@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous;
 
+import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 public class ScoreAmp extends AutonomousCommandBase {
@@ -30,8 +31,8 @@ public class ScoreAmp extends AutonomousCommandBase {
      * Sets {@link TankSubsystem}
      * </p>
      */
-    public ScoreAmp(TankSubsystem tankSubsystem) {
-        super(tankSubsystem);
+    public ScoreAmp(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem) {
+        super(tankSubsystem, dashboardSubsystem);
     }
 
     public void executeAutonomous() {
