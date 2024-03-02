@@ -22,7 +22,7 @@ public class PassStartLine extends AutonomousCommandBase
      * Constructor
      * 
      * <p>
-     * Sets {@link TankSubsystem}
+     * Sets {@link TankSubsystem} and {@link DashboardSubsystem}
      * </p>
      */
     public PassStartLine(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem)
@@ -53,7 +53,7 @@ public class PassStartLine extends AutonomousCommandBase
                     }
                 break;
             case BRAKE:
-                System.err.println("BRAKING");
+                //TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
                     {
                     autoCommandState = AutoCommandState.END;
