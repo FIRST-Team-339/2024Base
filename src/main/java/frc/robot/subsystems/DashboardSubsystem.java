@@ -44,11 +44,17 @@ public class DashboardSubsystem extends SubsystemBase
                         .withPosition(8, 2).withProperties(Map.of("min", 0.0,
                                         "max", 5.0, "block increment", 0.1))
                         .getEntry();
+        private GenericEntry gearModeIndicator = tab.add("Drive Gear", DriveConstants.DEFAULT_GEAR.getId() + 1)
+                        .withWidget(BuiltInWidgets.kDial)
+                        .withSize(2, 2)
+                        .withPosition(10, 2)
+                        .withProperties(Map.of("min", 1.0, "max", 3.0, "show value", true))
+                        .getEntry();
         private GenericEntry demoModeEnabled = tab
                         .addPersistent("Demo Enabled",
                                         DashboardConstants.DEMO_ENABLED_DEFAULT)
                         .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
-                        .withPosition(10, 2).getEntry();
+                        .withPosition(12, 2).getEntry();
 
         private static class SimplePersistentNTValues
                 {
@@ -294,5 +300,23 @@ public class DashboardSubsystem extends SubsystemBase
                                                                 });
                                 break;
                         }
+        }
+
+        /**
+         * Set the drive gear in the dashboard
+         * 
+         * @param driveGear the gear to set in the dashboard
+         */
+        public void setDriveGear(DriveGears driveGear) {
+                setDriveGear(driveGear.getId() + 1);
+        }
+
+        /**
+         * Set the drive gear in the dashboard
+         * 
+         * @param driveGear the gear to set in the dashboard
+         */
+        public void setDriveGear(int driveGear) {
+                gearModeIndicator.setInteger(driveGear);
         }
         }

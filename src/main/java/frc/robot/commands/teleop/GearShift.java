@@ -1,6 +1,7 @@
 package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 public class GearShift extends Command
@@ -12,12 +13,14 @@ public class GearShift extends Command
         }
 
     private TankSubsystem tankSubsystem;
+    private DashboardSubsystem dashboardSubsystem;
     private GearUpOrDown gearState;
 
-    public GearShift(TankSubsystem tankSubsystem, GearUpOrDown gearState)
+    public GearShift(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem, GearUpOrDown gearState)
         {
-            addRequirements(tankSubsystem);
+            addRequirements(tankSubsystem, dashboardSubsystem);
             this.tankSubsystem = tankSubsystem;
+            this.dashboardSubsystem = dashboardSubsystem;
             this.gearState = gearState;
         }
 
@@ -41,6 +44,7 @@ public class GearShift extends Command
             default:
                 break;
             }
+        dashboardSubsystem.setDriveGear(tankSubsystem.getCurrentGear());
 
         // Cancels the command as it has ran
         cancel();

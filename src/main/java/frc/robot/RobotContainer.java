@@ -40,9 +40,9 @@ public class RobotContainer
         private final Drive teleopDriveCommand = new Drive(tankSubsystem,
                         () -> leftDriverJoystick.getY(),
                         () -> rightDriverJoystick.getY());
-        private final GearShift gearUpCommand = new GearShift(tankSubsystem,
+        private final GearShift gearUpCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.UP);
-        private final GearShift gearDownCommand = new GearShift(tankSubsystem,
+        private final GearShift gearDownCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.DOWN);
 
         /* Flipper Piston Subsytem w/ Commands */
