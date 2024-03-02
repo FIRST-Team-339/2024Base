@@ -117,10 +117,12 @@ public class RobotContainer
                 switch (newAutonomousMode)
                         {
                         case PASS_START_LINE:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
                                 autonomousModeOptions = PassStartLine
-                                                .getAutonomousOptions();
+                                .getAutonomousOptions();
                                 break;
                         case SCORE_AMP:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
                                 autonomousModeOptions = ScoreAmp
                                                 .getAutonomousOptions();
                                 break;
@@ -163,9 +165,11 @@ public class RobotContainer
                         switch (dashboardSubsystem.getAutonomousMode())
                                 {
                                 case PASS_START_LINE:
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
                                         autonomousCommandConstructor = PassStartLine::new;
                                         break;
                                 case SCORE_AMP:
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
                                         autonomousCommandConstructor = ScoreAmp::new;
                                         break;
                                 default:
