@@ -210,7 +210,7 @@ public class DashboardSubsystem extends SubsystemBase
                 setChoices(SendableChooserType.AutonomousModeOptions, choices,
                                 defaultName, defaultValue);
 
-                autonomousMode = tab
+                autonomousModeOptions = tab
                                 .add("Auto Mode Options",
                                                 autonomousModeOptionsChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)

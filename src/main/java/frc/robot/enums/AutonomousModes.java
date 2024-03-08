@@ -2,7 +2,7 @@ package frc.robot.enums;
 
 public enum AutonomousModes
     {
-    PASS_START_LINE(1, "Pass Start Line"), SCORE_AMP(2,
+    PASS_START_LINE(0, "Pass Start Line"), SCORE_AMP(1,
             "Pass Start Line & Score Amp");
 
     private int id;
