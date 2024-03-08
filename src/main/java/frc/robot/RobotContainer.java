@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.function.BiFunction;
-
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
@@ -40,9 +38,9 @@ public class RobotContainer
         private final Drive teleopDriveCommand = new Drive(tankSubsystem,
                         () -> leftDriverJoystick.getY(),
                         () -> rightDriverJoystick.getY());
-        private final GearShift gearUpCommand = new GearShift(tankSubsystem,
+        private final GearShift gearUpCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.UP);
-        private final GearShift gearDownCommand = new GearShift(tankSubsystem,
+        private final GearShift gearDownCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.DOWN);
 
         /* Flipper Piston Subsytem w/ Commands */
@@ -102,6 +100,8 @@ public class RobotContainer
                                 defaultAutonomousMode.toString(),
                                 defaultAutonomousMode.getId());
 
+                this.onAutonomousModeUpdate(dashboardSubsystem.getAutonomousMode().getId());
+
                 dashboardSubsystem.setListener(
                                 DashboardSubsystem.ListenerType.AutonomousMode,
                                 this::onAutonomousModeUpdate);
@@ -117,10 +117,12 @@ public class RobotContainer
                 switch (newAutonomousMode)
                         {
                         case PASS_START_LINE:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
                                 autonomousModeOptions = PassStartLine
-                                                .getAutonomousOptions();
+                                .getAutonomousOptions();
                                 break;
                         case SCORE_AMP:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
                                 autonomousModeOptions = ScoreAmp
                                                 .getAutonomousOptions();
                                 break;
@@ -141,6 +143,7 @@ public class RobotContainer
                                 }
 
                         AutonomousModeOptionSupplier defaultAutonomousModeOption = autonomousModeOptions[0];
+
                         dashboardSubsystem.setAutoModeOptionsChoices(
                                         autonomousModeOptionStrings,
                                         defaultAutonomousModeOption.toString(),
@@ -155,7 +158,6 @@ public class RobotContainer
 
         public AutonomousCommandBase getAutonomousCommand()
         {
-                BiFunction<TankSubsystem, DashboardSubsystem, AutonomousCommandBase> autonomousCommandConstructor = null;
                 AutonomousCommandBase autonomousCommand = null;
 
                 if (dashboardSubsystem.getAutonomousEnabled())
@@ -163,21 +165,17 @@ public class RobotContainer
                         switch (dashboardSubsystem.getAutonomousMode())
                                 {
                                 case PASS_START_LINE:
-                                        autonomousCommandConstructor = PassStartLine::new;
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
+                                        autonomousCommand = new PassStartLine(tankSubsystem, dashboardSubsystem);
                                         break;
                                 case SCORE_AMP:
-                                        autonomousCommandConstructor = ScoreAmp::new;
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
+                                        autonomousCommand = new ScoreAmp(tankSubsystem, dashboardSubsystem, flipperPistonSubsystem);
                                         break;
                                 default:
                                         System.err.println(
                                                         "INVALID AUTONOMOUS MODE");
                                         break;
-                                }
-
-                        if (autonomousCommandConstructor != null)
-                                {
-                                autonomousCommand = autonomousCommandConstructor
-                                                .apply(tankSubsystem, dashboardSubsystem);
                                 }
                         }
                 else
@@ -185,5 +183,4 @@ public class RobotContainer
 
                 return autonomousCommand;
         }
-
         }

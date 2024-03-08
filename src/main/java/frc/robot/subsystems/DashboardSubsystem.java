@@ -31,7 +31,7 @@ public class DashboardSubsystem extends SubsystemBase
                         "Auto Enabled",
                         DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
                         .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
-                        .withPosition(6, 0).getEntry();
+                        .withPosition(8, 0).getEntry();
         @SuppressWarnings("unused")
         private ComplexWidget autonomousMode;
         private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
@@ -41,14 +41,20 @@ public class DashboardSubsystem extends SubsystemBase
         private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay",
                         DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
                         .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 2)
-                        .withPosition(14, 0).withProperties(Map.of("min", 0.0,
+                        .withPosition(8, 2).withProperties(Map.of("min", 0.0,
                                         "max", 5.0, "block increment", 0.1))
+                        .getEntry();
+        private GenericEntry gearModeIndicator = tab.add("Drive Gear", DriveConstants.DEFAULT_GEAR.getId() + 1)
+                        .withWidget(BuiltInWidgets.kDial)
+                        .withSize(2, 2)
+                        .withPosition(10, 2)
+                        .withProperties(Map.of("min", 1.0, "max", 3.0, "show value", true))
                         .getEntry();
         private GenericEntry demoModeEnabled = tab
                         .addPersistent("Demo Enabled",
                                         DashboardConstants.DEMO_ENABLED_DEFAULT)
                         .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
-                        .withPosition(6, 3).getEntry();
+                        .withPosition(12, 2).getEntry();
 
         private static class SimplePersistentNTValues
                 {
@@ -78,7 +84,7 @@ public class DashboardSubsystem extends SubsystemBase
                                 {
                                 tab.add(cameraSubsystem.getVideoSource())
                                                 .withWidget(BuiltInWidgets.kCameraStream)
-                                                .withSize(5, 5)
+                                                .withSize(8, 5)
                                                 .withPosition(0, 0)
                                                 .withProperties(Map.of(
                                                                 "rotation",
@@ -90,7 +96,7 @@ public class DashboardSubsystem extends SubsystemBase
                                 {
                                 tab.add("Camera Disabled", false).withWidget(
                                                 BuiltInWidgets.kBooleanBox)
-                                                .withSize(5, 5)
+                                                .withSize(8, 5)
                                                 .withPosition(0, 0);
                                 }
 
@@ -170,7 +176,7 @@ public class DashboardSubsystem extends SubsystemBase
                 autonomousMode = tab
                                 .add("Autonomous Mode", autonomousModeChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(3, 2).withPosition(8, 0);
+                                .withSize(3, 2).withPosition(10, 0);
         }
 
         /**
@@ -204,11 +210,11 @@ public class DashboardSubsystem extends SubsystemBase
                 setChoices(SendableChooserType.AutonomousModeOptions, choices,
                                 defaultName, defaultValue);
 
-                autonomousMode = tab
+                autonomousModeOptions = tab
                                 .add("Auto Mode Options",
                                                 autonomousModeOptionsChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(3, 2).withPosition(11, 0);
+                                .withSize(3, 2).withPosition(13, 0);
         }
 
         private static enum SendableChooserType
@@ -294,5 +300,23 @@ public class DashboardSubsystem extends SubsystemBase
                                                                 });
                                 break;
                         }
+        }
+
+        /**
+         * Set the drive gear in the dashboard
+         * 
+         * @param driveGear the gear to set in the dashboard
+         */
+        public void setDriveGear(DriveGears driveGear) {
+                setDriveGear(driveGear.getId() + 1);
+        }
+
+        /**
+         * Set the drive gear in the dashboard
+         * 
+         * @param driveGear the gear to set in the dashboard
+         */
+        public void setDriveGear(int driveGear) {
+                gearModeIndicator.setInteger(driveGear);
         }
         }

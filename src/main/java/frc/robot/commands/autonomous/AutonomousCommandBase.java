@@ -50,6 +50,8 @@ public abstract class AutonomousCommandBase extends Command
     {
         if (autoDelayTimerStarted == false) {
             autoDelayTimer.start();
+            autoDelayTimerStarted = true;
+            tankSubsystem.drive(0, 0);
         } else {
             if (autoDelayTimer.hasElapsed(dashboardSubsystem.getAutonomousDelay())) {
                 executeAutonomous();

@@ -1,70 +1,79 @@
 package frc.robot.commands.autonomous;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.DashboardSubsystem;
+import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 
 public class ScoreAmp extends AutonomousCommandBase {
+    /* Subsystem */
+    private FlipperPistonSubsystem flipperPistonSubsystem;
+
     /* Auto Command State */
     private enum AutoCommandState {
-        ACCELERATE, DRIVE, BRAKE_1, RESET_ENCODERS_1, REVERSE, BRAKE_2, RESET_ENCODERS_2, PIVOT, END
+        RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, FLIP_UP, END
     }
 
     private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
 
     /*
-     * Drive Distance, supposed to be 46 inches but it is shaved off a little to
-     * account for braking
+     * Drive Forward 1 Distance
      */
-    public static int driveForwardDistance = 40;
+    public static int driveForwardDistance1 = 45;
 
     /**
-     * Rerverse Distance
+     * Drive Rerverse Distance
      * 
      * @param tankSubsystem
      */
-    public static int reverseDistance = -4;
+    public static int driveReverseDistance = -15;
+
+    /**
+     * It is NOT supposed to turn 75 degrees, but rather 90 degrees, unfortunately I don't know what is wrong with that and I don't have time either
+     * 
+     * Anyways, it gets information from the DS (Driver Station) & FMS (Field Management System) and if it is blue, it pivots left, otherwise it pivots right
+     */
+    public static int pivotAmount = DriverStation.getAlliance().get() == Alliance.Blue ? -75 : 75;
+
+    /*
+     * Drive Forward 2 Distance
+     */
+    public static int driveForwardDistance2 = 20;
 
     /**
      * Constructor
      * 
      * <p>
-     * Sets {@link TankSubsystem}
+     * Sets {@link TankSubsystem}, {@link DashboardSubsystem}, and {@link FlipperPistonSubsystem}
      * </p>
      */
-    public ScoreAmp(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem) {
+    public ScoreAmp(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem, FlipperPistonSubsystem flipperPistonSubsystem) {
         super(tankSubsystem, dashboardSubsystem);
+        this.flipperPistonSubsystem = flipperPistonSubsystem;
+
+        addRequirements(flipperPistonSubsystem);
     }
 
     public void executeAutonomous() {
         switch (autoCommandState) {
-            case ACCELERATE:
-                if (tankSubsystem.accelerate(this.autonomousSpeed) == true) {
-                    autoCommandState = AutoCommandState.DRIVE;
-                }
-                break;
-            case DRIVE:
-                if (tankSubsystem.driveStraightInches(driveForwardDistance,
-                        this.autonomousSpeed, false) == true) {
-                    autoCommandState = AutoCommandState.BRAKE_1;
-                }
-                break;
-            case BRAKE_1:
-                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
-                    autoCommandState = AutoCommandState.RESET_ENCODERS_1;
-                }
-                break;
             case RESET_ENCODERS_1:
                 tankSubsystem.resetEncoders();
 
-                autoCommandState = AutoCommandState.REVERSE;
-                break;
-            case REVERSE:
-                if (tankSubsystem.driveStraightInches(reverseDistance,
-                        -this.autonomousSpeed, false) == true) {
-                    autoCommandState = AutoCommandState.BRAKE_2;
+                autoCommandState = AutoCommandState.ACCELERATE;
+            case ACCELERATE:
+                if (tankSubsystem.accelerate(this.autonomousSpeed) == true) {
+                    autoCommandState = AutoCommandState.DRIVE_1;
                 }
                 break;
-            case BRAKE_2:
+            case DRIVE_1:
+                if (tankSubsystem.driveStraightInches(driveForwardDistance1,
+                        this.autonomousSpeed, false) == true) {
+                    autoCommandState = AutoCommandState.RESET_ENCODERS_2;
+                }
+                break;
+            case BRAKE_1:
+                //TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true) {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_2;
                 }
@@ -72,13 +81,51 @@ public class ScoreAmp extends AutonomousCommandBase {
             case RESET_ENCODERS_2:
                 tankSubsystem.resetEncoders();
 
+                autoCommandState = AutoCommandState.REVERSE;
+                break;
+            case REVERSE:
+                if (tankSubsystem.driveStraightInches(driveReverseDistance,
+                        -this.autonomousSpeed, false) == true) {
+                    autoCommandState = AutoCommandState.RESET_ENCODERS_3;
+                }
+                break;
+            case BRAKE_2:
+                //TODO: Fix Braking
+                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
+                    autoCommandState = AutoCommandState.RESET_ENCODERS_3;
+                }
+                break;
+            case RESET_ENCODERS_3:
+                tankSubsystem.resetEncoders();
+
                 autoCommandState = AutoCommandState.PIVOT;
                 break;
             case PIVOT:
-                if (tankSubsystem.pivotDegrees(90,
+                if (tankSubsystem.pivotDegrees(pivotAmount,
                         this.autonomousSpeed) == true) {
-                    autoCommandState = AutoCommandState.END;
+                    autoCommandState = AutoCommandState.RESET_ENCODERS_4;
                 }
+                break;
+            case RESET_ENCODERS_4:
+                tankSubsystem.resetEncoders();
+
+                autoCommandState = AutoCommandState.DRIVE_2;
+                break;
+            case DRIVE_2:
+                if (tankSubsystem.driveStraightInches(driveForwardDistance2,
+                        this.autonomousSpeed, false) == true) {
+                    autoCommandState = AutoCommandState.FLIP_UP;
+                }
+                break;
+            case BRAKE_3:
+                //TODO: Fix Braking
+                if (tankSubsystem.brake(this.autonomousSpeed) == true) {
+                    autoCommandState = AutoCommandState.FLIP_UP;
+                }
+                break;
+            case FLIP_UP:
+                flipperPistonSubsystem.flipUp();
+                autoCommandState = AutoCommandState.END;
                 break;
             case END:
                 /* Motor Safety - ensure that motors stay at 0 */
