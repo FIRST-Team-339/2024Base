@@ -110,7 +110,7 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit()
   {
-/* Initial States */
+    /* Initial States */
     robotContainer.flipperPistonSubsystem.flipDown();
     autonomousCommand = robotContainer.getAutonomousCommand();
 
@@ -146,9 +146,6 @@ public class Robot extends TimedRobot
       autonomousCommand.endAutonomous();
       autonomousCommand = null;
       }
-
-    /* Initial States */
-    robotContainer.flipperPistonSubsystem.flipDown();
 
     // ==============================
     // All user code goes above here
