@@ -1,7 +1,5 @@
 package frc.robot.commands.autonomous;
 
-import com.ctre.phoenix.platform.can.AutocacheState;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
