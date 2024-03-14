@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
@@ -14,7 +15,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /* Auto Command State */
     private enum AutoCommandState
         {
-        RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, FLIP_UP, END
+        RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, START_TIMER, CHECK_TIMER, FLIP_UP, END
         }
 
     private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
@@ -26,14 +27,10 @@ public class ScoreAmp extends AutonomousCommandBase
 
     /**
      * Drive Rerverse Distance
-     * 
-     * @param tankSubsystem
      */
-    public static int driveReverseDistance = -21;
 
+    public static int driveReverseDistance = -21;
     /**
-     * It is NOT supposed to turn 75 degrees, but rather 90 degrees,
-     * unfortunately I don't know what is wrong with that and I don't have time
      * either
      * 
      * Anyways, it gets information from the DS (Driver Station) & FMS (Field
@@ -46,7 +43,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 2 Distance
      */
-    public static int driveForwardDistance2 = 27;
+    public static int driveForwardDistance2 = 36;
 
     /**
      * Constructor
@@ -134,12 +131,22 @@ public class ScoreAmp extends AutonomousCommandBase
                 if (tankSubsystem.driveStraightInches(driveForwardDistance2,
                         this.autonomousSpeed, false) == true)
                     {
-                    autoCommandState = AutoCommandState.FLIP_UP;
+                    autoCommandState = AutoCommandState.START_TIMER;
                     }
                 break;
             case BRAKE_3:
                 // TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
+                    {
+                    autoCommandState = AutoCommandState.START_TIMER;
+                    }
+                break;
+            case START_TIMER:
+                pistonDelayTimer.start();
+                autoCommandState = AutoCommandState.CHECK_TIMER;
+                break;
+            case CHECK_TIMER:
+                if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
                     {
                     autoCommandState = AutoCommandState.FLIP_UP;
                     }
