@@ -138,18 +138,18 @@ public class ScoreAmp extends AutonomousCommandBase
                 // TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
                     {
-                    autoCommandState = AutoCommandState.START_TIMER;
+                    autoCommandState = AutoCommandState.FLIP_UP;
                     }
                 break;
             case START_TIMER:
-                pistonDelayTimer.start();
-                autoCommandState = AutoCommandState.CHECK_TIMER;
+                // pistonDelayTimer.start();
+                // autoCommandState = AutoCommandState.CHECK_TIMER;
                 break;
             case CHECK_TIMER:
-                if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
-                    {
-                    autoCommandState = AutoCommandState.FLIP_UP;
-                    }
+                // if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
+                //     {
+                //     autoCommandState = AutoCommandState.FLIP_UP;
+                //     }
                 break;
             case FLIP_UP:
                 flipperPistonSubsystem.flipUp();
