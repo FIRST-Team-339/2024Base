@@ -54,7 +54,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 2 Distance
      */
-    public static int driveForwardDistance2 = 27;
+    public static int driveForwardDistance2 = 36;
 
     /**
      * Constructor
