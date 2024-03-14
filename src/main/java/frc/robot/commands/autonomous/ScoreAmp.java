@@ -25,12 +25,12 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 1 Distance
      */
-    public static int driveForwardDistance1 = 45;
+    public static int driveForwardDistance1 = 54;
 
     /**
      * Drive Rerverse Distance
      */
-    public static int driveReverseDistance = -15;
+    public static int driveReverseDistance = -24;
 
     /**
      * The delay between stopping and flipping the pizza box up
