@@ -26,8 +26,6 @@ public class ScoreAmp extends AutonomousCommandBase
 
     /**
      * Drive Rerverse Distance
-     * 
-     * @param tankSubsystem
      */
     public static int driveReverseDistance = -15;
 
