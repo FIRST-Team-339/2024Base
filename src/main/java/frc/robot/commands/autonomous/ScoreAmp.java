@@ -1,6 +1,9 @@
 package frc.robot.commands.autonomous;
 
+import com.ctre.phoenix.platform.can.AutocacheState;
+
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
@@ -14,7 +17,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /* Auto Command State */
     private enum AutoCommandState
         {
-        RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, FLIP_UP, END
+        RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, START_TIMER, CHECK_TIMER, FLIP_UP, END
         }
 
     private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
@@ -28,6 +31,13 @@ public class ScoreAmp extends AutonomousCommandBase
      * Drive Rerverse Distance
      */
     public static int driveReverseDistance = -15;
+
+    /**
+     * The delay between stopping and flipping the pizza box up
+     */
+    public static double pistonDelayTime = 3.0;
+
+    private Timer pistonDelayTimer = new Timer();
 
     /**
      * It is NOT supposed to turn 75 degrees, but rather 90 degrees,
@@ -132,12 +142,22 @@ public class ScoreAmp extends AutonomousCommandBase
                 if (tankSubsystem.driveStraightInches(driveForwardDistance2,
                         this.autonomousSpeed, false) == true)
                     {
-                    autoCommandState = AutoCommandState.FLIP_UP;
+                    autoCommandState = AutoCommandState.START_TIMER;
                     }
                 break;
             case BRAKE_3:
                 // TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
+                    {
+                    autoCommandState = AutoCommandState.START_TIMER;
+                    }
+                break;
+            case START_TIMER:
+                pistonDelayTimer.start();
+                autoCommandState = AutoCommandState.CHECK_TIMER;
+                break;
+            case CHECK_TIMER:
+                if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
                     {
                     autoCommandState = AutoCommandState.FLIP_UP;
                     }
