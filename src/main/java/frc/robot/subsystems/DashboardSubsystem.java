@@ -28,10 +28,10 @@ public class DashboardSubsystem extends SubsystemBase
         /* Shuffleboard */
         private ShuffleboardTab tab = Shuffleboard.getTab("Kilroy");
         private GenericEntry autonomousEnabled = tab.addPersistent(
-                        "Auto Enabled",
-                        DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
-                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
-                        .withPosition(8, 0).getEntry();
+                       "Auto Enabled",
+                       DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT)
+                       .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
+                       .withPosition(8, 0).getEntry();
         @SuppressWarnings("unused")
         private ComplexWidget autonomousMode;
         private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
@@ -39,22 +39,22 @@ public class DashboardSubsystem extends SubsystemBase
         private ComplexWidget autonomousModeOptions;
         private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
         private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay",
-                        DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
-                        .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 2)
-                        .withPosition(8, 2).withProperties(Map.of("min", 0.0,
-                                        "max", 5.0, "block increment", 0.1))
-                        .getEntry();
+                       DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
+                       .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 2)
+                       .withPosition(8, 2).withProperties(Map.of("min", 0.0,
+                                       "max", 5.0, "block increment", 0.1))
+                       .getEntry();
         private GenericEntry gearModeIndicator = tab.add("Drive Gear", DriveConstants.DEFAULT_GEAR.getId() + 1)
-                        .withWidget(BuiltInWidgets.kDial)
-                        .withSize(2, 2)
-                        .withPosition(10, 2)
-                        .withProperties(Map.of("min", 1.0, "max", 3.0, "show value", true))
-                        .getEntry();
-        private GenericEntry demoModeEnabled = tab
-                        .addPersistent("Demo Enabled",
-                                        DashboardConstants.DEMO_ENABLED_DEFAULT)
-                        .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
-                        .withPosition(12, 2).getEntry();
+                       .withWidget(BuiltInWidgets.kDial)
+                       .withSize(2, 2)
+                       .withPosition(10, 2)
+                       .withProperties(Map.of("min", 1.0, "max", 3.0, "show value", true))
+                       .getEntry();
+        // private GenericEntry demoModeEnabled = tab
+        //                .addPersistent("Demo Enabled",
+        //                                DashboardConstants.DEMO_ENABLED_DEFAULT)
+        //                .withWidget(BuiltInWidgets.kToggleSwitch).withSize(2, 2)
+        //                .withPosition(12, 2).getEntry();
 
         private static class SimplePersistentNTValues
                 {
@@ -138,8 +138,9 @@ public class DashboardSubsystem extends SubsystemBase
          */
         public boolean getDemoModeEnabled()
         {
-                return demoModeEnabled.getBoolean(
-                                DashboardConstants.DEMO_ENABLED_DEFAULT);
+                // return demoModeEnabled.getBoolean(
+                //                 DashboardConstants.DEMO_ENABLED_DEFAULT);
+                return true;
         }
 
         /**
@@ -207,14 +208,15 @@ public class DashboardSubsystem extends SubsystemBase
         public void setAutoModeOptionsChoices(final String[] choices,
                         final String defaultName, final int defaultValue)
         {
-                setChoices(SendableChooserType.AutonomousModeOptions, choices,
-                                defaultName, defaultValue);
+                // setChoices(SendableChooserType.AutonomousModeOptions, choices,
+                //                 defaultName, defaultValue);
 
-                autonomousModeOptions = tab
-                                .add("Auto Mode Options",
-                                                autonomousModeOptionsChooser)
-                                .withWidget(BuiltInWidgets.kComboBoxChooser)
-                                .withSize(3, 2).withPosition(13, 0);
+                // autonomousModeOptions = tab
+                //                .add("Auto Mode Options",
+                //                                 autonomousModeOptionsChooser)
+                //                 .withWidget(BuiltInWidgets.kComboBoxChooser)
+                //                 .withSize(3, 2).withPosition(13, 0);
+        
         }
 
         private static enum SendableChooserType

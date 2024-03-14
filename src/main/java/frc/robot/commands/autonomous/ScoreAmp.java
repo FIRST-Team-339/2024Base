@@ -22,14 +22,14 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 1 Distance
      */
-    public static int driveForwardDistance1 = 45;
+    public static int driveForwardDistance1 = 51;
 
     /**
      * Drive Rerverse Distance
      * 
      * @param tankSubsystem
      */
-    public static int driveReverseDistance = -15;
+    public static int driveReverseDistance = -21;
 
     /**
      * It is NOT supposed to turn 75 degrees, but rather 90 degrees,
