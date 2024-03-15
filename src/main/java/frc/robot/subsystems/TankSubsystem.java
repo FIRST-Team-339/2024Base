@@ -265,7 +265,7 @@ public class TankSubsystem extends SubsystemBase
 	 *         {@code distance} provided
 	 */
 	public boolean driveStraightInches(double distance, double speed,
-			boolean resetEncoders)
+			boolean resetEncoders, boolean useGyro)
 	{
 		if (resetEncoders == true)
 			{
@@ -278,7 +278,7 @@ public class TankSubsystem extends SubsystemBase
 			}
 		else
 			{
-			driveStraight(speed, false);
+			driveStraight(speed, useGyro);
 			return false;
 			}
 	}

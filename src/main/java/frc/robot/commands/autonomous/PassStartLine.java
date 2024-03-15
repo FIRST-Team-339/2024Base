@@ -101,21 +101,21 @@ public class PassStartLine extends AutonomousCommandBase
                 switch (commandOptionState) {
                     case REGULAR:
                         if (tankSubsystem.driveStraightInches(defaultDriveDistance,
-                            this.autonomousSpeed, false) == true)
+                            this.autonomousSpeed, false, true) == true)
                         {
                         autoCommandState = AutoCommandState.END;
                         }
                         break;
                     case GO_FARTHER:
                         if (tankSubsystem.driveStraightInches(fartherDriveDistance,
-                            this.autonomousSpeed, false) == true)
+                            this.autonomousSpeed, false, true) == true)
                         {
                         autoCommandState = AutoCommandState.END;
                         }
                         break;
                     case GO_FARTHER_BACKUP:
                         if (tankSubsystem.driveStraightInches(fartherDriveDistance,
-                            this.autonomousSpeed, false) == true)
+                            this.autonomousSpeed, false, true) == true)
                         {
                         autoCommandState = AutoCommandState.REVERSE;
                         }
@@ -131,7 +131,7 @@ public class PassStartLine extends AutonomousCommandBase
                 break;
             case REVERSE:
                 if (tankSubsystem.driveStraightInches(reverseDistance,
-                    this.autonomousSpeed, false) == true)
+                    this.autonomousSpeed, false, true) == true)
                 {
                 autoCommandState = AutoCommandState.END;
                 }

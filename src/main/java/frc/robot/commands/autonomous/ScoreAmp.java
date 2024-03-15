@@ -43,7 +43,10 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 2 Distance
      */
-    public static int driveForwardDistance2 = 36;
+    public static int driveForwardDistance2 = 20;
+
+    private Timer pistonDelayTimer = new Timer();
+    private double pistonDelayTime = 1.0;
 
     /**
      * Constructor
@@ -79,7 +82,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case DRIVE_1:
                 if (tankSubsystem.driveStraightInches(driveForwardDistance1,
-                        this.autonomousSpeed, false) == true)
+                        this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_2;
                     }
@@ -98,7 +101,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case REVERSE:
                 if (tankSubsystem.driveStraightInches(driveReverseDistance,
-                        -this.autonomousSpeed, false) == true)
+                        -this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_3;
                     }
@@ -129,7 +132,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case DRIVE_2:
                 if (tankSubsystem.driveStraightInches(driveForwardDistance2,
-                        this.autonomousSpeed, false) == true)
+                        this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.START_TIMER;
                     }
@@ -138,18 +141,19 @@ public class ScoreAmp extends AutonomousCommandBase
                 // TODO: Fix Braking
                 if (tankSubsystem.brake(this.autonomousSpeed) == true)
                     {
-                    autoCommandState = AutoCommandState.FLIP_UP;
+                    autoCommandState = AutoCommandState.START_TIMER;
+                    pistonDelayTimer.reset();
                     }
                 break;
             case START_TIMER:
-                // pistonDelayTimer.start();
-                // autoCommandState = AutoCommandState.CHECK_TIMER;
+                pistonDelayTimer.start();
+                autoCommandState = AutoCommandState.CHECK_TIMER;
                 break;
             case CHECK_TIMER:
-                // if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
-                //     {
-                //     autoCommandState = AutoCommandState.FLIP_UP;
-                //     }
+                if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
+                    {
+                    autoCommandState = AutoCommandState.FLIP_UP;
+                    }
                 break;
             case FLIP_UP:
                 flipperPistonSubsystem.flipUp();
