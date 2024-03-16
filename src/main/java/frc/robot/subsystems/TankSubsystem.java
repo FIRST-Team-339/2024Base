@@ -118,6 +118,15 @@ public class TankSubsystem extends SubsystemBase
 		return rightEncoder;
 	}
 
+	public CANVenom getLeftRearMotor()
+	{
+		return rearLeftMotor;
+	}
+
+	public CANVenom getRightRearMotor()
+	{
+		return rearRightMotor;
+	}
 	/**
 	 * Checks if the {@code encoder} has passed the {@code distance} provided
 	 * 
