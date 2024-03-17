@@ -66,9 +66,10 @@ public class TankSubsystem extends SubsystemBase
 			/* Set the Joystick Deadband */
 			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
-			/* Set the rear motors to follow the front motors */
-			rearLeftMotor.follow(frontLeftMotor);
-			rearRightMotor.follow(frontRightMotor);
+			frontLeftMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
+			frontRightMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
+			rearLeftMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
+			rearRightMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
 
 			/* Set the inversion value for the motor controller groups */
 			frontLeftMotor.setInverted(
@@ -87,6 +88,10 @@ public class TankSubsystem extends SubsystemBase
 			/* Set Braking */
 			frontLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 			frontRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+
+			/* Set the rear motors to follow the front motors */
+			rearLeftMotor.follow(frontLeftMotor);
+			rearRightMotor.follow(frontRightMotor);
 
 			/* Initialize Gyro */
 			gyro.calibrate();
@@ -127,6 +132,7 @@ public class TankSubsystem extends SubsystemBase
 	{
 		return rearRightMotor;
 	}
+
 	/**
 	 * Checks if the {@code encoder} has passed the {@code distance} provided
 	 * 
