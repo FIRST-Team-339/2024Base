@@ -3,7 +3,7 @@ package frc.robot.enums;
 public enum DriveGears
     {
     /* Gear Declarations */
-    GEAR1(0, 0.4), GEAR2(1, 0.5) , GEAR3(2, 0.6);
+    GEAR1(0, 0.35), GEAR2(1, 0.5) , GEAR3(2, 0.6);
 
     private double ratio;
     private int id;
