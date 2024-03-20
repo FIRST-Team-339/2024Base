@@ -43,7 +43,7 @@ public final class CurrentConstants
         public static final double BRAKE_RATE_LIMIT = 0.8;
 
         /* Turning */
-        public static final double TURN_DEGREES_FUDGE_FACTOR = 33.0;
+        public static final double TURN_DEGREES_FUDGE_FACTOR = 5.0;
         public static final double TURN_RADIUS = 16.75;
         }
 
