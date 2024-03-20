@@ -2,12 +2,9 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
-import frc.robot.hardwareInterfaces.Transmission.oldTankTransmission;
-import frc.robot.hardwareInterfaces.drive.oldDrive;
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 import frc.robot.Constants.*;
-import frc.robot.hardwareInterfaces.drive.oldDrive;
 import frc.robot.hardwareInterfaces.KilroyEncoder;
 
 import frc.robot.subsystems.TankSubsystem;
