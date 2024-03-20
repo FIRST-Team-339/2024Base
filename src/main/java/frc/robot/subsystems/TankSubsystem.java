@@ -2,14 +2,9 @@ package frc.robot.subsystems;
 
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
-import com.playingwithfusion.CANVenom.ControlMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.enums.DriveGears;
@@ -29,10 +24,6 @@ public class TankSubsystem extends SubsystemBase
 	private CANVenom rearRightMotor = new CANVenom(
 			DriveConstants.REAR_RIGHT_MOTOR_ID);
 
-	/* The Robot's Drive */
-	// private DifferentialDrive differentialDrive = new DifferentialDrive(
-	// 		frontLeftMotor, frontRightMotor);
-
 	/* The Drive Encoder on the Left Side */
 	private KilroyEncoder leftEncoder = new KilroyEncoder(frontLeftMotor);
 
@@ -44,11 +35,6 @@ public class TankSubsystem extends SubsystemBase
 
 	/* Odometry & Gyro */
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-	// TODO: fix default position and make it based on auto
-	private Pose2d pose = new Pose2d(20, 10, new Rotation2d());
-	private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
-			new Rotation2d(0), leftEncoder.getDistance(),
-			rightEncoder.getDistance());
 
 	/* Limiters */
 	SlewRateLimiter accelerationLimiter = new SlewRateLimiter(
@@ -66,9 +52,6 @@ public class TankSubsystem extends SubsystemBase
 			/* Set the currentGear value to the passed startingGear value */
 			currentGear = DriveGears.GEAR1;
 			setGear(currentGear);
-
-			// /* Set the Joystick Deadband */
-			// differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
 			/* Set the inversion value for the motor controller groups */
 			frontLeftMotor.setInverted(
@@ -94,20 +77,8 @@ public class TankSubsystem extends SubsystemBase
 			rearLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 			rearRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 
-			/* Set the rear motors to follow the front motors */
-			// frontLeftMotor.setCommand(ControlMode.SpeedControl, 5000);
-			// rearLeftMotor.follow(frontLeftMotor);
-			// frontLeftMotor.setCommand(ControlMode.SpeedControl, 5000);
-			// rearRightMotor.follow(frontRightMotor);
-
 			/* Initialize Gyro */
 			gyro.calibrate();
-
-			/* Reset Odometry */
-			odometry.resetPosition(
-					new Rotation2d(Math.toRadians(this.gyro.getAngle())),
-					leftEncoder.getDistance(), rightEncoder.getDistance(),
-					pose);
 		}
 
 	/**
@@ -171,8 +142,7 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
-	 * Drives the robot straight with the {@link DifferentialDrive#tankDrive}
-	 * method
+	 * Drives the robot straight
 	 * 
 	 * @param leftSpeed
 	 *            The robot's left side speed along the X axis [-1.0..1.0].
@@ -183,7 +153,6 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void drive(final double leftSpeed, final double rightSpeed)
 	{
-		// differentialDrive.tankDrive(leftSpeed, rightSpeed);
 		boolean leftAboveDeadbandPos = leftSpeed > 0 && leftSpeed > DriveConstants.JOYSTICK_DEADBAND;
 		boolean leftBelowDeadbandNeg = leftSpeed < 0 && leftSpeed < DriveConstants.JOYSTICK_DEADBAND;
 		boolean rightAboveDeadbandPos = rightSpeed > 0 && rightSpeed > DriveConstants.JOYSTICK_DEADBAND;
@@ -196,11 +165,6 @@ public class TankSubsystem extends SubsystemBase
 		this.rearLeftMotor.set(checkedLeftSpeed * this.maxOutput);
 		this.frontRightMotor.set(checkedRightSpeed * this.maxOutput);
 		this.rearRightMotor.set(checkedRightSpeed * this.maxOutput);
-
-		double gyroAngle = this.gyro.getAngle();
-
-		pose = odometry.update(new Rotation2d(Math.toRadians(gyroAngle)),
-				leftEncoder.getDistance(), rightEncoder.getDistance());
 	}
 
 	/**
@@ -443,7 +407,7 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
-	 * Set the gear (the {@link DifferentialDrive}'s max output)
+	 * Set the gear (the  max output)
 	 * 
 	 * @param gear
 	 *            The desired gear to set the max output as
@@ -538,16 +502,6 @@ public class TankSubsystem extends SubsystemBase
 	public ADXRS450_Gyro getGyro()
 	{
 		return this.gyro;
-	}
-
-	/**
-	 * Get the pose
-	 * 
-	 * @return Pose2d
-	 */
-	public Pose2d getPose()
-	{
-		return this.pose;
 	}
 
 	}
