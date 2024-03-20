@@ -25,9 +25,9 @@ public abstract class AutonomousCommandBase extends Command
     protected DashboardSubsystem dashboardSubsystem;
 
     /**
-     * Autonomous Speed (can be changed) but comes with a default value of `0.5`
+     * Autonomous Speed (can be changed) but comes with a default value
      */
-    protected double autonomousSpeed = 0.6;
+    protected double autonomousSpeed = 0.45;
 
     protected AutonomousCommandBase(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem)
         {
@@ -41,7 +41,7 @@ public abstract class AutonomousCommandBase extends Command
     public final void initialize()
     {
         // Do something at the start of every autonomous, such as resetting
-        tankSubsystem.setMaxOutput(1.0);
+        tankSubsystem.setMaxOutput(this.autonomousSpeed);
         tankSubsystem.resetEncoders();
     }
 

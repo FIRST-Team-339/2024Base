@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
+import com.playingwithfusion.CANVenom.ControlMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -29,8 +30,8 @@ public class TankSubsystem extends SubsystemBase
 			DriveConstants.REAR_RIGHT_MOTOR_ID);
 
 	/* The Robot's Drive */
-	private DifferentialDrive differentialDrive = new DifferentialDrive(
-			frontLeftMotor, frontRightMotor);
+	// private DifferentialDrive differentialDrive = new DifferentialDrive(
+	// 		frontLeftMotor, frontRightMotor);
 
 	/* The Drive Encoder on the Left Side */
 	private KilroyEncoder leftEncoder = new KilroyEncoder(frontLeftMotor);
@@ -57,24 +58,26 @@ public class TankSubsystem extends SubsystemBase
 			DriveConstants.BRAKE_RATE_LIMIT);
 	public boolean brakeLimiterReset = true;
 
+	/* Max Output */
+	private double maxOutput = 1.0;
+
 	public TankSubsystem()
 		{
 			/* Set the currentGear value to the passed startingGear value */
 			currentGear = DriveGears.GEAR1;
 			setGear(currentGear);
 
-			/* Set the Joystick Deadband */
-			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
-
-			frontLeftMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
-			frontRightMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
-			rearLeftMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
-			rearRightMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
+			// /* Set the Joystick Deadband */
+			// differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
 
 			/* Set the inversion value for the motor controller groups */
 			frontLeftMotor.setInverted(
 					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
 			frontRightMotor.setInverted(
+					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
+			rearLeftMotor.setInverted(
+					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
+			rearRightMotor.setInverted(
 					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
 
 			/* Reset Encoders */
@@ -88,10 +91,14 @@ public class TankSubsystem extends SubsystemBase
 			/* Set Braking */
 			frontLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 			frontRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+			rearLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+			rearRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 
 			/* Set the rear motors to follow the front motors */
-			rearLeftMotor.follow(frontLeftMotor);
-			rearRightMotor.follow(frontRightMotor);
+			// frontLeftMotor.setCommand(ControlMode.SpeedControl, 5000);
+			// rearLeftMotor.follow(frontLeftMotor);
+			// frontLeftMotor.setCommand(ControlMode.SpeedControl, 5000);
+			// rearRightMotor.follow(frontRightMotor);
 
 			/* Initialize Gyro */
 			gyro.calibrate();
@@ -176,7 +183,19 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void drive(final double leftSpeed, final double rightSpeed)
 	{
-		differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		// differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		boolean leftAboveDeadbandPos = leftSpeed > 0 && leftSpeed > DriveConstants.JOYSTICK_DEADBAND;
+		boolean leftBelowDeadbandNeg = leftSpeed < 0 && leftSpeed < DriveConstants.JOYSTICK_DEADBAND;
+		boolean rightAboveDeadbandPos = rightSpeed > 0 && rightSpeed > DriveConstants.JOYSTICK_DEADBAND;
+		boolean rightBelowDeadbandNeg = rightSpeed < 0 && rightSpeed < DriveConstants.JOYSTICK_DEADBAND;
+		
+		double checkedLeftSpeed = leftAboveDeadbandPos || leftBelowDeadbandNeg ? leftSpeed : 0.0;
+		double checkedRightSpeed = rightAboveDeadbandPos || rightBelowDeadbandNeg ? rightSpeed : 0.0;
+
+		this.frontLeftMotor.set(checkedLeftSpeed * this.maxOutput);
+		this.rearLeftMotor.set(checkedLeftSpeed * this.maxOutput);
+		this.frontRightMotor.set(checkedRightSpeed * this.maxOutput);
+		this.rearRightMotor.set(checkedRightSpeed * this.maxOutput);
 
 		double gyroAngle = this.gyro.getAngle();
 
@@ -431,7 +450,7 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void setGear(final DriveGears gear)
 	{
-		differentialDrive.setMaxOutput(gear.getRatio());
+		this.maxOutput = gear.getRatio();
 	}
 
 	/**
@@ -442,7 +461,7 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void setMaxOutput(final double maxOutput)
 	{
-		differentialDrive.setMaxOutput(maxOutput);
+		this.maxOutput = maxOutput;
 	}
 
 	/**
