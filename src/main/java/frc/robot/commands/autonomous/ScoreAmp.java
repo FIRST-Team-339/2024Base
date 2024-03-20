@@ -123,8 +123,6 @@ public class ScoreAmp extends AutonomousCommandBase
                         this.autonomousSpeed) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_4;
-                    System.out.println("LEncode = " + tankSubsystem.getLeftEncoder().getDistance());
-                    System.out.println("REncode = " + tankSubsystem.getRightEncoder().getDistance());
                     }
                 break;
             case RESET_ENCODERS_4:
