@@ -43,7 +43,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 2 Distance
      */
-    public static int driveForwardDistance2 = 20;
+    public static int driveForwardDistance2 = 17;
 
     private Timer pistonDelayTimer = new Timer();
     private double pistonDelayTime = 1.0;
@@ -132,7 +132,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case DRIVE_2:
                 if (tankSubsystem.driveStraightInches(driveForwardDistance2,
-                        this.autonomousSpeed, false, true) == true)
+                        this.autonomousSpeed - 0.1, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.START_TIMER;
                     }

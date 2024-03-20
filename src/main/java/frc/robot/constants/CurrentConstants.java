@@ -15,10 +15,10 @@ public final class CurrentConstants
     public static final class DriveConstants
         {
         /* MOTOR IDs */
-        public static final int FRONT_LEFT_MOTOR_ID = 20;
-        public static final int REAR_LEFT_MOTOR_ID = 21;
-        public static final int FRONT_RIGHT_MOTOR_ID = 22;
-        public static final int REAR_RIGHT_MOTOR_ID = 23;
+        public static final int FRONT_LEFT_MOTOR_ID = 10;
+        public static final int REAR_LEFT_MOTOR_ID = 11;
+        public static final int FRONT_RIGHT_MOTOR_ID = 12;
+        public static final int REAR_RIGHT_MOTOR_ID = 13;
 
         /* Encoder */
         // public static final double DISTANCE_PER_PULSE = (6.0 * Math.PI) /
@@ -31,7 +31,7 @@ public final class CurrentConstants
             { false, true };
 
         /* JOYSTICK DEADBAND */
-        public static final double JOYSTICK_DEADBAND = 0.2;
+        public static final double JOYSTICK_DEADBAND = 0.25;
 
         /* Gears */
         public static final DriveGears DEFAULT_GEAR = DriveGears.GEAR1;
@@ -43,7 +43,7 @@ public final class CurrentConstants
         public static final double BRAKE_RATE_LIMIT = 0.8;
 
         /* Turning */
-        public static final double TURN_DEGREES_FUDGE_FACTOR = 33.0;
+        public static final double TURN_DEGREES_FUDGE_FACTOR = 5.0;
         public static final double TURN_RADIUS = 16.75;
         }
 

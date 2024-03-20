@@ -4,11 +4,7 @@ import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.enums.DriveGears;
@@ -28,10 +24,6 @@ public class TankSubsystem extends SubsystemBase
 	private CANVenom rearRightMotor = new CANVenom(
 			DriveConstants.REAR_RIGHT_MOTOR_ID);
 
-	/* The Robot's Drive */
-	private DifferentialDrive differentialDrive = new DifferentialDrive(
-			frontLeftMotor, frontRightMotor);
-
 	/* The Drive Encoder on the Left Side */
 	private KilroyEncoder leftEncoder = new KilroyEncoder(frontLeftMotor);
 
@@ -43,11 +35,6 @@ public class TankSubsystem extends SubsystemBase
 
 	/* Odometry & Gyro */
 	private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-	// TODO: fix default position and make it based on auto
-	private Pose2d pose = new Pose2d(20, 10, new Rotation2d());
-	private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
-			new Rotation2d(0), leftEncoder.getDistance(),
-			rightEncoder.getDistance());
 
 	/* Limiters */
 	SlewRateLimiter accelerationLimiter = new SlewRateLimiter(
@@ -57,24 +44,23 @@ public class TankSubsystem extends SubsystemBase
 			DriveConstants.BRAKE_RATE_LIMIT);
 	public boolean brakeLimiterReset = true;
 
+	/* Max Output */
+	private double maxOutput = 1.0;
+
 	public TankSubsystem()
 		{
 			/* Set the currentGear value to the passed startingGear value */
 			currentGear = DriveGears.GEAR1;
 			setGear(currentGear);
 
-			/* Set the Joystick Deadband */
-			differentialDrive.setDeadband(DriveConstants.JOYSTICK_DEADBAND);
-
-			frontLeftMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
-			frontRightMotor.setControlMode(CANVenom.ControlMode.SpeedControl);
-			rearLeftMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
-			rearRightMotor.setControlMode(CANVenom.ControlMode.FollowTheLeader);
-
 			/* Set the inversion value for the motor controller groups */
 			frontLeftMotor.setInverted(
 					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
 			frontRightMotor.setInverted(
+					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
+			rearLeftMotor.setInverted(
+					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[0]);
+			rearRightMotor.setInverted(
 					DriveConstants.MOTOR_CONTROLLER_GROUPS_INVERTED[1]);
 
 			/* Reset Encoders */
@@ -88,19 +74,11 @@ public class TankSubsystem extends SubsystemBase
 			/* Set Braking */
 			frontLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 			frontRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
-
-			/* Set the rear motors to follow the front motors */
-			rearLeftMotor.follow(frontLeftMotor);
-			rearRightMotor.follow(frontRightMotor);
+			rearLeftMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
+			rearRightMotor.setBrakeCoastMode(BrakeCoastMode.Brake);
 
 			/* Initialize Gyro */
 			gyro.calibrate();
-
-			/* Reset Odometry */
-			odometry.resetPosition(
-					new Rotation2d(Math.toRadians(this.gyro.getAngle())),
-					leftEncoder.getDistance(), rightEncoder.getDistance(),
-					pose);
 		}
 
 	/**
@@ -164,8 +142,7 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
-	 * Drives the robot straight with the {@link DifferentialDrive#tankDrive}
-	 * method
+	 * Drives the robot straight
 	 * 
 	 * @param leftSpeed
 	 *            The robot's left side speed along the X axis [-1.0..1.0].
@@ -176,12 +153,18 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void drive(final double leftSpeed, final double rightSpeed)
 	{
-		differentialDrive.tankDrive(leftSpeed, rightSpeed);
+		boolean leftAboveDeadbandPos = leftSpeed > 0 && leftSpeed > DriveConstants.JOYSTICK_DEADBAND;
+		boolean leftBelowDeadbandNeg = leftSpeed < 0 && leftSpeed < DriveConstants.JOYSTICK_DEADBAND;
+		boolean rightAboveDeadbandPos = rightSpeed > 0 && rightSpeed > DriveConstants.JOYSTICK_DEADBAND;
+		boolean rightBelowDeadbandNeg = rightSpeed < 0 && rightSpeed < DriveConstants.JOYSTICK_DEADBAND;
+		
+		double checkedLeftSpeed = leftAboveDeadbandPos || leftBelowDeadbandNeg ? leftSpeed : 0.0;
+		double checkedRightSpeed = rightAboveDeadbandPos || rightBelowDeadbandNeg ? rightSpeed : 0.0;
 
-		double gyroAngle = this.gyro.getAngle();
-
-		pose = odometry.update(new Rotation2d(Math.toRadians(gyroAngle)),
-				leftEncoder.getDistance(), rightEncoder.getDistance());
+		this.frontLeftMotor.set(checkedLeftSpeed * this.maxOutput);
+		this.rearLeftMotor.set(checkedLeftSpeed * this.maxOutput);
+		this.frontRightMotor.set(checkedRightSpeed * this.maxOutput);
+		this.rearRightMotor.set(checkedRightSpeed * this.maxOutput);
 	}
 
 	/**
@@ -424,14 +407,14 @@ public class TankSubsystem extends SubsystemBase
 	}
 
 	/**
-	 * Set the gear (the {@link DifferentialDrive}'s max output)
+	 * Set the gear (the  max output)
 	 * 
 	 * @param gear
 	 *            The desired gear to set the max output as
 	 */
 	public void setGear(final DriveGears gear)
 	{
-		differentialDrive.setMaxOutput(gear.getRatio());
+		this.maxOutput = gear.getRatio();
 	}
 
 	/**
@@ -442,7 +425,7 @@ public class TankSubsystem extends SubsystemBase
 	 */
 	public void setMaxOutput(final double maxOutput)
 	{
-		differentialDrive.setMaxOutput(maxOutput);
+		this.maxOutput = maxOutput;
 	}
 
 	/**
@@ -519,16 +502,6 @@ public class TankSubsystem extends SubsystemBase
 	public ADXRS450_Gyro getGyro()
 	{
 		return this.gyro;
-	}
-
-	/**
-	 * Get the pose
-	 * 
-	 * @return Pose2d
-	 */
-	public Pose2d getPose()
-	{
-		return this.pose;
 	}
 
 	}
