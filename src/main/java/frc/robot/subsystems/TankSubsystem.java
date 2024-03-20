@@ -317,11 +317,11 @@ public class TankSubsystem extends SubsystemBase
 		// If degrees is positive, then turn left. If not, then turn right.
 		if (degrees > 0)
 			{
-			this.drive(speed, -speed - .1);
+			this.drive(speed, -speed);
 			}
 		else
 			{
-			this.drive(-speed - .1, speed);
+			this.drive(-speed, speed);
 			}
 		return false;
 	}
