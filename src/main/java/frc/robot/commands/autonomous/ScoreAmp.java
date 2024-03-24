@@ -23,13 +23,13 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 1 Distance
      */
-    public static int driveForwardDistance1 = 51;
+    public static int driveForwardDistance1 = 49;
 
     /**
      * Drive Rerverse Distance
      */
 
-    public static int driveReverseDistance = -21;
+    public static int driveReverseDistance = -24;
     /**
      * either
      * 
@@ -157,11 +157,11 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case FLIP_UP:
                 flipperPistonSubsystem.flipUp();
+                tankSubsystem.drive(0.275, 0.275);
                 autoCommandState = AutoCommandState.END;
                 break;
             case END:
-                /* Motor Safety - ensure that motors stay at 0 */
-                tankSubsystem.drive(0, 0);
+                tankSubsystem.drive(0.275, 0.275);
                 break;
             }
     }
