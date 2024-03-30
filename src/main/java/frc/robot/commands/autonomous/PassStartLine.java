@@ -58,7 +58,7 @@ public class PassStartLine extends AutonomousCommandBase
     /**
      * Default Drive Distance (50in)
      */
-    public static int defaultDriveDistance = 50;
+    public static int defaultDriveDistance = 62;
 
     /**
      * Farther Drive Distance (65in)
