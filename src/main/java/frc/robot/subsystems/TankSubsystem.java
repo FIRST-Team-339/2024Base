@@ -5,6 +5,7 @@ import com.playingwithfusion.CANVenom.BrakeCoastMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.enums.DriveGears;
@@ -165,6 +166,17 @@ public class TankSubsystem extends SubsystemBase
 		this.rearLeftMotor.set(checkedLeftSpeed * this.maxOutput);
 		this.frontRightMotor.set(checkedRightSpeed * this.maxOutput);
 		this.rearRightMotor.set(checkedRightSpeed * this.maxOutput);
+	}
+
+	public void drive(final double leftSpeed, final double rightSpeed, final boolean overrideDeadband) {
+		if (overrideDeadband) {
+			this.frontLeftMotor.set(leftSpeed * this.maxOutput);
+			this.rearLeftMotor.set(leftSpeed * this.maxOutput);
+			this.frontRightMotor.set(rightSpeed * this.maxOutput);
+			this.rearRightMotor.set(rightSpeed * this.maxOutput);
+		} else {
+			drive(leftSpeed, rightSpeed);
+		}
 	}
 
 	/**

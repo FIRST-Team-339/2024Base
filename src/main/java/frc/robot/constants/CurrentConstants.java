@@ -31,7 +31,7 @@ public final class CurrentConstants
             { false, true };
 
         /* JOYSTICK DEADBAND */
-        public static final double JOYSTICK_DEADBAND = 0.25;
+        public static final double JOYSTICK_DEADBAND = 0.3;
 
         /* Gears */
         public static final DriveGears DEFAULT_GEAR = DriveGears.GEAR1;
