@@ -101,7 +101,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case REVERSE:
                 if (tankSubsystem.driveStraightInches(driveReverseDistance,
-                        -this.autonomousSpeed, false, true) == true)
+                        this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_3;
                     }

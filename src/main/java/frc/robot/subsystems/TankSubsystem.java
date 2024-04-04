@@ -288,7 +288,7 @@ public class TankSubsystem extends SubsystemBase
 			}
 		else
 			{
-			driveStraight(speed, useGyro);
+			driveStraight(distance < 0 ? -speed : speed, useGyro);
 			return false;
 			}
 	}
