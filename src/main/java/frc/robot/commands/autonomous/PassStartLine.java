@@ -12,7 +12,7 @@ public class PassStartLine extends AutonomousCommandBase
         }
 
     public static enum PassStartLineCommandOptions implements DashboardSubsystem.AutonomousModeOptionSupplier {
-        REGULAR(0, "Regular"), GO_FARTHER(1, "Go the Extra Mile"), GO_FARTHER_BACKUP(2, "Go farther and back up");
+        REGULAR(0, "Regular"), GO_FARTHER(1, "Go the Extra Mile")/*, GO_FARTHER_BACKUP(2, "Go farther and back up")*/;
 
         private int id;
         private String friendlyName;
@@ -113,13 +113,14 @@ public class PassStartLine extends AutonomousCommandBase
                         autoCommandState = AutoCommandState.END;
                         }
                         break;
-                    case GO_FARTHER_BACKUP:
-                        if (tankSubsystem.driveStraightInches(fartherDriveDistance,
-                            this.autonomousSpeed, false, false) == true)
-                        {
-                        autoCommandState = AutoCommandState.REVERSE;
-                        }
-                        break;
+                    // case GO_FARTHER_BACKUP:
+                    //     if (tankSubsystem.driveStraightInches(fartherDriveDistance,
+                    //         this.autonomousSpeed, false, false) == true)
+                    //     {
+                    //     tankSubsystem.resetEncoders();
+                    //     autoCommandState = AutoCommandState.REVERSE;
+                    //     }
+                    //     break;
                 }
                 break;
             case BRAKE:
@@ -130,9 +131,13 @@ public class PassStartLine extends AutonomousCommandBase
                     }
                 break;
             case REVERSE:
+            System.out.println("back it up!");
+            System.out.println(tankSubsystem.getLeftEncoder().getDistance());
                 if (tankSubsystem.driveStraightInches(reverseDistance,
                     this.autonomousSpeed, false, false) == true)
                 {
+                    System.out.println("STOP!");
+
                 autoCommandState = AutoCommandState.END;
                 }
                 break;
