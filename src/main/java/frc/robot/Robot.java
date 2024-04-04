@@ -110,6 +110,7 @@ public class Robot extends TimedRobot
     if (autonomousCommand != null)
       {
       autonomousCommand.schedule();
+      autonomousCommand.updateCommandOption(this.robotContainer.dashboardSubsystem.getAutonomousModeOption());
       }
     // ==============================
     // All user code goes above here

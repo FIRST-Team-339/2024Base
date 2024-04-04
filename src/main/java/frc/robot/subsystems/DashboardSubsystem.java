@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.*;
 import frc.robot.enums.*;
+import frc.robot.modules.KilroySendableChooser;
 
 public class DashboardSubsystem extends SubsystemBase
         {
@@ -34,10 +34,9 @@ public class DashboardSubsystem extends SubsystemBase
                        .withPosition(8, 0).getEntry();
         @SuppressWarnings("unused")
         private ComplexWidget autonomousMode;
-        private SendableChooser<Integer> autonomousModeChooser = new SendableChooser<>();
-        @SuppressWarnings("unused")
+        private KilroySendableChooser<Integer> autonomousModeChooser = new KilroySendableChooser<>();
         private ComplexWidget autonomousModeOptions;
-        private SendableChooser<Integer> autonomousModeOptionsChooser = new SendableChooser<>();
+        private KilroySendableChooser<Integer> autonomousModeOptionsChooser = new KilroySendableChooser<>();
         private GenericEntry autonomousDelay = tab.addPersistent("Auto Delay",
                        DashboardConstants.AUTONOMOUS_DELAY_DEFAULT)
                        .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 2)
@@ -124,6 +123,12 @@ public class DashboardSubsystem extends SubsystemBase
                                 .getFromId(autonomousModeChooser.getSelected());
         }
 
+        public int getAutonomousModeOption()
+        {
+                if (autonomousModeOptionsChooser.getSelected() != null) return autonomousModeOptionsChooser.getSelected();
+                return -1;
+        }
+
         /**
          * @return the autonomous delay in seconds
          */
@@ -171,10 +176,10 @@ public class DashboardSubsystem extends SubsystemBase
         public void setAutoModeChoices(final String[] choices,
                         final String defaultName, final int defaultValue)
         {
-                setChoices(SendableChooserType.AutonomousMode, choices,
+                setChoices(this.autonomousModeChooser, choices,
                                 defaultName, defaultValue);
 
-                autonomousMode = tab
+                if (autonomousMode == null) autonomousMode = tab
                                 .add("Autonomous Mode", autonomousModeChooser)
                                 .withWidget(BuiltInWidgets.kComboBoxChooser)
                                 .withSize(3, 2).withPosition(10, 0);
@@ -208,21 +213,21 @@ public class DashboardSubsystem extends SubsystemBase
         public void setAutoModeOptionsChoices(final String[] choices,
                         final String defaultName, final int defaultValue)
         {
-                // setChoices(SendableChooserType.AutonomousModeOptions, choices,
-                //                 defaultName, defaultValue);
+                setChoices(this.autonomousModeOptionsChooser, choices,
+                                defaultName, defaultValue);
 
-                // autonomousModeOptions = tab
-                //                .add("Auto Mode Options",
-                //                                 autonomousModeOptionsChooser)
-                //                 .withWidget(BuiltInWidgets.kComboBoxChooser)
-                //                 .withSize(3, 2).withPosition(13, 0);
+                if (autonomousModeOptions == null) autonomousModeOptions = tab
+                               .add("Auto Mode Options",
+                                                autonomousModeOptionsChooser)
+                                .withWidget(BuiltInWidgets.kComboBoxChooser)
+                                .withSize(3, 2).withPosition(13, 0);
         
         }
 
-        private static enum SendableChooserType
-                {
-                AutonomousMode, AutonomousModeOptions
-                }
+        // private static enum SendableChooserType
+        //         {
+        //         AutonomousMode, AutonomousModeOptions
+        //         }
 
         /**
          * Sets choices of a sendable chooser
@@ -236,16 +241,15 @@ public class DashboardSubsystem extends SubsystemBase
          * @param defaultValue
          *                the value of the default choice
          */
-        private void setChoices(SendableChooserType sendableChooserType,
+        private void setChoices(KilroySendableChooser<Integer> sendableChooser,
                         final String[] choices, final String defaultName,
                         final int defaultValue)
         {
-                SendableChooser<Integer> sendableChooser = sendableChooserType == SendableChooserType.AutonomousMode
-                                ? autonomousModeChooser
-                                : autonomousModeOptionsChooser;
-                sendableChooser.close();
+                // KilroySendableChooser<Integer> sendableChooser = sendableChooserType == SendableChooserType.AutonomousMode
+                //                 ? autonomousModeChooser
+                //                 : autonomousModeOptionsChooser;
 
-                sendableChooser = new SendableChooser<>();
+                sendableChooser.getMap().clear();
 
                 int i = 0;
                 for (String choice : choices)
@@ -255,13 +259,13 @@ public class DashboardSubsystem extends SubsystemBase
                         }
                 sendableChooser.setDefaultOption(defaultName, defaultValue);
 
-                if (sendableChooserType == SendableChooserType.AutonomousMode)
-                        {
-                        autonomousModeChooser = sendableChooser;
-                        }
-                        {
-                        autonomousModeOptionsChooser = sendableChooser;
-                        }
+                // if (sendableChooserType == SendableChooserType.AutonomousMode)
+                //         {
+                //         autonomousModeChooser = sendableChooser;
+                //         }
+                //         {
+                //         autonomousModeOptionsChooser = sendableChooser;
+                //         }
         }
 
         public void updatePose(final Pose2d newPose)
@@ -284,10 +288,12 @@ public class DashboardSubsystem extends SubsystemBase
                                         autonomousModeChooser.onChange(
                                                         (Integer updated) ->
                                                                 {
-                                                                SimplePersistentNTValues.autonomousMode
+                                                                if (updated != null) {
+                                                                        SimplePersistentNTValues.autonomousMode
                                                                                 .setInteger(updated);
 
-                                                                listener.accept(updated);
+                                                                        listener.accept(updated);
+                                                                }
                                                                 });
                                 break;
                         case AutonomousModeOption:
@@ -295,10 +301,12 @@ public class DashboardSubsystem extends SubsystemBase
                                         autonomousModeOptionsChooser.onChange(
                                                         (Integer updated) ->
                                                                 {
-                                                                SimplePersistentNTValues.autonomousModeOption
+                                                                if (updated != null) {
+                                                                        SimplePersistentNTValues.autonomousModeOption
                                                                                 .setInteger(updated);
 
-                                                                listener.accept(updated);
+                                                                        listener.accept(updated);
+                                                                }
                                                                 });
                                 break;
                         }
