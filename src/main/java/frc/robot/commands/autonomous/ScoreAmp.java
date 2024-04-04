@@ -157,11 +157,11 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case FLIP_UP:
                 flipperPistonSubsystem.flipUp();
-                tankSubsystem.drive(0.275, 0.275);
+                tankSubsystem.drive(0.275, 0.275, true);
                 autoCommandState = AutoCommandState.END;
                 break;
             case END:
-                tankSubsystem.drive(0.275, 0.275);
+                tankSubsystem.drive(0.275, 0.275, true);
                 break;
             }
     }
