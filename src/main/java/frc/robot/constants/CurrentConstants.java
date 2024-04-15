@@ -110,6 +110,5 @@ public final class CurrentConstants {
         public static final boolean AUTONOMOUS_ENABLED_DEFAULT = true;
         public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
         public static final boolean DEMO_ENABLED_DEFAULT = false;
-        }
     }
 }
