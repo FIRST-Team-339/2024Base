@@ -61,7 +61,7 @@ public class AprilTagModule {
                 quadThreshParams.maxLineFitMSE *= 1.5f;
                 aprilTagDetector.setQuadThresholdParameters(quadThreshParams);
 
-                aprilTagDetector.addFamily("tag36h11");
+                aprilTagDetector.addFamily("tag36h11", 1);
 
                 Timer timer = new Timer();
                 timer.start();
