@@ -10,10 +10,8 @@ import frc.robot.enums.DriveGears;
  * Anything declared here should be prefaced with {@code public static final}
  * </p>
  */
-public final class CurrentConstants
-    {
-    public static final class DriveConstants
-        {
+public final class CurrentConstants {
+    public static final class DriveConstants {
         /* MOTOR IDs */
         public static final int FRONT_LEFT_MOTOR_ID = 10;
         public static final int REAR_LEFT_MOTOR_ID = 11;
@@ -27,8 +25,7 @@ public final class CurrentConstants
         public static final double DRIVE_STRAIGHT_CORRECTION_DELTA = 0.1;
 
         /* MOTOR CONTROLLER GROUPS */
-        public static final boolean[] MOTOR_CONTROLLER_GROUPS_INVERTED =
-            { false, true };
+        public static final boolean[] MOTOR_CONTROLLER_GROUPS_INVERTED = { false, true };
 
         /* JOYSTICK DEADBAND */
         public static final double JOYSTICK_DEADBAND = 0.25;
@@ -45,14 +42,12 @@ public final class CurrentConstants
         /* Turning */
         public static final double TURN_DEGREES_FUDGE_FACTOR = 5.0;
         public static final double TURN_RADIUS = 16.75;
-        }
+    }
 
-    public static final class AutonomousConstants
-        {
+    public static final class AutonomousConstants {
         /* Autonomous Hardware IDs */
         public static final int USE_AUTO_SWITCH_ID = 10;
-        public static final int[] AUTO_SIX_POSITION_SWITCH_IDS =
-            { 15, 13, 14, 18, 16, 17 };
+        public static final int[] AUTO_SIX_POSITION_SWITCH_IDS = { 15, 13, 14, 18, 16, 17 };
         public static final int AUTO_DELAY_POT_ID = 2;
 
         /* Autonomous Delay */
@@ -65,19 +60,17 @@ public final class CurrentConstants
         /* Autonomous Mode */
         public static final int DEFAULT_AUTONOMOUS_MODE = 0;
         public static final boolean CHECK_MODE_FROM_DASHBOARD = true;
-        }
+    }
 
-    public static final class JoystickConstants
-        {
+    public static final class JoystickConstants {
         /* JOYSTICK IDs */
         public static final int LEFT_DRIVER_JOYSTICK_ID = 0;
         public static final int RIGHT_DRIVER_JOYSTICK_ID = 1;
         public static final int LEFT_OPERATOR_JOYSTICK_ID = 2;
         public static final int RIGHT_OPERATOR_JOYSTICK_ID = 3;
-        }
+    }
 
-    public static final class CameraConstants
-        {
+    public static final class CameraConstants {
         /* SOFTWARE PROPERTIES */
         public static final boolean CAMERA_ENABLED = true;
         public static final boolean APRIL_TAGS_ENABLED = false;
@@ -94,8 +87,7 @@ public final class CurrentConstants
         public static final int BRIGHTNESS = 0;
         }
 
-    public static final class FlipperPistonConstants
-        {
+    public static final class FlipperPistonConstants {
         /* DOUBLE SOLENOID PORTS */
         public static final int LEFT_PISTON_FWD_PORT = 2;
         public static final int LEFT_PISTON_REV_PORT = 3;
@@ -105,13 +97,12 @@ public final class CurrentConstants
         /* BUTTON IDS */
         public static final int FLIP_UP_BUTTON_ID = 1;
         public static final int FLIP_DOWN_BUTTON_ID = 1;
-
+      
         /* Default State */
         public static final boolean FORWARD_BY_DEFAULT = true;
         }
 
-    public static final class DashboardConstants
-        {
+    public static final class DashboardConstants {
         /* Battery Level */
         public static final double LOW_BATTERY_LEVEL = 11.5;
 
@@ -119,5 +110,5 @@ public final class CurrentConstants
         public static final boolean AUTONOMOUS_ENABLED_DEFAULT = true;
         public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
         public static final boolean DEMO_ENABLED_DEFAULT = false;
-        }
     }
+}
