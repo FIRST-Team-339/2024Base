@@ -1,17 +1,17 @@
 package frc.robot;
 
-import java.util.function.Function;
-
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
 import frc.robot.commands.teleop.*;
 import frc.robot.commands.teleop.FlipperPiston.FlipperPistonUpOrDown;
 import frc.robot.commands.autonomous.*;
 import frc.robot.commands.teleop.GearShift.GearUpOrDown;
+import frc.robot.enums.AutonomousModes;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
 import frc.robot.subsystems.TankSubsystem;
+import frc.robot.subsystems.DashboardSubsystem.AutonomousModeOptionSupplier;
 
 public class RobotContainer
         {
@@ -25,21 +25,22 @@ public class RobotContainer
         private final CommandJoystick rightOperatorJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID);
 
-        /* Dashboard Subsystem */
-        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem();
-
         /* Camera */
         public final CameraSubsystem cameraSubsystem = new CameraSubsystem();
         private final Camera cameraCommand = new Camera(cameraSubsystem);
 
+        /* Dashboard Subsystem */
+        public final DashboardSubsystem dashboardSubsystem = new DashboardSubsystem(
+                        cameraSubsystem);
+
         /* Teleop Drive & Tank Subsystem w/ gears */
         public final TankSubsystem tankSubsystem = new TankSubsystem();
         private final Drive teleopDriveCommand = new Drive(tankSubsystem,
-                        dashboardSubsystem, () -> leftDriverJoystick.getY(),
+                        () -> leftDriverJoystick.getY(),
                         () -> rightDriverJoystick.getY());
-        private final GearShift gearUpCommand = new GearShift(tankSubsystem,
+        private final GearShift gearUpCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.UP);
-        private final GearShift gearDownCommand = new GearShift(tankSubsystem,
+        private final GearShift gearDownCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.DOWN);
 
         /* Flipper Piston Subsytem w/ Commands */
@@ -56,6 +57,9 @@ public class RobotContainer
 
                         /* Configure Button Bindings */
                         configureButtonBindings();
+
+                        /* Autonomous Modes */
+                        populateAutonomousModes();
                 }
 
         private void configureButtonBindings()
@@ -80,14 +84,103 @@ public class RobotContainer
                                 .onTrue(flipPistonUpCommand);
         }
 
-        public AutonomousCommandBase getAutonomousCommand()
+        private void populateAutonomousModes()
         {
-                // TODO: Check if autonomous is enabled
-                // TODO: Get autonomous command from dashboard
-                var test = new ScoreAmp(tankSubsystem);
-                test.addRequirements(tankSubsystem);
+                AutonomousModes[] autonomousModes = AutonomousModes.values();
+                String[] autonomousModeStrings = new String[autonomousModes.length];
 
-                return test;
+                for (int i = 0; i < autonomousModes.length; i++)
+                        {
+                        autonomousModeStrings[i] = autonomousModes[i]
+                                        .toString(); // Convert enum to string
+                        }
+
+                AutonomousModes defaultAutonomousMode = AutonomousModes.PASS_START_LINE;
+                dashboardSubsystem.setAutoModeChoices(autonomousModeStrings,
+                                defaultAutonomousMode.toString(),
+                                defaultAutonomousMode.getId());
+
+                this.onAutonomousModeUpdate(dashboardSubsystem.getAutonomousMode().getId());
+
+                dashboardSubsystem.setListener(
+                                DashboardSubsystem.ListenerType.AutonomousMode,
+                                this::onAutonomousModeUpdate);
         }
 
+        private void onAutonomousModeUpdate(final int newAutonomousModeId)
+        {
+                AutonomousModes newAutonomousMode = AutonomousModes
+                                .getFromId(newAutonomousModeId);
+
+                AutonomousModeOptionSupplier[] autonomousModeOptions = null;
+
+                switch (newAutonomousMode)
+                        {
+                        case PASS_START_LINE:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
+                                autonomousModeOptions = PassStartLine
+                                .getAutonomousOptions();
+                                break;
+                        case SCORE_AMP:
+                                System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
+                                autonomousModeOptions = ScoreAmp
+                                                .getAutonomousOptions();
+                                break;
+                        default:
+                                System.err.println("INVALID AUTONOMOUS MODE");
+                                break;
+                        }
+
+                if (autonomousModeOptions != null)
+                        {
+                        String[] autonomousModeOptionStrings = new String[autonomousModeOptions.length];
+
+                        for (int i = 0; i < autonomousModeOptions.length; i++)
+                                {
+                                autonomousModeOptionStrings[i] = autonomousModeOptions[i]
+                                                .toString(); // Convert to
+                                                             // string
+                                }
+
+                        AutonomousModeOptionSupplier defaultAutonomousModeOption = autonomousModeOptions[0];
+
+                        dashboardSubsystem.setAutoModeOptionsChoices(
+                                        autonomousModeOptionStrings,
+                                        defaultAutonomousModeOption.toString(),
+                                        defaultAutonomousModeOption.getId());
+
+                        }
+                else
+                        dashboardSubsystem
+                                        .setAutoModeOptionsChoices(new String[]
+                                        { "None" }, "None", -1);
+        }
+
+        public AutonomousCommandBase getAutonomousCommand()
+        {
+                AutonomousCommandBase autonomousCommand = null;
+
+                if (dashboardSubsystem.getAutonomousEnabled())
+                        {
+                        switch (dashboardSubsystem.getAutonomousMode())
+                                {
+                                case PASS_START_LINE:
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Pass Start Line'");
+                                        autonomousCommand = new PassStartLine(tankSubsystem, dashboardSubsystem);
+                                        break;
+                                case SCORE_AMP:
+                                        System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
+                                        autonomousCommand = new ScoreAmp(tankSubsystem, dashboardSubsystem, flipperPistonSubsystem);
+                                        break;
+                                default:
+                                        System.err.println(
+                                                        "INVALID AUTONOMOUS MODE");
+                                        break;
+                                }
+                        }
+                else
+                        System.out.println("AUTONOMOUS MODE DISABLED");
+
+                return autonomousCommand;
+        }
         }

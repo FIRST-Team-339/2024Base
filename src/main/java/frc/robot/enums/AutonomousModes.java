@@ -2,7 +2,7 @@ package frc.robot.enums;
 
 public enum AutonomousModes
     {
-    PASS_START_LINE(1, "Pass Start Line"), SCORE_AMP(2,
+    PASS_START_LINE(0, "Pass Start Line"), SCORE_AMP(1,
             "Pass Start Line & Score Amp");
 
     private int id;
@@ -23,5 +23,22 @@ public enum AutonomousModes
     public String toString()
     {
         return friendlyName;
+    }
+
+    /**
+     * Get the autonomous mode based on the ID
+     * 
+     * @return An {@link AutonomousModes} enum
+     */
+    public static AutonomousModes getFromId(final int id)
+    {
+        for (AutonomousModes autonomousMode : values())
+            {
+            if (autonomousMode.id == id)
+                {
+                return autonomousMode;
+                }
+            }
+        return null;
     }
     }

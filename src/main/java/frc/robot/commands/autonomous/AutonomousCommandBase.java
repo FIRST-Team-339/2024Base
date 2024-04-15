@@ -1,6 +1,9 @@
 package frc.robot.commands.autonomous;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DashboardSubsystem;
+import frc.robot.enums.DriveGears;
 import frc.robot.subsystems.TankSubsystem;
 
 /**
@@ -11,35 +14,58 @@ import frc.robot.subsystems.TankSubsystem;
  * It's purpose is to handle the Delay Potentiometer before running
  * </p>
  */
-public abstract class AutonomousCommandBase extends Command {
+public abstract class AutonomousCommandBase extends Command
+    {
+    /* Auto Delay Timer */
+    private Timer autoDelayTimer = new Timer();
+    private boolean autoDelayTimerStarted = false;
 
     /* Subsystems */
     protected TankSubsystem tankSubsystem;
+    protected DashboardSubsystem dashboardSubsystem;
 
     /**
-     * Autonomous Speed (can be changed) but comes with a default value of `0.5`
+     * Autonomous Speed (can be changed) but comes with a default value
      */
-    protected double autonomousSpeed = 0.5;
+    protected double autonomousSpeed = 0.45;
 
-    protected AutonomousCommandBase(TankSubsystem tankSubsystem) {
-        this.tankSubsystem = tankSubsystem;
-    }
+    protected AutonomousCommandBase(TankSubsystem tankSubsystem, DashboardSubsystem dashboardSubsystem)
+        {
+            this.tankSubsystem = tankSubsystem;
+            this.dashboardSubsystem = dashboardSubsystem;
+
+            addRequirements(tankSubsystem, dashboardSubsystem);
+        }
 
     @Override
-    public final void initialize() {
+    public final void initialize()
+    {
         // Do something at the start of every autonomous, such as resetting
-        tankSubsystem.setMaxOutput(1.0);
+        tankSubsystem.setMaxOutput(this.autonomousSpeed);
         tankSubsystem.resetEncoders();
     }
 
     @Override
-    public final void execute() {
-        executeAutonomous();
+    public final void execute()
+    {
+        if (autoDelayTimerStarted == false) {
+            autoDelayTimer.start();
+            autoDelayTimerStarted = true;
+            tankSubsystem.drive(0, 0);
+        } else {
+            if (autoDelayTimer.hasElapsed(dashboardSubsystem.getAutonomousDelay())) {
+                executeAutonomous();
+            } else {
+                tankSubsystem.drive(0, 0);
+            }
+        }
     }
 
-    public void endAutonomous() {
+    public void endAutonomous()
+    {
         // Do stuff before autonomous is ended
         cancel();
+        tankSubsystem.setGear(DriveGears.GEAR1);
     }
 
     /**
@@ -49,4 +75,20 @@ public abstract class AutonomousCommandBase extends Command {
      */
     public abstract void executeAutonomous();
 
-}
+    public static DashboardSubsystem.AutonomousModeOptionSupplier[] getAutonomousOptions()
+    {
+        return null;
+    }
+
+    /**
+     * Method that is called when the selected command option is updated
+     * 
+     * It has a default implementation of doing ABSOLUTELY NOTHING, just so
+     * WPILib doesn't go kaboom
+     * 
+     * If you need to use this method, implement it yourself in the command
+     */
+    public void updateCommandOption(final int commandOptionId)
+    {
+    }
+    }

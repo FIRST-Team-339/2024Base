@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autonomous.AutonomousCommandBase;
 import frc.robot.modules.AprilTagModule;
+import frc.robot.subsystems.DashboardSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,9 +36,10 @@ public class Robot extends TimedRobot
      */
     robotContainer = new RobotContainer();
 
-    /* Initialize the Pose2d */
-    robotContainer.dashboardSubsystem
-        .updatePose(robotContainer.tankSubsystem.getPose());
+    /* Autonomous Mode Option Updates */
+    robotContainer.dashboardSubsystem.setListener(
+        DashboardSubsystem.ListenerType.AutonomousModeOption,
+        this::onAutonomousModeOptionUpdate);
 
     /* Initialize the AprilTag Detector */
     aprilTagThread = new Thread(
@@ -69,11 +71,7 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-
-    /* Update the Pose2d */
-    robotContainer.dashboardSubsystem
-        .updatePose(robotContainer.tankSubsystem.getPose());
+    CommandScheduler.getInstance().run();        
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -87,6 +85,16 @@ public class Robot extends TimedRobot
   {
   }
 
+  public void onAutonomousModeOptionUpdate(final int newAutonomousModeOptionId)
+  {
+    // -1 signifies NONE, so ignore that
+    // Also check that there is an autonomous command
+    if (newAutonomousModeOptionId != -1 && autonomousCommand != null)
+      {
+      autonomousCommand.updateCommandOption(newAutonomousModeOptionId);
+      }
+  }
+
   /**
    * This autonomous runs the autonomous command selected by your
    * {@link RobotContainer} class.
@@ -94,12 +102,15 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit()
   {
+    /* Initial States */
+    robotContainer.flipperPistonSubsystem.flipDown();
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     /* Schedule the autonomous command */
     if (autonomousCommand != null)
       {
       autonomousCommand.schedule();
+      autonomousCommand.updateCommandOption(this.robotContainer.dashboardSubsystem.getAutonomousModeOption());
       }
     // ==============================
     // All user code goes above here
@@ -126,10 +137,8 @@ public class Robot extends TimedRobot
     if (autonomousCommand != null)
       {
       autonomousCommand.endAutonomous();
+      autonomousCommand = null;
       }
-
-    /* Initial States */
-    robotContainer.flipperPistonSubsystem.flipUp();
 
     // ==============================
     // All user code goes above here

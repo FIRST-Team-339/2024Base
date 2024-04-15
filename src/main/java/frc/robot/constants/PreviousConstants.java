@@ -3,8 +3,8 @@ package frc.robot.constants;
 import frc.robot.enums.DriveGears;
 
 /**
- * The {@code Constants} class is to store all constants to be used with the
- * robot for the previous season
+ * The {@code PreviousConstants} class is to store all constants to be used with
+ * the robot for the previous season
  * 
  * <p>
  * Anything declared here should be prefaced with {@code public static final}
@@ -41,7 +41,7 @@ public final class PreviousConstants
         public static final double BRAKE_RATE_LIMIT = 0.8;
 
         /* Turning */
-        public static final double TURN_DEGREES_FUDGE_FACTOR = 33.0;
+        public static final double TURN_DEGREES_FUDGE_FACTOR = 5.0;
         public static final double TURN_RADIUS = 16.75;
         }
 
@@ -103,11 +103,19 @@ public final class PreviousConstants
         /* BUTTON IDS */
         public static final int FLIP_UP_BUTTON_ID = 1;
         public static final int FLIP_DOWN_BUTTON_ID = 1;
+
+        /* Default State */
+        public static final boolean FORWARD_BY_DEFAULT = true;
         }
 
     public static final class DashboardConstants
         {
         /* Battery Level */
         public static final double LOW_BATTERY_LEVEL = 11.5;
+
+        /* Default Values */
+        public static final boolean AUTONOMOUS_ENABLED_DEFAULT = true;
+        public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
+        public static final boolean DEMO_ENABLED_DEFAULT = false;
         }
     }

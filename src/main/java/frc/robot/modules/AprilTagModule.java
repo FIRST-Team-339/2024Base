@@ -29,9 +29,14 @@ public class AprilTagModule {
      * @param cameraSubsystem
      * @return
      */
-    public static Runnable getDetectorRunnable(CameraSubsystem cameraSubsystem) {
-        return () -> {
-            if (CameraConstants.CAMERA_ENABLED && CameraConstants.APRIL_TAGS_ENABLED) {
+    public static Runnable getDetectorRunnable(CameraSubsystem cameraSubsystem)
+    {
+        return () ->
+            {
+            if (CameraConstants.CAMERA_ENABLED
+                    && CameraConstants.APRIL_TAGS_ENABLED)
+                {
+
                 CvSink cvSink = CameraServer.getVideo();
                 CvSource outputStream = CameraServer.putVideo("AprilTagDebug",
                         CameraConstants.RESOLUTION[0],
@@ -124,6 +129,5 @@ public class AprilTagModule {
 
     public static void setCurrentLocation(final AprilTagLocations newLocation) {
         currentLocation = newLocation;
-        System.out.println("Current Location: " + currentLocation.getId());
     }
 }
