@@ -20,9 +20,9 @@ public class RobotContainer
                         JoystickConstants.LEFT_DRIVER_JOYSTICK_ID);
         private final CommandJoystick rightDriverJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_DRIVER_JOYSTICK_ID);
-        private final CommandJoystick leftOperatorJoystick = new CommandJoystick(
+        public final static CommandJoystick leftOperatorJoystick = new CommandJoystick(
                         JoystickConstants.LEFT_OPERATOR_JOYSTICK_ID);
-        private final CommandJoystick rightOperatorJoystick = new CommandJoystick(
+        public final static CommandJoystick rightOperatorJoystick = new CommandJoystick(
                         JoystickConstants.RIGHT_OPERATOR_JOYSTICK_ID);
 
         /* Camera */

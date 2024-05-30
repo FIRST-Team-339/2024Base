@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.autonomous.AutonomousCommandBase;
+import frc.robot.constants.CurrentConstants;
 import frc.robot.modules.AprilTagModule;
 import frc.robot.subsystems.DashboardSubsystem;
 
@@ -22,6 +27,8 @@ public class Robot extends TimedRobot
   private RobotContainer robotContainer;
   private AutonomousCommandBase autonomousCommand = null;
   private Thread aprilTagThread;
+  private TalonSRX ShooterMotorTop = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_TOP_MOTOR_ID); 
+  private TalonSRX ShooterMotorBottom = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_BOTTOM_MOTOR_ID);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -71,6 +78,16 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
+    if (RobotContainer.rightOperatorJoystick.button(7).equals(true))
+    {
+        ShooterMotorTop.set(TalonSRXControlMode.PercentOutput,.1);
+        ShooterMotorBottom.set(TalonSRXControlMode.PercentOutput,.1);
+    }
+    if (RobotContainer.leftOperatorJoystick.button(10).equals(true))
+    {
+        ShooterMotorTop.set(TalonSRXControlMode.PercentOutput,-.6);
+        ShooterMotorBottom.set(TalonSRXControlMode.PercentOutput,-.6);
+    }
     CommandScheduler.getInstance().run();        
   }
 
