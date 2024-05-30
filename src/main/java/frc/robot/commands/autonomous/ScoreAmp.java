@@ -18,6 +18,48 @@ public class ScoreAmp extends AutonomousCommandBase
         RESET_ENCODERS_1, ACCELERATE, DRIVE_1, BRAKE_1, RESET_ENCODERS_2, REVERSE, BRAKE_2, RESET_ENCODERS_3, PIVOT, RESET_ENCODERS_4, DRIVE_2, BRAKE_3, START_TIMER, CHECK_TIMER, FLIP_UP, END
         }
 
+    public static enum ScoreAmpCommandOptions implements DashboardSubsystem.AutonomousModeOptionSupplier {
+        REGULAR(0, "Regular"), GO_FARTHER(1, "Back it up! (by 1 foot)");
+
+        private int id;
+        private String friendlyName;
+
+        private ScoreAmpCommandOptions(int id, String friendlyName)
+            {
+                this.id = id;
+                this.friendlyName = friendlyName;
+            }
+
+        public int getId()
+        {
+            return this.id;
+        }
+
+        @Override
+        public String toString()
+        {
+            return friendlyName;
+        }
+
+        /**
+         * Get the autonomous mode option based on the ID
+         * 
+         * @return An {@link ScoreAmpCommandOptions} enum
+         */
+        public static ScoreAmpCommandOptions getFromId(final int id)
+        {
+            for (ScoreAmpCommandOptions autonomousModeOption : values())
+                {
+                if (autonomousModeOption.id == id)
+                    {
+                    return autonomousModeOption;
+                    }
+                }
+            return null;
+        }
+    } 
+    public ScoreAmpCommandOptions commandOptionState = ScoreAmpCommandOptions.REGULAR;
+
     private AutoCommandState autoCommandState = AutoCommandState.ACCELERATE;
 
     /*
@@ -81,7 +123,7 @@ public class ScoreAmp extends AutonomousCommandBase
                     }
                 break;
             case DRIVE_1:
-                if (tankSubsystem.driveStraightInches(driveForwardDistance1,
+                if (tankSubsystem.driveStraightInches(this.commandOptionState == ScoreAmpCommandOptions.GO_FARTHER ? driveForwardDistance1 + 12 : driveForwardDistance1,
                         this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_2;
@@ -101,7 +143,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case REVERSE:
                 if (tankSubsystem.driveStraightInches(driveReverseDistance,
-                        -this.autonomousSpeed, false, true) == true)
+                        this.autonomousSpeed, false, true) == true)
                     {
                     autoCommandState = AutoCommandState.RESET_ENCODERS_3;
                     }
@@ -157,12 +199,21 @@ public class ScoreAmp extends AutonomousCommandBase
                 break;
             case FLIP_UP:
                 flipperPistonSubsystem.flipUp();
-                tankSubsystem.drive(0.275, 0.275);
+                tankSubsystem.drive(0.275, 0.275, true);
                 autoCommandState = AutoCommandState.END;
                 break;
             case END:
-                tankSubsystem.drive(0.275, 0.275);
+                tankSubsystem.drive(0.275, 0.275, true);
                 break;
             }
+    }
+
+    public static DashboardSubsystem.AutonomousModeOptionSupplier[] getAutonomousOptions() {
+        return ScoreAmpCommandOptions.values();
+    }
+
+    public void updateCommandOption(final int commandOptionId)
+    {
+        this.commandOptionState = ScoreAmpCommandOptions.getFromId(commandOptionId);
     }
     }

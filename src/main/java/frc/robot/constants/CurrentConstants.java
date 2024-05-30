@@ -17,6 +17,8 @@ public final class CurrentConstants {
         public static final int REAR_LEFT_MOTOR_ID = 11;
         public static final int FRONT_RIGHT_MOTOR_ID = 12;
         public static final int REAR_RIGHT_MOTOR_ID = 13;
+        public static final int SHOOTER_TOP_MOTOR_ID = 22;
+        public static final int SHOOTER_BOTTOM_MOTOR_ID = 26;
 
         /* Encoder */
         // public static final double DISTANCE_PER_PULSE = (6.0 * Math.PI) /
@@ -72,7 +74,7 @@ public final class CurrentConstants {
 
     public static final class CameraConstants {
         /* SOFTWARE PROPERTIES */
-        public static final boolean CAMERA_ENABLED = true;
+        public static final boolean CAMERA_ENABLED = false;
         public static final boolean APRIL_TAGS_ENABLED = false;
         public static final boolean USING_TWO_CAMERAS = false;
 
