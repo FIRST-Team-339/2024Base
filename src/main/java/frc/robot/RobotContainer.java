@@ -43,6 +43,8 @@ public class RobotContainer
         private final GearShift gearDownCommand = new GearShift(tankSubsystem, dashboardSubsystem,
                         GearUpOrDown.DOWN);
 
+        private final LimelightGo limelightCommand = new LimelightGo(tankSubsystem);
+
         /* Flipper Piston Subsytem w/ Commands */
         public final FlipperPistonSubsystem flipperPistonSubsystem = new FlipperPistonSubsystem();
         private final FlipperPiston flipPistonUpCommand = new FlipperPiston(
@@ -64,6 +66,9 @@ public class RobotContainer
 
         private void configureButtonBindings()
         {
+                /* LIMELIGHT RAHHHH */
+                leftDriverJoystick.button(9).onTrue(limelightCommand);
+
                 /* Configure Gear Buttons */
                 rightDriverJoystick.button(DriveConstants.GEAR_UP_BUTTON_ID)
                                 .onTrue(gearUpCommand);

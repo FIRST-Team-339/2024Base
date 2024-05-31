@@ -4,6 +4,9 @@ import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,6 +50,10 @@ public class TankSubsystem extends SubsystemBase
 
 	/* Max Output */
 	private double maxOutput = 1.0;
+
+	/* Pose Estimation (please help) */
+	// private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22));
+	// private DifferentialDrivePoseEstimator estimatedPose = new DifferentialDrivePoseEstimator(kinematics, gyro.getRotation2d(), );
 
 	public TankSubsystem()
 		{

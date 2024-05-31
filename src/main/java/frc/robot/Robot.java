@@ -4,15 +4,14 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.autonomous.AutonomousCommandBase;
 import frc.robot.constants.CurrentConstants;
 import frc.robot.modules.AprilTagModule;
+import frc.robot.modules.LimelightHelpers;
 import frc.robot.subsystems.DashboardSubsystem;
 
 /**
@@ -78,17 +77,12 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-    if (RobotContainer.rightOperatorJoystick.button(7).equals(true))
-    {
-        ShooterMotorTop.set(TalonSRXControlMode.PercentOutput,.1);
-        ShooterMotorBottom.set(TalonSRXControlMode.PercentOutput,.1);
-    }
-    if (RobotContainer.leftOperatorJoystick.button(10).equals(true))
-    {
-        ShooterMotorTop.set(TalonSRXControlMode.PercentOutput,-.6);
-        ShooterMotorBottom.set(TalonSRXControlMode.PercentOutput,-.6);
-    }
     CommandScheduler.getInstance().run();        
+
+    int[] validIDs = {6};
+    LimelightHelpers.SetFiducialIDFiltersOverride("limelight", validIDs);
+    // System.out.println(this.robotContainer.tankSubsystem.getGyro().getAngle());
+    LimelightHelpers.SetRobotOrientation("limelight", this.robotContainer.tankSubsystem.getGyro().getAngle(),0,0,0,0,0);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
