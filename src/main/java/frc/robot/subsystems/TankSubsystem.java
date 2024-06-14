@@ -325,9 +325,14 @@ public class TankSubsystem extends SubsystemBase
 		// + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
 		// true));
 
-		if (Math.abs(this.getEncoderDistanceAverage()) > degreesToEncoderInches(
-				Math.abs(degrees) + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
-				true))
+		// if (Math.abs(this.getEncoderDistanceAverage()) > degreesToEncoderInches(
+		// 		Math.abs(degrees) + DriveConstants.TURN_DEGREES_FUDGE_FACTOR,
+		// 		true))
+		// 	{
+		// 	this.drive(0, 0);
+		// 	return true;
+		// 	}
+		if (gyro.getAngle() - Math.abs(degrees) < 1)
 			{
 			this.drive(0, 0);
 			return true;
