@@ -117,9 +117,11 @@ public final class CurrentConstants {
     public static final class ShooterConstants {
         /* Motor IDs */
         public static final int TOP_MOTOR_ID = 22;
+        public static final int BOTTOM_MOTOR_ID = 26;
 
 
         /* Speeds */
-        
+        public static final double INTAKE_SPEED = 0.25;
+        public static final double OUTAKE_SPEED = 1.0;
     }
 }
