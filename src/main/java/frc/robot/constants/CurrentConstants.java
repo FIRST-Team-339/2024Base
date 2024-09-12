@@ -113,4 +113,13 @@ public final class CurrentConstants {
         public static final double AUTONOMOUS_DELAY_DEFAULT = 0.0;
         public static final boolean DEMO_ENABLED_DEFAULT = false;
     }
+
+    public static final class ShooterConstants {
+        /* Motor IDs */
+        public static final int TOP_MOTOR_ID = 22;
+
+
+        /* Speeds */
+        
+    }
 }
