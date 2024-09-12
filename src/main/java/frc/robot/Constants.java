@@ -157,7 +157,11 @@ public final class Constants {
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
       FlipperPistonConstants.FORWARD_BY_DEFAULT = CurrentConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
 
-      
+      ShooterConstants.TOP_MOTOR_ID = CurrentConstants.ShooterConstants.TOP_MOTOR_ID;
+      ShooterConstants.BOTTOM_MOTOR_ID = CurrentConstants.ShooterConstants.BOTTOM_MOTOR_ID;
+      ShooterConstants.INTAKE_SPEED = CurrentConstants.ShooterConstants.INTAKE_SPEED;
+      ShooterConstants.OUTTAKE_SPEED = CurrentConstants.ShooterConstants.OUTTAKE_SPEED;
+
     } else {
 
       DashboardConstants.LOW_BATTERY_LEVEL = CurrentConstants.DashboardConstants.LOW_BATTERY_LEVEL;
@@ -207,6 +211,11 @@ public final class Constants {
       DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT = PreviousConstants.DashboardConstants.AUTONOMOUS_ENABLED_DEFAULT;
       DashboardConstants.AUTONOMOUS_DELAY_DEFAULT = PreviousConstants.DashboardConstants.AUTONOMOUS_DELAY_DEFAULT;
       DashboardConstants.DEMO_ENABLED_DEFAULT = PreviousConstants.DashboardConstants.DEMO_ENABLED_DEFAULT;
+
+      ShooterConstants.TOP_MOTOR_ID = PreviousConstants.ShooterConstants.TOP_MOTOR_ID;
+      ShooterConstants.BOTTOM_MOTOR_ID = PreviousConstants.ShooterConstants.BOTTOM_MOTOR_ID;
+      ShooterConstants.INTAKE_SPEED = PreviousConstants.ShooterConstants.INTAKE_SPEED;
+      ShooterConstants.OUTTAKE_SPEED = PreviousConstants.ShooterConstants.OUTTAKE_SPEED;
       }
   }
 }
