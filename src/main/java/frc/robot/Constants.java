@@ -107,6 +107,16 @@ public final class Constants {
     public static boolean DEMO_ENABLED_DEFAULT;
     }
 
+    public static final class ShooterConstants {
+      /* Motor IDs */
+      public static int TOP_MOTOR_ID;
+      public static int BOTTOM_MOTOR_ID;
+
+      /* Speeds */
+      public static double INTAKE_SPEED;
+      public static double OUTTAKE_SPEED;
+  }
+
   public static void initialize() {
     if (season == Season.CurrentSeason) {
       DriveConstants.FRONT_LEFT_MOTOR_ID = CurrentConstants.DriveConstants.FRONT_LEFT_MOTOR_ID;
@@ -146,6 +156,8 @@ public final class Constants {
       FlipperPistonConstants.FLIP_UP_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_UP_BUTTON_ID;
       FlipperPistonConstants.FLIP_DOWN_BUTTON_ID = CurrentConstants.FlipperPistonConstants.FLIP_DOWN_BUTTON_ID;
       FlipperPistonConstants.FORWARD_BY_DEFAULT = CurrentConstants.FlipperPistonConstants.FORWARD_BY_DEFAULT;
+
+      
     } else {
 
       DashboardConstants.LOW_BATTERY_LEVEL = CurrentConstants.DashboardConstants.LOW_BATTERY_LEVEL;
