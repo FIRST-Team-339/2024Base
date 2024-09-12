@@ -163,6 +163,12 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
+    LimelightHelpers.setLEDMode_PipelineControl("limelight");
+    LimelightHelpers.setLEDMode_ForceBlink("limelight");
+    LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
+    double tx = LimelightHelpers.getTX("limelight");
+
+    System.out.println("Angle Equals" + tx);
   }
 
   @Override
