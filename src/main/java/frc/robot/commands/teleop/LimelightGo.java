@@ -49,6 +49,6 @@ public class LimelightGo extends Command {
         LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
         double tx = LimelightHelpers.getTX("limelight");
         
-        System.out.println("Angle Equals" + tx);
+        System.out.println("Angle Equals " + tx);
     }
 }
