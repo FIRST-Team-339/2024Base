@@ -16,9 +16,9 @@ public class FlipperPistonSubsystem extends SubsystemBase
         { new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
             FlipperPistonConstants.LEFT_PISTON_FWD_PORT,
             FlipperPistonConstants.LEFT_PISTON_REV_PORT),
-            new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+            /*new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
                 FlipperPistonConstants.RIGHT_PISTON_FWD_PORT,
-                FlipperPistonConstants.RIGHT_PISTON_REV_PORT) };
+        FlipperPistonConstants.RIGHT_PISTON_REV_PORT)*/ };
 
       this.doubleSolenoidGroup = new DoubleSolenoidGroup(doubleSolenoids,
           FlipperPistonConstants.FORWARD_BY_DEFAULT);

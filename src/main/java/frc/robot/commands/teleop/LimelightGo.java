@@ -43,5 +43,12 @@ public class LimelightGo extends Command {
         System.out.println("distance " + distanceFromLimelightToGoalInches);
         // System.out.println("vroomvroom " + a);
         // tankSubsystem.drive(a, a);
+
+
+        LimelightHelpers.setLEDMode_PipelineControl("limelight");
+        LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
+        double tx = LimelightHelpers.getTX("limelight");
+        
+        System.out.println("Angle Equals" + tx);
     }
 }

@@ -10,6 +10,7 @@ import frc.robot.enums.AutonomousModes;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TankSubsystem;
 import frc.robot.subsystems.DashboardSubsystem.AutonomousModeOptionSupplier;
 
@@ -51,6 +52,12 @@ public class RobotContainer
                         flipperPistonSubsystem, FlipperPistonUpOrDown.UP);
         private final FlipperPiston flipPistonDownCommand = new FlipperPiston(
                         flipperPistonSubsystem, FlipperPistonUpOrDown.DOWN);
+        
+        private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+        private final ShooterOff shooterOffCommand = new ShooterOff(shooterSubsystem);
+        private final ShooterRevup shooterRevupCommand = new ShooterRevup(shooterSubsystem);
+        private final ShooterShoot shooterShootCommand = new ShooterShoot(shooterSubsystem);
+        private final ShooterIntake shooterIntakeCommand = new ShooterIntake(shooterSubsystem);
 
         public RobotContainer()
                 {
@@ -87,6 +94,16 @@ public class RobotContainer
                 rightOperatorJoystick.button(
                                 FlipperPistonConstants.FLIP_UP_BUTTON_ID)
                                 .onTrue(flipPistonUpCommand);
+
+                /* Configure Shooter Buttons */
+                // Intake
+                leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onTrue(shooterIntakeCommand);
+                leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onFalse(shooterOffCommand);
+
+                // Outtake
+                rightOperatorJoystick.button(ShooterConstants.REVVUP_BUTTON_ID).onTrue(shooterRevupCommand);
+                rightOperatorJoystick.button(ShooterConstants.SHOOT_BUTTON_ID).onTrue(shooterShootCommand);
+                rightOperatorJoystick.button(ShooterConstants.SHOOT_BUTTON_ID).onFalse(shooterOffCommand);
         }
 
         private void populateAutonomousModes()

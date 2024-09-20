@@ -120,7 +120,12 @@ public final class CurrentConstants {
         public static final int BOTTOM_MOTOR_ID = 26;
 
         /* Speeds */
-        public static final double INTAKE_SPEED = 0.25;
-        public static final double OUTTAKE_SPEED = 1.0;
+        public static final double INTAKE_SPEED = 0.15;
+        public static final double OUTTAKE_SPEED = 0.8;
+
+        /* Buttons */
+        public static final int INTAKE_BUTTON_ID = 2;
+        public static final int REVVUP_BUTTON_ID = 2;
+        public static final int SHOOT_BUTTON_ID = 3;
     }
 }

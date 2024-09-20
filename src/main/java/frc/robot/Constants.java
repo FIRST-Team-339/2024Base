@@ -115,6 +115,11 @@ public final class Constants {
       /* Speeds */
       public static double INTAKE_SPEED;
       public static double OUTTAKE_SPEED;
+
+      /* Buttons */
+      public static int INTAKE_BUTTON_ID;
+      public static int REVVUP_BUTTON_ID;
+      public static int SHOOT_BUTTON_ID;
   }
 
   public static void initialize() {
@@ -161,7 +166,9 @@ public final class Constants {
       ShooterConstants.BOTTOM_MOTOR_ID = CurrentConstants.ShooterConstants.BOTTOM_MOTOR_ID;
       ShooterConstants.INTAKE_SPEED = CurrentConstants.ShooterConstants.INTAKE_SPEED;
       ShooterConstants.OUTTAKE_SPEED = CurrentConstants.ShooterConstants.OUTTAKE_SPEED;
-
+      ShooterConstants.INTAKE_BUTTON_ID = CurrentConstants.ShooterConstants.INTAKE_BUTTON_ID;
+      ShooterConstants.REVVUP_BUTTON_ID = CurrentConstants.ShooterConstants.REVVUP_BUTTON_ID;
+      ShooterConstants.SHOOT_BUTTON_ID = CurrentConstants.ShooterConstants.SHOOT_BUTTON_ID;
     } else {
 
       DashboardConstants.LOW_BATTERY_LEVEL = CurrentConstants.DashboardConstants.LOW_BATTERY_LEVEL;
@@ -216,6 +223,9 @@ public final class Constants {
       ShooterConstants.BOTTOM_MOTOR_ID = PreviousConstants.ShooterConstants.BOTTOM_MOTOR_ID;
       ShooterConstants.INTAKE_SPEED = PreviousConstants.ShooterConstants.INTAKE_SPEED;
       ShooterConstants.OUTTAKE_SPEED = PreviousConstants.ShooterConstants.OUTTAKE_SPEED;
+      ShooterConstants.INTAKE_BUTTON_ID = PreviousConstants.ShooterConstants.INTAKE_BUTTON_ID;
+      ShooterConstants.REVVUP_BUTTON_ID = PreviousConstants.ShooterConstants.REVVUP_BUTTON_ID;
+      ShooterConstants.SHOOT_BUTTON_ID = PreviousConstants.ShooterConstants.SHOOT_BUTTON_ID;
       }
   }
 }
