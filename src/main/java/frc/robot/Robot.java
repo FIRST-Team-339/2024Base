@@ -164,7 +164,7 @@ public class Robot extends TimedRobot
   public void teleopPeriodic()
   {
     LimelightHelpers.setLEDMode_PipelineControl("limelight");
-    LimelightHelpers.setLEDMode_ForceBlink("limelight");
+    LimelightHelpers.setLEDMode_ForceOff("limelight");
     LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
     double tx = LimelightHelpers.getTX("limelight");
 
