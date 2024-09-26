@@ -40,7 +40,7 @@ public class LimelightGo extends Command {
         //calculate distance
         double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
         var a = pid.calculate(distanceFromLimelightToGoalInches, 20);
-        System.out.println("distance " + distanceFromLimelightToGoalInches);
+       // System.out.println("distance " + distanceFromLimelightToGoalInches);
         // System.out.println("vroomvroom " + a);
         // tankSubsystem.drive(a, a);
 
@@ -49,6 +49,6 @@ public class LimelightGo extends Command {
         LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
         double tx = LimelightHelpers.getTX("limelight");
         
-        System.out.println("Angle Equals " + tx);
+        //System.out.println("Angle Equals " + tx);
     }
 }
