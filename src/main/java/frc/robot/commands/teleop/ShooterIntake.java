@@ -14,6 +14,7 @@ public class ShooterIntake extends Command {
 
     @Override
     public void execute() {
-        if (this.shooterSubsystem.getState() == ShooterState.OFF) this.shooterSubsystem.setState(ShooterState.INTAKING);
+       // if (this.shooterSubsystem.getState() == ShooterState.OFF) 
+        this.shooterSubsystem.setState(ShooterState.INTAKING);
     }
 }
