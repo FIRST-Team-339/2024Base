@@ -28,6 +28,7 @@ public class Robot extends TimedRobot
   private Thread aprilTagThread;
   private TalonSRX ShooterMotorTop = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_TOP_MOTOR_ID); 
   private TalonSRX ShooterMotorBottom = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_BOTTOM_MOTOR_ID);
+  private int timer = 0;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -163,12 +164,18 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
-    LimelightHelpers.setLEDMode_PipelineControl("limelight");
-    LimelightHelpers.setLEDMode_ForceOff("limelight");
-    LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
+    //LimelightHelpers.setLEDMode_PipelineControl("limelight");
+    //LimelightHelpers.setLEDMode_ForceOn("limelight");
+    //LimelightHelpers.setCropWindow("limelight",-1,1,-1,1);
     double tx = LimelightHelpers.getTX("limelight");
 
-   // System.out.println("Angle Equals" + tx);
+    timer += 1;
+
+    if (timer == 10)
+    {
+      System.out.println("Angle Equals " + tx);
+      timer = 0;
+    }
   }
 
   @Override

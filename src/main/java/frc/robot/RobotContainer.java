@@ -98,7 +98,7 @@ public class RobotContainer
                 /* Configure Shooter Buttons */
                 // Intake
                 leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onTrue(shooterIntakeCommand);
-                leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onFalse(shooterOffCommand);
+                // leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onFalse(shooterOffCommand);
 
                 // Outtake
                 rightOperatorJoystick.button(ShooterConstants.REVVUP_BUTTON_ID).onTrue(shooterRevupCommand);

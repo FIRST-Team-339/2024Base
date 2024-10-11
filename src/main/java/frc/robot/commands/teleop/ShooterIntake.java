@@ -7,6 +7,8 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterState;
 public class ShooterIntake extends Command {
     
     private ShooterSubsystem shooterSubsystem;
+    private boolean intakeToggle = false;
+
     public ShooterIntake(ShooterSubsystem shooterSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
@@ -14,7 +16,18 @@ public class ShooterIntake extends Command {
 
     @Override
     public void execute() {
-       // if (this.shooterSubsystem.getState() == ShooterState.OFF) 
-        this.shooterSubsystem.setState(ShooterState.INTAKING);
+        this.intakeToggle = !this.intakeToggle;
+
+        this.shooterSubsystem.setState(this.intakeToggle ? ShooterState.INTAKING : ShooterState.OFF);
+        
+        //  if (this.shooterSubsystem.getState() == ShooterState.OFF && intakeToggle == false) 
+        //  {
+        //      intakeToggle = true;
+        //      this.shooterSubsystem.setState(ShooterState.INTAKING);
+        //  }else 
+        //  {
+        //      intakeToggle = false;
+        //      this.shooterSubsystem.setState(ShooterState.OFF);
+        //  }
     }
 }
