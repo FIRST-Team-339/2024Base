@@ -16,18 +16,21 @@ public class ShooterIntake extends Command {
 
     @Override
     public void execute() {
-        this.intakeToggle = !this.intakeToggle;
-
-        this.shooterSubsystem.setState(this.intakeToggle ? ShooterState.INTAKING : ShooterState.OFF);
         
-        //  if (this.shooterSubsystem.getState() == ShooterState.OFF && intakeToggle == false) 
-        //  {
-        //      intakeToggle = true;
-        //      this.shooterSubsystem.setState(ShooterState.INTAKING);
-        //  }else 
-        //  {
-        //      intakeToggle = false;
-        //      this.shooterSubsystem.setState(ShooterState.OFF);
-        //  }
+        this.shooterSubsystem.setState(ShooterState.INTAKING);
+        
+        //this.intakeToggle = !this.intakeToggle;
+
+        //this.shooterSubsystem.setState(this.intakeToggle ? ShooterState.INTAKING : ShooterState.OFF);
+        
+         // if (this.shooterSubsystem.getState() == ShooterState.OFF && intakeToggle == false) 
+         // {
+         //     intakeToggle = true;
+         //     this.shooterSubsystem.setState(ShooterState.INTAKING);
+         // }else 
+         // {
+         //    intakeToggle = false;
+         //     this.shooterSubsystem.setState(ShooterState.OFF);
+         // }
     }
 }
