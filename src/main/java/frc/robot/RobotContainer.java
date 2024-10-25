@@ -192,7 +192,7 @@ public class RobotContainer
                                         break;
                                 case SCORE_AMP:
                                         System.out.println("SELECTED AUTONOMOUS MODE: 'Score Amp'");
-                                        autonomousCommand = new ScoreAmp(tankSubsystem, dashboardSubsystem, flipperPistonSubsystem);
+                                        autonomousCommand = new ScoreAmp(tankSubsystem, dashboardSubsystem, flipperPistonSubsystem, shooterSubsystem);
                                         break;
                                 default:
                                         System.err.println(

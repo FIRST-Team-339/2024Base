@@ -5,12 +5,15 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.DashboardSubsystem;
 import frc.robot.subsystems.FlipperPistonSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TankSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.ShooterState;
 
 public class ScoreAmp extends AutonomousCommandBase
     {
     /* Subsystem */
     private FlipperPistonSubsystem flipperPistonSubsystem;
+    private ShooterSubsystem shooterSubsystem;
 
     /* Auto Command State */
     private enum AutoCommandState
@@ -71,7 +74,7 @@ public class ScoreAmp extends AutonomousCommandBase
      * Drive Rerverse Distance
      */
 
-    public static int driveReverseDistance = -24;
+    public static int driveReverseDistance = -32;
     /**
      * either
      * 
@@ -85,7 +88,7 @@ public class ScoreAmp extends AutonomousCommandBase
     /*
      * Drive Forward 2 Distance
      */
-    public static int driveForwardDistance2 = 17;
+    public static int driveForwardDistance2 = 12;
 
     private Timer pistonDelayTimer = new Timer();
     private double pistonDelayTime = 1.0;
@@ -100,12 +103,14 @@ public class ScoreAmp extends AutonomousCommandBase
      */
     public ScoreAmp(TankSubsystem tankSubsystem,
             DashboardSubsystem dashboardSubsystem,
-            FlipperPistonSubsystem flipperPistonSubsystem)
+            FlipperPistonSubsystem flipperPistonSubsystem,
+            ShooterSubsystem shooterSubsystem)
         {
             super(tankSubsystem, dashboardSubsystem);
             this.flipperPistonSubsystem = flipperPistonSubsystem;
+            this.shooterSubsystem = shooterSubsystem;
 
-            addRequirements(flipperPistonSubsystem);
+            addRequirements(flipperPistonSubsystem, shooterSubsystem);
         }
 
     public void executeAutonomous()
@@ -190,6 +195,7 @@ public class ScoreAmp extends AutonomousCommandBase
             case START_TIMER:
                 pistonDelayTimer.start();
                 autoCommandState = AutoCommandState.CHECK_TIMER;
+                shooterSubsystem.setState(ShooterState.REVVING);
                 break;
             case CHECK_TIMER:
                 if (pistonDelayTimer.hasElapsed(pistonDelayTime) == true)
@@ -201,6 +207,7 @@ public class ScoreAmp extends AutonomousCommandBase
                 flipperPistonSubsystem.flipUp();
                 tankSubsystem.drive(0.275, 0.275, true);
                 autoCommandState = AutoCommandState.END;
+                // shooterSubsystem.setState(ShooterState.SHOOTING);
                 break;
             case END:
                 tankSubsystem.drive(0.275, 0.275, true);
@@ -215,5 +222,10 @@ public class ScoreAmp extends AutonomousCommandBase
     public void updateCommandOption(final int commandOptionId)
     {
         this.commandOptionState = ScoreAmpCommandOptions.getFromId(commandOptionId);
+    }
+
+    @Override
+    public void end(boolean end) {
+        this.shooterSubsystem.setState(ShooterState.OFF);
     }
     }
