@@ -59,6 +59,8 @@ public class RobotContainer
         private final ShooterShoot shooterShootCommand = new ShooterShoot(shooterSubsystem);
         private final ShooterIntake shooterIntakeCommand = new ShooterIntake(shooterSubsystem);
 
+        private boolean intakeToggle = false;
+
         public RobotContainer()
                 {
                         /* Initialize Teleop Drive & Tank Subsystem w/ gears */
@@ -97,8 +99,18 @@ public class RobotContainer
 
                 /* Configure Shooter Buttons */
                 // Intake
-                leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onTrue(shooterIntakeCommand);
-                // leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onFalse(shooterOffCommand);
+
+                if (intakeToggle == false)
+                {
+                        intakeToggle = true;
+                        leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onTrue(shooterIntakeCommand);
+                }else
+                {
+                        intakeToggle = false;
+                        leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onTrue(shooterOffCommand); 
+                }
+                
+                leftOperatorJoystick.button(ShooterConstants.INTAKE_BUTTON_ID).onFalse(shooterOffCommand);
 
                 // Outtake
                 rightOperatorJoystick.button(ShooterConstants.REVVUP_BUTTON_ID).onTrue(shooterRevupCommand);

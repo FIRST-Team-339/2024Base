@@ -13,6 +13,7 @@ import frc.robot.constants.CurrentConstants;
 import frc.robot.modules.AprilTagModule;
 import frc.robot.modules.LimelightHelpers;
 import frc.robot.subsystems.DashboardSubsystem;
+import frc.robot.subsystems.TankSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot
   private TalonSRX ShooterMotorTop = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_TOP_MOTOR_ID); 
   private TalonSRX ShooterMotorBottom = new TalonSRX(CurrentConstants.DriveConstants.SHOOTER_BOTTOM_MOTOR_ID);
   private int timer = 0;
+  private int angleAdjust = 0;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -176,6 +178,17 @@ public class Robot extends TimedRobot
       System.out.println("Angle Equals " + tx);
       timer = 0;
     }
+
+
+    //if (tx > 0)
+    //{
+     // TankSubsystem.pivotDegrees(-tx, 0.35);
+    //}
+
+    //if (tx < 0)
+   // {
+   //   TankSubsystem.pivotDegrees(-tx, 0.35);
+   // }
   }
 
   @Override
