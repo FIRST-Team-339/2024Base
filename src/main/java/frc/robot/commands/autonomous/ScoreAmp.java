@@ -83,7 +83,7 @@ public class ScoreAmp extends AutonomousCommandBase
      * right
      */
     public static int pivotAmount = DriverStation.getAlliance()
-            .get() == Alliance.Blue ? -75 : 75;
+            .get() == Alliance.Blue ? -30 : 30;
 
     /*
      * Drive Forward 2 Distance
